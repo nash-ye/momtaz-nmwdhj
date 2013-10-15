@@ -1,10 +1,13 @@
 <?php
+namespace Nmwdhj\Views;
+use Nmwdhj\Elements\Element;
+
 /**
  * The Input elements view class.
  *
  * @since 1.0
  */
-class Momtaz_Nmwdhj_View_Input extends Momtaz_Nmwdhj_View {
+class Input extends View {
 
     /**
      * Check the element.
@@ -12,7 +15,7 @@ class Momtaz_Nmwdhj_View_Input extends Momtaz_Nmwdhj_View {
      * @since 1.0
      * @return boolean
      */
-    public function check( Momtaz_Nmwdhj_Element $element ) {
+    public function check( Element $element ) {
 
         // The 'type' attribute is required.
         if ( ! $element->has_attr( 'type' ) )
@@ -28,7 +31,7 @@ class Momtaz_Nmwdhj_View_Input extends Momtaz_Nmwdhj_View {
      * @since 1.0
      * @return string
      */
-    public function render( Momtaz_Nmwdhj_Element $element ) {
+    public function render( Element $element ) {
 
         $value = '';
 
@@ -58,4 +61,4 @@ class Momtaz_Nmwdhj_View_Input extends Momtaz_Nmwdhj_View {
 
     } // end render()
 
-} // end Class Momtaz_Nmwdhj_View_Input
+} // end Class Input

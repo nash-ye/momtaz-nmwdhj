@@ -1,10 +1,12 @@
 <?php
+namespace Nmwdhj\Elements;
+
 /**
  * The Checkbox element class.
  *
  * @since 1.0
  */
-class Momtaz_Nmwdhj_Element_Checkbox extends Momtaz_Nmwdhj_Element_Input {
+class Checkbox extends Input {
 
     /*** Properties ***********************************************************/
 
@@ -16,14 +18,6 @@ class Momtaz_Nmwdhj_Element_Checkbox extends Momtaz_Nmwdhj_Element_Input {
      */
     protected $key = 'checkbox';
 
-    /**
-     * Default element view key.
-     *
-     * @since 1.0
-     * @var string
-     */
-    protected $view_key = 'checkbox';
-
 
     /*** Magic Methods ********************************************************/
 
@@ -32,7 +26,7 @@ class Momtaz_Nmwdhj_Element_Checkbox extends Momtaz_Nmwdhj_Element_Input {
      *
      * @since 1.0
      */
-    public function __construct( $key, array $properties = null ) {
+    public function __construct( $key = '', array $properties = null ) {
 
         // Set the type attribute.
         if ( ! $this->has_attr( 'type' ) )
@@ -61,7 +55,7 @@ class Momtaz_Nmwdhj_Element_Checkbox extends Momtaz_Nmwdhj_Element_Input {
      * Checks or unchecks the checkbox.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Element_Checkbox
+     * @return Nmwdhj\Elements\Checkbox
      */
     public function set_checked( $value ) {
         return $this->set_value( (bool) $value );
@@ -71,7 +65,7 @@ class Momtaz_Nmwdhj_Element_Checkbox extends Momtaz_Nmwdhj_Element_Input {
      * Set the element value.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Element_Checkbox
+     * @return Nmwdhj\Elements\Checkbox
      */
     public function set_value( $value ) {
 
@@ -103,7 +97,7 @@ class Momtaz_Nmwdhj_Element_Checkbox extends Momtaz_Nmwdhj_Element_Input {
      * Set the value to use when checkbox is checked
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Element_Checkbox
+     * @return Nmwdhj\Elements\Checkbox
      */
     public function set_checked_value( $value ) {
 
@@ -135,7 +129,7 @@ class Momtaz_Nmwdhj_Element_Checkbox extends Momtaz_Nmwdhj_Element_Input {
      * Set the value to use when checkbox is unchecked.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Element_Checkbox
+     * @return Nmwdhj\Elements\Checkbox
      */
     public function set_unchecked_value( $value ) {
 
@@ -146,4 +140,4 @@ class Momtaz_Nmwdhj_Element_Checkbox extends Momtaz_Nmwdhj_Element_Input {
 
     } // end set_unchecked_value()
 
-} // end Class Momtaz_Nmwdhj_Element_Checkbox
+} // end Class Checkbox

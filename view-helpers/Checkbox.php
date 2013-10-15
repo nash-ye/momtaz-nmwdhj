@@ -1,10 +1,13 @@
 <?php
+namespace Nmwdhj\Views;
+use Nmwdhj\Elements\Element;
+
 /**
  * The Checkbox element view class.
  *
  * @since 1.0
  */
-class Momtaz_Nmwdhj_View_Checkbox extends Momtaz_Nmwdhj_View_Input {
+class Checkbox extends Input {
 
     /**
      * Check the element.
@@ -12,7 +15,7 @@ class Momtaz_Nmwdhj_View_Checkbox extends Momtaz_Nmwdhj_View_Input {
      * @since 1.0
      * @return boolean
      */
-    public function check( Momtaz_Nmwdhj_Element $element ) {
+    public function check( Element $element ) {
 
         if ( ! parent::check( $element ) )
             return false;
@@ -34,7 +37,7 @@ class Momtaz_Nmwdhj_View_Checkbox extends Momtaz_Nmwdhj_View_Input {
      * @since 1.0
      * @return void
      */
-    public function prepare( Momtaz_Nmwdhj_Element $element ) {
+    public function prepare( Element $element ) {
 
         parent::prepare( $element );
 
@@ -48,4 +51,4 @@ class Momtaz_Nmwdhj_View_Checkbox extends Momtaz_Nmwdhj_View_Input {
 
     } // end prepare()
 
-} // end Class Momtaz_Nmwdhj_View_Checkbox
+} // end Class Checkbox

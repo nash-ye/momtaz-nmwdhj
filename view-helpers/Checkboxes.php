@@ -1,10 +1,13 @@
 <?php
+namespace Nmwdhj\Views;
+use Nmwdhj\Elements\Element;
+
 /**
  * The Checkboxes element view class.
  *
  * @since 1.0
  */
-class Momtaz_Nmwdhj_View_Checkboxes extends Momtaz_Nmwdhj_View {
+class Checkboxes extends View {
 
     /**
      * Check the element.
@@ -12,7 +15,7 @@ class Momtaz_Nmwdhj_View_Checkboxes extends Momtaz_Nmwdhj_View {
      * @since 1.0
      * @return boolean
      */
-    public function check( Momtaz_Nmwdhj_Element $element ){
+    public function check( Element $element ){
 
         // Get the 'type' attribute.
         $type = $element->get_attr( 'type' );
@@ -35,7 +38,7 @@ class Momtaz_Nmwdhj_View_Checkboxes extends Momtaz_Nmwdhj_View {
      * @since 1.0
      * @return void
      */
-    public function prepare( Momtaz_Nmwdhj_Element $element ){
+    public function prepare( Element $element ){
 
         // Fix the name attribute.
         if ( $element->has_attr( 'name' ) ) {
@@ -55,7 +58,7 @@ class Momtaz_Nmwdhj_View_Checkboxes extends Momtaz_Nmwdhj_View {
      * @since 1.0
      * @return string
      */
-    public function render( Momtaz_Nmwdhj_Element $element ) {
+    public function render( Element $element ) {
         return $this->render_options( $element );
     } // end render()
 
@@ -85,7 +88,7 @@ class Momtaz_Nmwdhj_View_Checkboxes extends Momtaz_Nmwdhj_View {
      * @since 1.0
      * @return string
      */
-    public function render_options( Momtaz_Nmwdhj_Element $element ) {
+    public function render_options( Element $element ) {
 
         $chunks = array();
 
@@ -104,7 +107,7 @@ class Momtaz_Nmwdhj_View_Checkboxes extends Momtaz_Nmwdhj_View {
                 $option['atts'] = null;
 
             // Set the option attributes.
-            $option['atts'] = momtaz_nmwdhj_atts( $option['atts'] );
+	    $option['atts'] = \Nmwdhj\create_atts_obj( $option['atts'] );
             $option['atts']->set_atts( $element->get_atts(), false );
 
             // Set the 'checked' attribute.
@@ -141,7 +144,7 @@ class Momtaz_Nmwdhj_View_Checkboxes extends Momtaz_Nmwdhj_View {
      * @since 1.0
      * @return string
      */
-    public function render_option( array $option, Momtaz_Nmwdhj_Element $element ) {
+    public function render_option( array $option, Element $element ) {
 
         // The default option arguments.
         $option = wp_parse_args( $option, array(
@@ -156,7 +159,7 @@ class Momtaz_Nmwdhj_View_Checkboxes extends Momtaz_Nmwdhj_View {
         /** CheckBox Input ****************************************************/
 
         // Get the Attributes object.
-        $option['atts'] = momtaz_nmwdhj_atts( $option['atts'] );
+	$option['atts'] = \Nmwdhj\create_atts_obj( $option['atts'] );
 
         // Set the value attribute.
         if ( ! is_null( $option['value'] ) )
@@ -176,7 +179,8 @@ class Momtaz_Nmwdhj_View_Checkboxes extends Momtaz_Nmwdhj_View {
 
         /** CheckBox Label ****************************************************/
 
-        $label_atts = momtaz_nmwdhj_atts( $element->get_option( 'option_label_atts' ) );
+	$label_atts = $element->get_option( 'option_label_atts' );
+	$label_atts = \Nmwdhj\create_atts_obj( $label_atts );
 
         if ( $option['atts']->has_attr( 'id' ) )
             $label_atts->set_attr( 'for', $option['atts']->get_attr( 'id' ), false );
@@ -211,4 +215,4 @@ class Momtaz_Nmwdhj_View_Checkboxes extends Momtaz_Nmwdhj_View {
 
     } // end render_option()
 
-} // end Class Momtaz_Nmwdhj_View_Checkboxes
+} // end Class Checkboxes

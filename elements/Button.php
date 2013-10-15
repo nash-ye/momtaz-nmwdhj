@@ -1,10 +1,12 @@
 <?php
+namespace Nmwdhj\Elements;
+
 /**
  * The Button element class.
  *
  * @since 1.0
  */
-class Momtaz_Nmwdhj_Element_Button extends Momtaz_Nmwdhj_SimpleElement {
+class Button extends Base {
 
     /**
      * Button content.
@@ -22,14 +24,6 @@ class Momtaz_Nmwdhj_Element_Button extends Momtaz_Nmwdhj_SimpleElement {
      */
     protected $key = 'button';
 
-    /**
-     * Default element view key.
-     *
-     * @since 1.0
-     * @var string
-     */
-    protected $view_key = 'button';
-
 
     /*** Magic Methods ********************************************************/
 
@@ -38,7 +32,7 @@ class Momtaz_Nmwdhj_Element_Button extends Momtaz_Nmwdhj_SimpleElement {
      *
      * @since 1.0
      */
-    public function __construct( $key, array $properties = null ) {
+    public function __construct( $key = '', array $properties = null ) {
 
         if ( ! $this->has_attr( 'type' ) ) {
 
@@ -81,7 +75,7 @@ class Momtaz_Nmwdhj_Element_Button extends Momtaz_Nmwdhj_SimpleElement {
      * Set the button content.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Element_Button
+     * @return Nmwdhj\Elements\Button
      */
     public function set_content( $content ) {
         $this->content = strval( $content );
@@ -92,7 +86,7 @@ class Momtaz_Nmwdhj_Element_Button extends Momtaz_Nmwdhj_SimpleElement {
      * Set an attribute value.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Element_Button
+     * @return Nmwdhj\Elements\Button
      */
     public function set_attr( $key, $value ) {
 
@@ -111,4 +105,4 @@ class Momtaz_Nmwdhj_Element_Button extends Momtaz_Nmwdhj_SimpleElement {
 
     } // end set_attr()
 
-} // end Class Momtaz_Nmwdhj_Element_Button
+} // end Class Button

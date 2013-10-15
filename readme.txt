@@ -1,13 +1,13 @@
-=== Momtaz Nmwdhj ===
+=== Nmwdhj ===
 Contributors: alex-ye
-Tags: forms, api, html, settings, options, momtaz
+Tags: forms, api, html, settings, options
 Requires at least: 3.1
-Tested up to: 3.6
-Stable tag: 1.1
+Tested up to: 3.7
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Momtaz Nmwdhj is an API for creating forms elements via code.
+Nmwdhj is an API for creating forms elements via code.
 
 == Description ==
 
@@ -15,101 +15,80 @@ Momtaz Nmwdhj is an API for creating forms elements via code.
 1. This plugin requires at least PHP 5.3.x .
 2. This plugin is for developers, not general users.
 
-Momtaz Nmwdhj is an API for creating, editing and rendering forms programatically.
+Nmwdhj is an API for creating, editing and rendering forms programmatically.
 This plugin doesn't have a GUI, It's only a helper library for the PHP & WP developers.
 
 You can use this plugin to create individual form elements in the meta boxes, front-end, or anything else you might want a form for.
 
-Momtaz Nmwdhj is keeping things as small and light as possible while still allowing for great add-on features. What does all that mean? Momtaz Nmwdhj is lean, mean, and ready to make your job easier.
+= Basic Examples =
+You can use this plugin in many ways depending on your needs, this examples only for learning purposes:
 
-= TODO List: =
-* Throw the PHP Exceptions when needed.
-* Add more WP filters and actions when needed.
-* Develop a better and easier way to decorate an element.
-* Implement Momtaz_Nmwdhj_Form and Momtaz_Nmwdhj_Fieldset classes.
-* Implement a smarter way to late-translate the titles and labels using the WP l18n functions.
+* Simple Search Form:
+
+`
+// Create and output the search text input.
+Nmwdhj\create_element( 'input_search' )
+    ->set_atts( array(
+        'placeholder' => _x( 'Search this site...', 'placeholder' ),
+        'title' => _x( 'Search for:', 'label' ),
+        'class' => 'search-text',
+        'required' => true,
+      ) )
+    ->set_value_callback( 'get_search_query' )
+    ->set_name( 's' )
+    ->output();
+
+// Create and output the search submit button.
+Nmwdhj\create_element( 'input_submit' )
+    ->set_value( __( 'Search' ) )
+    ->output();
+`
+
+* Simple Login Form:
+
+`
+$username = Nmwdhj\create_element( 'input_text' );
+Nmwdhj\decorate_element( 'label', $username )
+    ->set_label( __( 'User Name:' ) )
+    ->set_name( 'user_name' )
+    ->output();
+
+$userpass = Nmwdhj\create_element( 'input_password' );
+Nmwdhj\decorate_element( 'label', $userpass )
+    ->set_label( __( 'Password:' ) )
+    ->set_name( 'user_pass' )
+    ->output();
+
+Nmwdhj\create_element( 'input_submit' )
+    ->set_value( __( 'Submit' ) )
+    ->output();
+`
 
 == Installation ==
-
 1. Upload and install the plugin
-2. Use the rich API to powerfull your theme/plugin.
-
-== Basic Usage ==
-
-You can use this plugin in many ways depending on your needs, this examples only for the most common usage cases.
-
-= -Creating an element =
-
-`
-// Creating the element object by the OOP style.
-$element = Momtaz_Nmwdhj::create_element( 'input_text' )
-                ->set_value_callback( 'get_bloginfo', 'name' )
-                ->set_name( 'blog_name' );
-
-// Another Way: Creating the element object by the Array style.
-$element = Momtaz_Nmwdhj::create_element( 'input_text', array(
-    'value' => get_bloginfo( 'name' ),
-    'name' => 'blog_name',
-) );
-
-// Output the element markup.
-$element->output();
-`
-
-= -Creating a list of elements =
-
-`
-// Creating a list of elements.
-$elements = Momtaz_Nmwdhj::create_elements( array(
-    array(
-        'name' => 'name',
-        'key' => 'input_text',
-    ),
-    array(
-        'name' => 'email',
-        'key' => 'input_email',
-    ),
-    array(
-        'name' => 'subject',
-        'key' => 'input_text',
-    ),
-    array(
-        'key' => 'textarea',
-        'name' => 'message',
-    ),
-) );
-
-// Output the elements markup.
-foreach( $elements as $element )
-    $element->output();
-`
-
-= -Decorating an element =
-
-`
-// Decorating an element with label.
-$element = Momtaz_Nmwdhj::decorate_element( 'label', $element )
-                ->set_label( __( 'Blog name:' ) );
-
-// Output the decorated element markup.
-$element->output();
-`
+2. Use the rich API to powerful your theme/plugin.
 
 == Frequently Asked Questions ==
 
 = What this plugin for? =
+Nmwdhj is an API for creating forms elements via code.
 
-Momtaz Nmwdhj is an API for creating forms elements via code.
-
-= Why I build the Momtaz Nmwdhj? =
-
-In the past creating the meta-boxes/theme-settings options or even the front-end forms, was dirty,hard and heavy!
-
-I searched for a good/clean/easy library to build the HTML forms easily, to make my theme/plug-in Forms more clever and elegant!, but unfortunately most the plug-ins I found was very complicated and hard to develop, I start thinking to use the 'Zend Forms' but the idea of loading the Zend Framework just to use the Zend Forms looks like a stupid idea!
-
-So I started to build my own plug-in, I focused to made it easy,simple and fast!
+= Is this plugin available on Github? =
+Yes, You can follow the project from here:
+https://github.com/nash-ye/Momtaz-Nmwdhj
 
 == Changelog ==
+
+= 1.2 =
+* Remove the "Momtaz" prefix form the plugin title and classes names.
+* Remove the not-needed custom view-key from the elements classes.
+* Rewrite the plugin to use PHP namespaces.
+* Add the Nmwdhj/Exception class.
+* Add the plugin link on Github.
+* Fix some minor bugs.
+
+= Breaking Changes =
+* Nmwdhj 1.2 is NOT compatible with any pervious version, so please don't update unless you know what you are doing!
 
 = 1.1 =
 * Enhance the check_class() method with the PHP function is_subclass_of().
@@ -117,7 +96,7 @@ So I started to build my own plug-in, I focused to made it easy,simple and fast!
 * implement a smart attributes system, you can now store the attributes as an objects.
 * Replace any use for the deprecated PHP function is_a() by the instanceof operator.
 
-= Breaking Changes: =
+= Breaking Changes =
 * The behavior of set_value_callback() method has changed, it's now accept an optional list of permeates, if you want to pass an array of arguments please use the new method set_value_callback_array().
 
 = 1.0 =

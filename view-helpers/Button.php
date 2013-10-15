@@ -1,10 +1,13 @@
 <?php
+namespace Nmwdhj\Views;
+use Nmwdhj\Elements\Element;
+
 /**
  * The Button element view class.
  *
  * @since 1.0
  */
-class Momtaz_Nmwdhj_View_Button extends Momtaz_Nmwdhj_View {
+class Button extends View {
 
     /**
      * Render the element view, and return the output.
@@ -12,7 +15,7 @@ class Momtaz_Nmwdhj_View_Button extends Momtaz_Nmwdhj_View {
      * @since 1.0
      * @return string
      */
-    public function render( Momtaz_Nmwdhj_Element $element ) {
+    public function render( Element $element ) {
 
         $value = '';
 
@@ -29,4 +32,4 @@ class Momtaz_Nmwdhj_View_Button extends Momtaz_Nmwdhj_View {
 
     } // end render()
 
-} // end Class Momtaz_Nmwdhj_View_Button
+} // end Class Button

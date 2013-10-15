@@ -1,10 +1,13 @@
 <?php
+namespace Nmwdhj\Views;
+use Nmwdhj\Elements\Element;
+
 /**
  * The WP_Editor element view class.
  *
  * @since 1.0
  */
-class Momtaz_Nmwdhj_View_WP_Editor extends Momtaz_Nmwdhj_View {
+class WP_Editor extends View {
 
     /**
      * Render the element view, and return the output.
@@ -12,7 +15,7 @@ class Momtaz_Nmwdhj_View_WP_Editor extends Momtaz_Nmwdhj_View {
      * @since 1.0
      * @return string
      */
-    public function render( Momtaz_Nmwdhj_Element $element ) {
+    public function render( Element $element ) {
 
         ob_start();
 
@@ -32,4 +35,4 @@ class Momtaz_Nmwdhj_View_WP_Editor extends Momtaz_Nmwdhj_View {
 
     } // end render()
 
-} // end Class Momtaz_Nmwdhj_View_WP_Editor
+} // end Class WP_Editor

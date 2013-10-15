@@ -1,10 +1,13 @@
 <?php
+namespace Nmwdhj\Decorators;
+use Nmwdhj\Attributes\Attributes;
+
 /**
  * The Description decorator class.
  *
  * @since 1.0
  */
-class Momtaz_Nmwdhj_Decorator_Description extends Momtaz_Nmwdhj_Decorator {
+class Description extends Decorator {
 
     // Output
 
@@ -53,7 +56,7 @@ class Momtaz_Nmwdhj_Decorator_Description extends Momtaz_Nmwdhj_Decorator {
      * Set the description tag.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Decorator_Label
+     * @return Nmwdhj\Decorator\Description
      */
     public function set_description_tag( $tag ) {
         $this->set_option( 'description_tag', $tag );
@@ -76,7 +79,7 @@ class Momtaz_Nmwdhj_Decorator_Description extends Momtaz_Nmwdhj_Decorator {
      * Set the description attributes.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Decorator_Label
+     * @return Nmwdhj\Decorator\Description
      */
     public function set_description_atts( $atts ) {
         $this->set_option( 'description_atts', $atts );
@@ -87,7 +90,7 @@ class Momtaz_Nmwdhj_Decorator_Description extends Momtaz_Nmwdhj_Decorator {
      * Get the description attributes.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Attributes
+     * @return Nmwdhj\Attributes\Attributes
      */
     public function get_description_atts() {
 
@@ -95,7 +98,14 @@ class Momtaz_Nmwdhj_Decorator_Description extends Momtaz_Nmwdhj_Decorator {
             'class' => 'help',
         ) );
 
-        return momtaz_nmwdhj_atts( $atts );
+	if ( ! $atts instanceof Attributes ) {
+
+	    $atts = new Attributes( $atts );
+	    $this->set_wrapper_atts( $atts );
+
+	} // end if
+
+        return $atts;
 
     } // end get_description_atts()
 
@@ -105,7 +115,7 @@ class Momtaz_Nmwdhj_Decorator_Description extends Momtaz_Nmwdhj_Decorator {
      * Set the description text.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Decorator_Label
+     * @return Nmwdhj\Decorator\Description
      */
     public function set_description( $text ) {
         $this->set_option( 'description', $text );
@@ -122,4 +132,4 @@ class Momtaz_Nmwdhj_Decorator_Description extends Momtaz_Nmwdhj_Decorator {
         return $this->get_option( 'description' );
     } // end get_description()
 
-} // end Class Momtaz_Nmwdhj_Decorator_Description
+} // end Class Description

@@ -1,91 +1,12 @@
 <?php
-/**
- * Get a Momtaz_Nmwdhj_Attributes class instance.
- *
- * @return Momtaz_Nmwdhj_Attributes
- * @since 1.0
- */
-function momtaz_nmwdhj_atts( $atts ) {
-
-    if ( $atts instanceof Momtaz_Nmwdhj_Attributes )
-        return $atts;
-
-    return new Momtaz_Nmwdhj_Attributes( $atts );
-
-} // end momtaz_nmwdhj_atts()
-
-/**
- * Get a Momtaz_Nmwdhj_Attribute class instance.
- *
- * @return Momtaz_Nmwdhj_Attribute
- * @since 1.1
- */
-function momtaz_nmwdhj_attr( $key, $value ) {
-
-    if ( $value instanceof Momtaz_Nmwdhj_Attribute ) {
-
-        if ( strcasecmp( $value->get_key(), $key ) !== 0 )
-            $value = momtaz_nmwdhj_attr( $key, $value->get_value() );
-
-        return $value;
-
-    } else {
-
-        switch( strtolower( $key ) ) {
-
-            case 'class':
-                return new Momtaz_Nmwdhj_ClassAttribute( $key, $value );
-                break;
-
-            default:
-                return new Momtaz_Nmwdhj_SimpleAttribute( $key, $value );
-                break;
-
-        } // end Switch
-
-    } // end if
-
-} // end momtaz_nmwdhj_attr()
-
-/**
- * The attribute interface.
- *
- * @since 1.1
- */
-interface Momtaz_Nmwdhj_Attribute {
-
-    /**
-     * Get the attribute key.
-     *
-     * @since 1.1
-     * @return string
-     */
-    public function get_key();
-
-    /**
-     * Get the attribute value.
-     *
-     * @since 1.1
-     * @return string
-     */
-    public function get_value();
-
-    /**
-     * Get the attribute output.
-     *
-     * @since 1.1
-     * @return string
-     */
-    public function __toString();
-
-} // end Interface Momtaz_Nmwdhj_Attribute
+namespace Nmwdhj\Attributes;
 
 /**
  * The attributes class.
  *
  * @since 1.0
  */
-class Momtaz_Nmwdhj_Attributes {
+class Attributes {
 
     /*** Properties ***********************************************************/
 
@@ -93,7 +14,7 @@ class Momtaz_Nmwdhj_Attributes {
      * Attributes list.
      *
      * @since 1.0
-     * @var Momtaz_Nmwdhj_Attribute[]
+     * @var Nmwdhj\Attributes\Attribute[]
      */
     protected $attributes;
 
@@ -124,7 +45,7 @@ class Momtaz_Nmwdhj_Attributes {
      * Get all the attributes array.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Attribute[]
+     * @return Nmwdhj\Attributes\Attribute[]
      */
     public function get_atts() {
         return $this->attributes;
@@ -134,7 +55,7 @@ class Momtaz_Nmwdhj_Attributes {
      * Get an attribute object.
      *
      * @since 1.1
-     * @return Momtaz_Nmwdhj_Attribute
+     * @return Nmwdhj\Attributes\Attribute
      */
     public function get_attr_obj( $key ) {
 
@@ -172,7 +93,7 @@ class Momtaz_Nmwdhj_Attributes {
      */
     public function has_attr( $key ) {
 
-        if ( $key instanceof Momtaz_Nmwdhj_Attribute )
+        if ( $key instanceof Attribute )
             $key = $key->get_key();
 
         if ( ! $this->get_attr_obj( $key ) )
@@ -188,11 +109,11 @@ class Momtaz_Nmwdhj_Attributes {
      * Set many attributes at once.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Attributes
+     * @return Nmwdhj\Attributes\Attributes
      */
     public function set_atts( $atts, $override = true ) {
 
-        if ( $atts instanceof Momtaz_Nmwdhj_Attributes )
+        if ( $atts instanceof Attributes )
             $atts = $atts->get_atts();
 
         if ( is_array( $atts ) ) {
@@ -210,14 +131,14 @@ class Momtaz_Nmwdhj_Attributes {
      * Set an attribute value.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Attributes
+     * @return Nmwdhj\Attributes\Attributes
      */
     public function set_attr( $key, $value, $override = true ) {
 
         $key = strtolower( $key );
 
-        if ( $override || ! $this->has_attr( $key ) )
-            $this->attributes[$key] = momtaz_nmwdhj_attr( $key, $value );
+	if ( $override || ! $this->has_attr( $key ) )
+	    $this->attributes[$key] = \Nmwdhj\create_attr_obj( $key, $value );
 
         return $this;
 
@@ -229,11 +150,11 @@ class Momtaz_Nmwdhj_Attributes {
      * Remove many attributes at once.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Attributes
+     * @return Nmwdhj\Attributes\Attributes
      */
     public function remove_atts( $keys ) {
 
-        if ( $keys instanceof Momtaz_Nmwdhj_Attributes )
+        if ( $keys instanceof Attributes )
             $keys = array_keys( $keys->get_atts() );
 
         if ( is_array( $keys ) ) {
@@ -251,7 +172,7 @@ class Momtaz_Nmwdhj_Attributes {
      * Remove an attribute.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Attributes
+     * @return Nmwdhj\Attributes\Attributes
      */
     public function remove_attr( $key ) {
 
@@ -270,7 +191,7 @@ class Momtaz_Nmwdhj_Attributes {
      * Reset the attributes array.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Attributes
+     * @return Nmwdhj\Attributes\Attributes
      */
     public function reset_atts() {
         $this->attributes = array();
@@ -312,14 +233,48 @@ class Momtaz_Nmwdhj_Attributes {
         return $this->to_string();
     } // end __toString()
 
-} // end Momtaz_Nmwdhj_Attributes
+} // end Attributes
+
+
+/**
+ * The attribute interface.
+ *
+ * @since 1.1
+ */
+interface Attribute {
+
+    /**
+     * Get the attribute key.
+     *
+     * @since 1.1
+     * @return string
+     */
+    public function get_key();
+
+    /**
+     * Get the attribute value.
+     *
+     * @since 1.1
+     * @return string
+     */
+    public function get_value();
+
+    /**
+     * Get the attribute output.
+     *
+     * @since 1.1
+     * @return string
+     */
+    public function __toString();
+
+} // end Interface Attribute
 
 /**
  * The simple attribute class.
  *
  * @since 1.1
  */
-class Momtaz_Nmwdhj_SimpleAttribute implements Momtaz_Nmwdhj_Attribute {
+class SimpleAttribute implements Attribute {
 
     /*** Properties ***********************************************************/
 
@@ -388,7 +343,7 @@ class Momtaz_Nmwdhj_SimpleAttribute implements Momtaz_Nmwdhj_Attribute {
      * Set the attribute key.
      *
      * @since 1.1
-     * @return Momtaz_Nmwdhj_SimpleAttribute
+     * @return Nmwdhj\Attributes\SimpleAttribute
      */
     protected function set_key( $key ) {
         $this->key = $key;
@@ -399,7 +354,7 @@ class Momtaz_Nmwdhj_SimpleAttribute implements Momtaz_Nmwdhj_Attribute {
      * Set the attribute value.
      *
      * @since 1.1
-     * @return Momtaz_Nmwdhj_SimpleAttribute
+     * @return Nmwdhj\Attributes\SimpleAttribute
      */
     public function set_value( $value ) {
         $this->value = $value;
@@ -435,14 +390,14 @@ class Momtaz_Nmwdhj_SimpleAttribute implements Momtaz_Nmwdhj_Attribute {
 
     } // end __toString()
 
-} // end Class Momtaz_Nmwdhj_SimpleAttribute
+} // end Class SimpleAttribute
 
 /**
  * The CSS classes attribute.
  *
  * @since 1.1
  */
-class Momtaz_Nmwdhj_ClassAttribute extends Momtaz_Nmwdhj_SimpleAttribute {
+class ClassAttribute extends SimpleAttribute {
 
     // Getters
 
@@ -507,7 +462,7 @@ class Momtaz_Nmwdhj_ClassAttribute extends Momtaz_Nmwdhj_SimpleAttribute {
      * Adds many classes at once.
      *
      * @since 1.1
-     * @return Momtaz_Nmwdhj_ClassAttribute
+     * @return Nmwdhj\Attributes\ClassAttribute
      */
     public function add_classes( $classes ) {
 
@@ -528,7 +483,7 @@ class Momtaz_Nmwdhj_ClassAttribute extends Momtaz_Nmwdhj_SimpleAttribute {
      * Removes many classes at once.
      *
      * @since 1.1
-     * @return Momtaz_Nmwdhj_ClassAttribute
+     * @return Nmwdhj\Attributes\ClassAttribute
      */
     public function remove_classes( $classes ) {
 
@@ -555,7 +510,7 @@ class Momtaz_Nmwdhj_ClassAttribute extends Momtaz_Nmwdhj_SimpleAttribute {
      */
     protected function explode_classes( $value ) {
 
-        if ( $value instanceof Momtaz_Nmwdhj_ClassAttribute ){
+        if ( $value instanceof ClassAttribute ){
             $value = $value->get_value( 'array' );
 
         } elseif ( is_string( $value ) ) {
@@ -578,7 +533,7 @@ class Momtaz_Nmwdhj_ClassAttribute extends Momtaz_Nmwdhj_SimpleAttribute {
      */
     protected function implode_classes( $value ) {
 
-        if ( $value instanceof Momtaz_Nmwdhj_ClassAttribute ){
+        if ( $value instanceof ClassAttribute ){
             $value = $value->get_value( 'string' );
 
         } elseif ( is_array( $value ) ) {
@@ -593,4 +548,4 @@ class Momtaz_Nmwdhj_ClassAttribute extends Momtaz_Nmwdhj_SimpleAttribute {
 
     } // end implode_classes()
 
-} // end Class Momtaz_Nmwdhj_ClassAttribute
+} // end Class ClassAttribute

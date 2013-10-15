@@ -1,10 +1,13 @@
 <?php
+namespace Nmwdhj\Decorators;
+use Nmwdhj\Attributes\Attributes;
+
 /**
  * The Label decorator class.
  *
  * @since 1.0
  */
-class Momtaz_Nmwdhj_Decorator_Tag extends Momtaz_Nmwdhj_Decorator {
+class Tag extends Decorator {
 
     // Output
 
@@ -29,8 +32,7 @@ class Momtaz_Nmwdhj_Decorator_Tag extends Momtaz_Nmwdhj_Decorator {
         $tag = $this->get_wrapper_tag();
 
         // Get the element output.
-        $output = $this->get_element()
-                    ->get_output();
+        $output = $this->get_element()->get_output();
 
         // Check the tag name.
         if ( ! is_string( $tag ) || empty( $tag ) )
@@ -50,7 +52,7 @@ class Momtaz_Nmwdhj_Decorator_Tag extends Momtaz_Nmwdhj_Decorator {
      * Set the wrapper attributes.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Decorator_Label
+     * @return Nmwdhj\Decorator\Tag
      */
     public function set_wrapper_atts( $atts ) {
         $this->set_option( 'wrapper_atts', $atts );
@@ -61,11 +63,43 @@ class Momtaz_Nmwdhj_Decorator_Tag extends Momtaz_Nmwdhj_Decorator {
      * Get the wrapper attributes.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Attributes
+     * @return Nmwdhj\Attributes\Attributes
      */
     public function get_wrapper_atts() {
-        return momtaz_nmwdhj_atts( $this->get_option( 'wrapper_atts' ) );
+
+	$atts = $this->get_option( 'wrapper_atts' );
+
+	if ( ! $atts instanceof Attributes ) {
+
+	    $atts = new Attributes( $atts );
+	    $this->set_wrapper_atts( $atts );
+
+	} // end if
+
+        return $atts;
+
     } // end get_wrapper_atts()
+
+    /**
+     * Set a wrapper attribute.
+     *
+     * @since 1.2
+     * @return Nmwdhj\Decorator\Tag
+     */
+    public function set_wrapper_attr( $key, $value, $override = true ) {
+        $this->get_wrapper_atts()->set_attr( $key, $value, $override );;
+        return $this;
+    } // end set_wrapper_attr()
+
+    /**
+     * Get a wrapper attribute.
+     *
+     * @since 1.2
+     * @return string
+     */
+    public function get_wrapper_attr( $key, $def = '' ) {
+	return $this->get_wrapper_atts()->get_attr( $key, $def );;
+    } // end get_wrapper_attr()
 
     // Wrapper Tag.
 
@@ -73,7 +107,7 @@ class Momtaz_Nmwdhj_Decorator_Tag extends Momtaz_Nmwdhj_Decorator {
      * Set the wrapper tag.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Decorator_Tag
+     * @return Nmwdhj\Decorator\Tag
      */
     public function set_wrapper_tag( $tag ) {
         $this->set_option( 'wrapper_tag', $tag );
@@ -90,4 +124,4 @@ class Momtaz_Nmwdhj_Decorator_Tag extends Momtaz_Nmwdhj_Decorator {
         return $this->get_option( 'wrapper_tag', 'div' );
     } // end get_wrapper_tag()
 
-} // end Class Momtaz_Nmwdhj_Decorator_Tag
+} // end Class Tag

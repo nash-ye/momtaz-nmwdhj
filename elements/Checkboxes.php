@@ -1,10 +1,12 @@
 <?php
+namespace Nmwdhj\Elements;
+
 /**
  * The Checkboxes element class.
  *
  * @since 1.0
  */
-class Momtaz_Nmwdhj_Element_Checkboxes extends Momtaz_Nmwdhj_Element_Input {
+class Checkboxes extends Input {
 
     /*** Properties ***********************************************************/
 
@@ -16,14 +18,6 @@ class Momtaz_Nmwdhj_Element_Checkboxes extends Momtaz_Nmwdhj_Element_Input {
      */
     protected $key = 'checkboxes';
 
-    /**
-     * Default element view key.
-     *
-     * @since 1.0
-     * @var string
-     */
-    protected $view_key = 'checkboxes';
-
 
     /*** Magic Methods ********************************************************/
 
@@ -32,7 +26,7 @@ class Momtaz_Nmwdhj_Element_Checkboxes extends Momtaz_Nmwdhj_Element_Input {
      *
      * @since 1.0
      */
-    public function __construct( $key, array $properties = null ) {
+    public function __construct( $key = '', array $properties = null ) {
 
         // Set the type attribute.
         if ( ! $this->has_attr( 'type' ) )
@@ -61,21 +55,16 @@ class Momtaz_Nmwdhj_Element_Checkboxes extends Momtaz_Nmwdhj_Element_Input {
      * Ser the values and labels for the value options.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Element_Checkboxes
+     * @return Nmwdhj\Elements\Checkboxes
      */
     public function set_value_options( $options, $append = false ) {
 
         if ( is_array( $options ) ) {
 
-            if ( $append ) {
+            if ( $append )
+		$options = array_merge( (array) $this->value_options, $options );
 
-                $this->value_options += $options;
-
-            } else {
-
-                $this->value_options = $options;
-
-            } // end if
+	    $this->value_options = $options;
 
         } // end if
 
@@ -87,15 +76,14 @@ class Momtaz_Nmwdhj_Element_Checkboxes extends Momtaz_Nmwdhj_Element_Input {
      * Remove all/specified value options.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Element_Checkboxes
+     * @return Nmwdhj\Elements\Checkboxes
      */
     public function remove_value_options( $options = '' ) {
 
         if ( is_array( $options ) && ! empty( $options ) ) {
 
-            foreach( $options as $option ) {
+            foreach( $options as $option )
                 $this->remove_value_option( $option );
-            } // end foreach
 
         } else {
 
@@ -111,11 +99,11 @@ class Momtaz_Nmwdhj_Element_Checkboxes extends Momtaz_Nmwdhj_Element_Input {
      * Remove a specified value option.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Element_Checkboxes
+     * @return Nmwdhj\Elements\Checkboxes
      */
     public function remove_value_option( $option ) {
         unset( $this->value_options[$option] );
         return $this;
     } // end remove_value_option()
 
-} // end Class Momtaz_Nmwdhj_Element_Checkboxes
+} // end Class Checkboxes

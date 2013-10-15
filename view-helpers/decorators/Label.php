@@ -1,10 +1,13 @@
 <?php
+namespace Nmwdhj\Decorators;
+use Nmwdhj\Attributes\Attributes;
+
 /**
  * The Label decorator class.
  *
  * @since 1.0
  */
-class Momtaz_Nmwdhj_Decorator_Label extends Momtaz_Nmwdhj_Decorator {
+class Label extends Decorator {
 
     // Output
 
@@ -29,8 +32,7 @@ class Momtaz_Nmwdhj_Decorator_Label extends Momtaz_Nmwdhj_Decorator {
         $label = $this->get_label();
 
         // Get the element output.
-        $output = $this->get_element()
-                    ->get_output();
+        $output = $this->get_element()->get_output();
 
         // Check the label text.
         if ( ! is_string( $label ) || empty( $label ) )
@@ -74,7 +76,7 @@ class Momtaz_Nmwdhj_Decorator_Label extends Momtaz_Nmwdhj_Decorator {
      * Set the label position.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Decorator_Label
+     * @return Nmwdhj\Decorator\Label
      */
     public function set_label_position( $position ) {
         $this->set_option( 'label_position', $position );
@@ -97,7 +99,7 @@ class Momtaz_Nmwdhj_Decorator_Label extends Momtaz_Nmwdhj_Decorator {
      * Set the label attributes.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Decorator_Label
+     * @return Nmwdhj\Decorator\Label
      */
     public function set_label_atts( $atts ) {
         $this->set_option( 'label_atts', $atts );
@@ -108,11 +110,43 @@ class Momtaz_Nmwdhj_Decorator_Label extends Momtaz_Nmwdhj_Decorator {
      * Get the label attributes.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Attributes
+     * @return Nmwdhj\Attributes\Attributes
      */
     public function get_label_atts() {
-        return momtaz_nmwdhj_atts( $this->get_option( 'label_atts' ) );
+
+	$atts = $this->get_option( 'label_atts' );
+
+	if ( ! $atts instanceof Attributes ) {
+
+	    $atts = new Attributes( $atts );
+	    $this->set_label_atts( $atts );
+
+	} // end if
+
+        return $atts;
+
     } // end get_label_atts()
+
+    /**
+     * Set a label attribute.
+     *
+     * @since 1.2
+     * @return Nmwdhj\Decorator\Label
+     */
+    public function set_label_attr( $key, $value, $override = true ) {
+        $this->get_label_atts()->set_attr( $key, $value, $override );;
+        return $this;
+    } // end set_label_attr()
+
+    /**
+     * Get a label attribute.
+     *
+     * @since 1.2
+     * @return string
+     */
+    public function get_label_attr( $key, $def = '' ) {
+	return $this->get_label_atts()->get_attr( $key, $def );;
+    } // end get_label_attr()
 
     // Label Text.
 
@@ -120,7 +154,7 @@ class Momtaz_Nmwdhj_Decorator_Label extends Momtaz_Nmwdhj_Decorator {
      * Set the label text.
      *
      * @since 1.0
-     * @return Momtaz_Nmwdhj_Decorator_Label
+     * @return Nmwdhj\Decorator\Label
      */
     public function set_label( $text ) {
         $this->set_option( 'label', $text );
@@ -137,4 +171,4 @@ class Momtaz_Nmwdhj_Decorator_Label extends Momtaz_Nmwdhj_Decorator {
         return $this->get_option( 'label' );
     } // end get_label()
 
-} // end Class Momtaz_Nmwdhj_Decorator_Label
+} // end Class Label

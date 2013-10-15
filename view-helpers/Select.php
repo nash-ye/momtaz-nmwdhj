@@ -1,10 +1,13 @@
 <?php
+namespace Nmwdhj\Views;
+use Nmwdhj\Elements\Element;
+
 /**
  * The Select elements view class.
  *
  * @since 1.0
  */
-class Momtaz_Nmwdhj_View_Select extends Momtaz_Nmwdhj_View {
+class Select extends View{
 
     /**
      * Prepare the element.
@@ -12,7 +15,7 @@ class Momtaz_Nmwdhj_View_Select extends Momtaz_Nmwdhj_View {
      * @since 1.0
      * @return void
      */
-    public function prepare( Momtaz_Nmwdhj_Element $element ){
+    public function prepare( Element $element ){
 
         // Fix the name attribute.
         if ( $element->has_attr( 'multiple' ) ) {
@@ -32,7 +35,7 @@ class Momtaz_Nmwdhj_View_Select extends Momtaz_Nmwdhj_View {
      * @since 1.0
      * @return string
      */
-    public function render( Momtaz_Nmwdhj_Element $element ) {
+    public function render( Element $element ) {
 
         // Open tag.
         $output = '<select' . $element->get_atts_string() . '>';
@@ -121,20 +124,18 @@ class Momtaz_Nmwdhj_View_Select extends Momtaz_Nmwdhj_View {
      */
     public function render_optgroup( array $optgroup ) {
 
-        $defaults = array(
-            'label' => '',
-            'atts' => array(),
+        $optgroup = wp_parse_args( $optgroup, array(
             'options' => array(),
-        );
+            'atts' => array(),
+            'label' => '',
+        ) );
 
-        $optgroup = wp_parse_args( $optgroup, $defaults );
+	$optgroup['atts'] = \Nmwdhj\create_atts_obj( $optgroup['atts'] );
 
         if ( ! empty( $optgroup['label'] ) )
-            $optgroup['atts']['label'] = $optgroup['label'];
+            $optgroup['atts']->set_attr( 'label', $optgroup['label'] );
 
-        $attributes = strval( momtaz_nmwdhj_atts( $optgroup['atts'] ) );
-
-        return '<optgroup'. $attributes .'>'. $this->render_options( $optgroup['options'] ) .'</optgroup>';
+        return '<optgroup'. strval( $optgroup['atts'] ) .'>'. $this->render_options( $optgroup['options'] ) .'</optgroup>';
 
     } // end render_optgroup()
 
@@ -173,10 +174,10 @@ class Momtaz_Nmwdhj_View_Select extends Momtaz_Nmwdhj_View {
 
         } // end foreach
 
-        $attributes = strval( momtaz_nmwdhj_atts( $option['atts'] ) );
+        $attributes = strval( \Nmwdhj\create_atts_obj( $option['atts'] ) );
 
         return '<option'. $attributes .'>'. esc_html( $option['label'] ) .'</option>';
 
     } // end render_option()
 
-} // end Class Momtaz_Nmwdhj_View_Select
+} // end Class Select
