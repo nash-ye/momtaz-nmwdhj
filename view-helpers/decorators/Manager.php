@@ -8,169 +8,169 @@ namespace Nmwdhj\Decorators;
  */
 class Manager {
 
-    /*** Properties ***********************************************************/
+	/*** Properties ***********************************************************/
 
-    /**
-     * Decorators list.
-     *
-     * @since 1.0
-     * @var array
-     */
-    protected static $decorators = array();
+	/**
+	 * Decorators list.
+	 *
+	 * @since 1.0
+	 * @var array
+	 */
+	protected static $decorators = array();
 
 
-    /*** Methods ***************************************************************/
+	/*** Methods ***************************************************************/
 
-    // Getters
+	// Getters
 
-    /**
-     * Get a decorator by key.
-     *
-     * @since 1.0
-     * @return object
-     */
-    public static function get_by_key( $key ) {
+	/**
+	 * Get a decorator by key.
+	 *
+	 * @since 1.0
+	 * @return object
+	 */
+	public static function get_by_key( $key ) {
 
-        $key = sanitize_key( $key );
+		$key = sanitize_key( $key );
 
-        if ( ! empty( $key ) ) {
+		if ( ! empty( $key ) ) {
 
-            $decorators = self::get();
+			$decorators = self::get();
 
-            if ( isset( $decorators[ $key ] ) )
-                return $decorators[ $key ];
+			if ( isset( $decorators[ $key ] ) )
+				return $decorators[ $key ];
 
-        } // end if
+		} // end if
 
-    } // end get_by_key()
+	} // end get_by_key()
 
-    /**
-     * Retrieve a list of registered decorators.
-     *
-     * @since 1.0
-     * @return array
-     */
-    public static function get( array $args = null, $operator = 'AND' ) {
-        return wp_list_filter( self::$decorators, $args, $operator );
-    } // end get()
+	/**
+	 * Retrieve a list of registered decorators.
+	 *
+	 * @since 1.0
+	 * @return array
+	 */
+	public static function get( array $args = null, $operator = 'AND' ) {
+		return wp_list_filter( self::$decorators, $args, $operator );
+	} // end get()
 
-    // Register/Deregister
+	// Register/Deregister
 
-    /**
-     * Register a decorator.
-     *
-     * @since 1.0
-     * @return boolean
-     */
-    public static function register( $key, array $args ) {
+	/**
+	 * Register a decorator.
+	 *
+	 * @since 1.0
+	 * @return boolean
+	 */
+	public static function register( $key, array $args ) {
 
-        $args['key'] = sanitize_key( $key );
+		$args['key'] = sanitize_key( $key );
 
-        if ( empty( $args['key'] ) )
-            return false;
+		if ( empty( $args['key'] ) )
+			return false;
 
-        $args = wp_parse_args( $args, array(
-            'class_name' => '',
-            'class_path' => '',
-        ) );
+		$args = wp_parse_args( $args, array(
+			'class_name' => '',
+			'class_path' => '',
+		) );
 
-        if ( empty( $args['class_name'] ) )
-            return false;
+		if ( empty( $args['class_name'] ) )
+			return false;
 
-        self::$decorators[ $args['key'] ] = (object) $args;
+		self::$decorators[ $args['key'] ] = (object) $args;
 
-        return true;
+		return true;
 
-    } // end register()
+	} // end register()
 
-    /**
-     * Register the Nmwdhj default decorators.
-     *
-     * @since 1.0
-     * @return void
-     */
-    public static function register_defaults() {
+	/**
+	 * Register the Nmwdhj default decorators.
+	 *
+	 * @since 1.0
+	 * @return void
+	 */
+	public static function register_defaults() {
 
-        self::register( 'tag', array(
-            'class_name' => 'Nmwdhj\Decorators\Tag',
-            'class_path' => \Nmwdhj\get_path( 'view-helpers/decorators/Tag.php' ),
-        ) );
+		self::register( 'tag', array(
+			'class_name' => 'Nmwdhj\Decorators\Tag',
+			'class_path' => \Nmwdhj\get_path( 'view-helpers/decorators/Tag.php' ),
+		) );
 
-        self::register( 'label', array(
-            'class_name' => 'Nmwdhj\Decorators\Label',
-            'class_path' => \Nmwdhj\get_path( 'view-helpers/decorators/Label.php' ),
-        ) );
+		self::register( 'label', array(
+			'class_name' => 'Nmwdhj\Decorators\Label',
+			'class_path' => \Nmwdhj\get_path( 'view-helpers/decorators/Label.php' ),
+		) );
 
-        self::register( 'description', array(
-            'class_name' => 'Nmwdhj\Decorators\Description',
-            'class_path' => \Nmwdhj\get_path( 'view-helpers/decorators/Description.php' ),
-        ) );
+		self::register( 'description', array(
+			'class_name' => 'Nmwdhj\Decorators\Description',
+			'class_path' => \Nmwdhj\get_path( 'view-helpers/decorators/Description.php' ),
+		) );
 
-    } // end register_defaults()
+	} // end register_defaults()
 
-    /**
-     * Remove a registered decorator.
-     *
-     * @since 1.0
-     * @return boolean
-     */
-    public static function deregister( $key ) {
+	/**
+	 * Remove a registered decorator.
+	 *
+	 * @since 1.0
+	 * @return boolean
+	 */
+	public static function deregister( $key ) {
 
-        $key = sanitize_key( $key );
+		$key = sanitize_key( $key );
 
-        if ( empty( $key ) )
-            return false;
+		if ( empty( $key ) )
+			return false;
 
-        unset( self::$decorators[ $key ] );
+		unset( self::$decorators[ $key ] );
 
-        return true;
+		return true;
 
-    } // end deregister()
+	} // end deregister()
 
-    // Checks
+	// Checks
 
-    /**
-     * Check a decorator class.
-     *
-     * @since 1.0
-     * @return boolean
-     */
-    public static function check_class( $class_name, $autoload = true ) {
+	/**
+	 * Check a decorator class.
+	 *
+	 * @since 1.0
+	 * @return boolean
+	 */
+	public static function check_class( $class_name, $autoload = true ) {
 
-	if ( empty( $class_name ) )
-	    return false;
+		if ( empty( $class_name ) )
+			return false;
 
-	if ( ! class_exists( $class_name, (bool) $autoload ) )
-	    return false;
+		if ( ! class_exists( $class_name, (bool) $autoload ) )
+			return false;
 
-	if ( ! is_subclass_of( $class_name, 'Nmwdhj\Decorators\Decorator' ) )
-	    return false;
+		if ( ! is_subclass_of( $class_name, 'Nmwdhj\Decorators\Decorator' ) )
+			return false;
 
-        return true;
+		return true;
 
-    } // end check_class()
+	} // end check_class()
 
-    // Loaders
+	// Loaders
 
-    /**
-     * Load decorator class file.
-     *
-     * @since 1.0
-     * @return void
-     */
-    public static function load_class( $class_name, $require_once = false ) {
+	/**
+	 * Load decorator class file.
+	 *
+	 * @since 1.0
+	 * @return void
+	 */
+	public static function load_class( $class_name, $require_once = false ) {
 
-	if ( ! class_exists( $class_name, false ) ) {
+		if ( ! class_exists( $class_name, false ) ) {
 
-	    $decorator = self::get( array( 'class_name' => $class_name ), 'OR' );
-	    $decorator = reset( $decorator ); // Get the first result.
+			$decorator = self::get( array( 'class_name' => $class_name ), 'OR' );
+			$decorator = reset( $decorator ); // Get the first result.
 
-	    if ( ! empty( $decorator->class_path ) && file_exists( $decorator->class_path ) )
-		( $require_once ) ? require_once $decorator->class_path : require $decorator->class_path;
+			if ( ! empty( $decorator->class_path ) && file_exists( $decorator->class_path ) )
+				( $require_once ) ? require_once $decorator->class_path : require $decorator->class_path;
 
-	} // end if
+		} // end if
 
-    } // end load_class()
+	} // end load_class()
 
 } // end Class Decorators
 

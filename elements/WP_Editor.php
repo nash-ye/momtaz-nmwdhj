@@ -8,12 +8,12 @@ namespace Nmwdhj\Elements;
  */
 class WP_Editor extends Base {
 
-    /**
-     * Default element key.
-     *
-     * @since 1.0
-     * @var string
-     */
-    protected $key = 'wp_editor';
+	/**
+	 * Default element key.
+	 *
+	 * @since 1.0
+	 * @var string
+	 */
+	protected $key = 'wp_editor';
 
 } // end Class WP_Editor

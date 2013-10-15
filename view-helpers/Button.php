@@ -9,27 +9,27 @@ use Nmwdhj\Elements\Element;
  */
 class Button extends View {
 
-    /**
-     * Render the element view, and return the output.
-     *
-     * @since 1.0
-     * @return string
-     */
-    public function render( Element $element ) {
+	/**
+	 * Render the element view, and return the output.
+	 *
+	 * @since 1.0
+	 * @return string
+	 */
+	public function render( Element $element ) {
 
-        $value = '';
+		$value = '';
 
-        if ( ! $element->has_attr( 'value' ) ) {
+		if ( ! $element->has_attr( 'value' ) ) {
 
-            $value = strval( $element->get_value() );
+			$value = strval( $element->get_value() );
 
-            if ( ! empty( $value ) )
-                $value = ' value="' . esc_attr( $value ) . '"';
+			if ( ! empty( $value ) )
+				$value = ' value="' . esc_attr( $value ) . '"';
 
-        } // end if
+		} // end if
 
-        return '<button'. $element->get_atts_string() . $value .'>' . $element->get_content() . '</button>';
+		return '<button'. $element->get_atts_string() . $value .'>' . $element->get_content() . '</button>';
 
-    } // end render()
+	} // end render()
 
 } // end Class Button

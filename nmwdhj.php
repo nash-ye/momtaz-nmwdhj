@@ -24,59 +24,59 @@ namespace Nmwdhj;
  */
 function class_loader( $class_name ) {
 
-    switch( $class_name ) {
+	switch( $class_name ) {
 
-	/*** Nmwdhj Core ******************************************************/
+		/*** Nmwdhj Core ******************************************************/
 
-	case 'Nmwdhj\Exception':
-	    require_once get_path( 'core/exceptions.php' );
-	    break;
+		case 'Nmwdhj\Exception':
+			require_once get_path( 'core/exceptions.php' );
+			break;
 
-	case 'Nmwdhj\Attributes\Attribute':
-	case 'Nmwdhj\Attributes\Attributes':
-	case 'Nmwdhj\Attributes\ClassAttribute':
-	case 'Nmwdhj\Attributes\SimpleAttribute':
-	    require_once get_path( 'core/attributes.php' );
-	    break;
-
-
-	/*** Nmwdhj Elements **************************************************/
-
-	case 'Nmwdhj\Elements\Base':
-	    require_once get_path( 'elements/Base.php' );
-	    break;
-
-	case 'Nmwdhj\Elements\Manager':
-	    require_once get_path( 'elements/Manager.php' );
-	    break;
-
-	case 'Nmwdhj\Elements\Element':
-	    require_once get_path( 'elements/Element.php' );
-	    break;
+		case 'Nmwdhj\Attributes\Attribute':
+		case 'Nmwdhj\Attributes\Attributes':
+		case 'Nmwdhj\Attributes\ClassAttribute':
+		case 'Nmwdhj\Attributes\SimpleAttribute':
+			require_once get_path( 'core/attributes.php' );
+			break;
 
 
-	/*** Nmwdhj Views *****************************************************/
+		/*** Nmwdhj Elements **************************************************/
 
-	case 'Nmwdhj\Views\View':
-	    require_once get_path( 'view-helpers/View.php' );
-	    break;
+		case 'Nmwdhj\Elements\Base':
+			require_once get_path( 'elements/Base.php' );
+			break;
 
-	case 'Nmwdhj\Views\Manager':
-	    require_once get_path( 'view-helpers/Manager.php' );
-	    break;
+		case 'Nmwdhj\Elements\Manager':
+			require_once get_path( 'elements/Manager.php' );
+			break;
+
+		case 'Nmwdhj\Elements\Element':
+			require_once get_path( 'elements/Element.php' );
+			break;
 
 
-	/*** Nmwdhj Decorators ************************************************/
+		/*** Nmwdhj Views *****************************************************/
 
-	case 'Nmwdhj\Decorators\Manager':
-	    require_once get_path( 'view-helpers/decorators/Manager.php' );
-	    break;
+		case 'Nmwdhj\Views\View':
+			require_once get_path( 'view-helpers/View.php' );
+			break;
 
-	case 'Nmwdhj\Decorators\Decorator':
-	    require_once get_path( 'view-helpers/decorators/Decorator.php' );
-	    break;
+		case 'Nmwdhj\Views\Manager':
+			require_once get_path( 'view-helpers/Manager.php' );
+			break;
 
-    } // end switch
+
+		/*** Nmwdhj Decorators ************************************************/
+
+		case 'Nmwdhj\Decorators\Manager':
+			require_once get_path( 'view-helpers/decorators/Manager.php' );
+			break;
+
+		case 'Nmwdhj\Decorators\Decorator':
+			require_once get_path( 'view-helpers/decorators/Decorator.php' );
+			break;
+
+	} // end switch
 
 } // end class_loader()
 
@@ -95,13 +95,13 @@ spl_autoload_register( 'Nmwdhj\class_loader' );
  */
 function create_element( $key, array $properties = null ) {
 
-    if ( ! ( $element = Elements\Manager::get_by_key( $key ) ) )
-	throw new Exception( 'invalid_element' );
+	if ( ! ( $element = Elements\Manager::get_by_key( $key ) ) )
+		throw new Exception( 'invalid_element' );
 
-    if ( ! Elements\Manager::check_class( $element->class_name ) )
-	throw new Exception( 'invalid_element_class' );
+	if ( ! Elements\Manager::check_class( $element->class_name ) )
+		throw new Exception( 'invalid_element_class' );
 
-    return new $element->class_name( $key, $properties );
+	return new $element->class_name( $key, $properties );
 
 } // end create_element()
 
@@ -114,18 +114,18 @@ function create_element( $key, array $properties = null ) {
  */
 function create_elements( array $elements ) {
 
-    $objects = array();
+	$objects = array();
 
-    foreach( $elements as $key => $element ) {
+	foreach( $elements as $key => $element ) {
 
-	if ( empty( $element['key'] ) )
-	    continue;
+		if ( empty( $element['key'] ) )
+			continue;
 
-	$objects[ $key ] = create_element( $element['key'], $element );
+		$objects[ $key ] = create_element( $element['key'], $element );
 
-    } // end foreach
+	} // end foreach
 
-    return $objects;
+	return $objects;
 
 } // end create_elements()
 
@@ -137,10 +137,10 @@ function create_elements( array $elements ) {
  */
 function create_atts_obj( $atts ) {
 
-    if ( $atts instanceof Attributes\Attributes )
-	return $atts;
+	if ( $atts instanceof Attributes\Attributes )
+		return $atts;
 
-    return new Attributes\Attributes( $atts );
+	return new Attributes\Attributes( $atts );
 
 } // end create_atts_obj()
 
@@ -152,28 +152,28 @@ function create_atts_obj( $atts ) {
  */
 function create_attr_obj( $key, $value ) {
 
-    if ( $value instanceof Attributes\Attribute ) {
+	if ( $value instanceof Attributes\Attribute ) {
 
-	if ( strcasecmp( $value->get_key(), $key ) !== 0 )
-	    $obj = create_attr_obj( $key, $value->get_value() );
+		if ( strcasecmp( $value->get_key(), $key ) !== 0 )
+			$obj = create_attr_obj( $key, $value->get_value() );
 
-    } else {
+	} else {
 
-	switch( strtolower( $key ) ) {
+		switch( strtolower( $key ) ) {
 
-	    case 'class':
-		$obj = new Attributes\ClassAttribute( $key, $value );
-		break;
+			case 'class':
+				$obj = new Attributes\ClassAttribute( $key, $value );
+				break;
 
-	    default:
-		$obj = new Attributes\SimpleAttribute( $key, $value );
-		break;
+			default:
+				$obj = new Attributes\SimpleAttribute( $key, $value );
+				break;
 
-	} // end Switch
+		} // end Switch
 
-    } // end if
+	} // end if
 
-    return $obj;
+	return $obj;
 
 } // end create_attr_obj()
 
@@ -186,14 +186,14 @@ function create_attr_obj( $key, $value ) {
  */
 function decorate_element( $key, Elements\Element &$element ) {
 
-    if ( ! ( $decorator = Decorators\Manager::get_by_key( $key ) ) )
-	throw new Exception( 'invalid_decorator' );
+	if ( ! ( $decorator = Decorators\Manager::get_by_key( $key ) ) )
+		throw new Exception( 'invalid_decorator' );
 
-    if ( ! Decorators\Manager::check_class( $decorator->class_name ) )
-	throw new Exception( 'invalid_decorator_class' );
+	if ( ! Decorators\Manager::check_class( $decorator->class_name ) )
+		throw new Exception( 'invalid_decorator_class' );
 
-    $element = $decorator->class_name( $element );
-    return $element;
+	$element = $decorator->class_name( $element );
+	return $element;
 
 } // end decorate_element()
 
@@ -208,14 +208,14 @@ function decorate_element( $key, Elements\Element &$element ) {
  */
 function get_path( $path = '' ) {
 
-    $base = dirname( __FILE__ );
+	$base = dirname( __FILE__ );
 
-    if ( ! empty( $path ) )
-	$path = path_join( $base, $path );
-    else
-	$path = untrailingslashit( $base );
+	if ( ! empty( $path ) )
+		$path = path_join( $base, $path );
+	else
+		$path = untrailingslashit( $base );
 
-    return $path;
+	return $path;
 
 } // end get_path()
 

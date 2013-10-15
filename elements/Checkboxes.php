@@ -8,102 +8,102 @@ namespace Nmwdhj\Elements;
  */
 class Checkboxes extends Input {
 
-    /*** Properties ***********************************************************/
+	/*** Properties ***********************************************************/
 
-    /**
-     * Default element key.
-     *
-     * @since 1.0
-     * @var string
-     */
-    protected $key = 'checkboxes';
-
-
-    /*** Magic Methods ********************************************************/
-
-    /**
-     * The Checkboxes element constructor.
-     *
-     * @since 1.0
-     */
-    public function __construct( $key = '', array $properties = null ) {
-
-        // Set the type attribute.
-        if ( ! $this->has_attr( 'type' ) )
-            $this->set_attr( 'type', 'checkbox' );
-
-        parent::__construct( $key, $properties );
-
-    } // end __construct()
+	/**
+	 * Default element key.
+	 *
+	 * @since 1.0
+	 * @var string
+	 */
+	protected $key = 'checkboxes';
 
 
-    /*** Methods **************************************************************/
+	/*** Magic Methods ********************************************************/
 
-    // Value Options
+	/**
+	 * The Checkboxes element constructor.
+	 *
+	 * @since 1.0
+	 */
+	public function __construct( $key = '', array $properties = null ) {
 
-    /**
-     * Get the values and labels for the value options.
-     *
-     * @since 1.0
-     * @return array
-     */
-    public function get_value_options() {
-        return $this->value_options;
-    } // end get_value_options()
+		// Set the type attribute.
+		if ( ! $this->has_attr( 'type' ) )
+			$this->set_attr( 'type', 'checkbox' );
 
-    /**
-     * Ser the values and labels for the value options.
-     *
-     * @since 1.0
-     * @return Nmwdhj\Elements\Checkboxes
-     */
-    public function set_value_options( $options, $append = false ) {
+		parent::__construct( $key, $properties );
 
-        if ( is_array( $options ) ) {
+	} // end __construct()
 
-            if ( $append )
-		$options = array_merge( (array) $this->value_options, $options );
 
-	    $this->value_options = $options;
+	/*** Methods **************************************************************/
 
-        } // end if
+	// Value Options
 
-        return $this;
+	/**
+	 * Get the values and labels for the value options.
+	 *
+	 * @since 1.0
+	 * @return array
+	 */
+	public function get_value_options() {
+		return $this->value_options;
+	} // end get_value_options()
 
-    } // end set_value_options()
+	/**
+	 * Ser the values and labels for the value options.
+	 *
+	 * @since 1.0
+	 * @return Nmwdhj\Elements\Checkboxes
+	 */
+	public function set_value_options( $options, $append = false ) {
 
-    /**
-     * Remove all/specified value options.
-     *
-     * @since 1.0
-     * @return Nmwdhj\Elements\Checkboxes
-     */
-    public function remove_value_options( $options = '' ) {
+		if ( is_array( $options ) ) {
 
-        if ( is_array( $options ) && ! empty( $options ) ) {
+			if ( $append )
+				$options = array_merge( (array) $this->value_options, $options );
 
-            foreach( $options as $option )
-                $this->remove_value_option( $option );
+			$this->value_options = $options;
 
-        } else {
+		} // end if
 
-            $this->value_options = array();
+		return $this;
 
-        } // end if
+	} // end set_value_options()
 
-        return $this;
+	/**
+	 * Remove all/specified value options.
+	 *
+	 * @since 1.0
+	 * @return Nmwdhj\Elements\Checkboxes
+	 */
+	public function remove_value_options( $options = '' ) {
 
-    } // end remove_value_options()
+		if ( is_array( $options ) && ! empty( $options ) ) {
 
-    /**
-     * Remove a specified value option.
-     *
-     * @since 1.0
-     * @return Nmwdhj\Elements\Checkboxes
-     */
-    public function remove_value_option( $option ) {
-        unset( $this->value_options[$option] );
-        return $this;
-    } // end remove_value_option()
+			foreach( $options as $option )
+				$this->remove_value_option( $option );
+
+		} else {
+
+			$this->value_options = array();
+
+		} // end if
+
+		return $this;
+
+	} // end remove_value_options()
+
+	/**
+	 * Remove a specified value option.
+	 *
+	 * @since 1.0
+	 * @return Nmwdhj\Elements\Checkboxes
+	 */
+	public function remove_value_option( $option ) {
+		unset( $this->value_options[$option] );
+		return $this;
+	} // end remove_value_option()
 
 } // end Class Checkboxes

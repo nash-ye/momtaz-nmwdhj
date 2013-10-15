@@ -9,46 +9,46 @@ use Nmwdhj\Elements\Element;
  */
 class Checkbox extends Input {
 
-    /**
-     * Check the element.
-     *
-     * @since 1.0
-     * @return boolean
-     */
-    public function check( Element $element ) {
+	/**
+	 * Check the element.
+	 *
+	 * @since 1.0
+	 * @return boolean
+	 */
+	public function check( Element $element ) {
 
-        if ( ! parent::check( $element ) )
-            return false;
+		if ( ! parent::check( $element ) )
+			return false;
 
-        // Get the 'type' attribute.
-        $type = $element->get_attr( 'type' );
+		// Get the 'type' attribute.
+		$type = $element->get_attr( 'type' );
 
-        // Check the 'type' attribute.
-        if ( strcasecmp( $type, 'checkbox' ) !== 0 )
-            return false;
+		// Check the 'type' attribute.
+		if ( strcasecmp( $type, 'checkbox' ) !== 0 )
+			return false;
 
-        return true;
+		return true;
 
-    } // end check()
+	} // end check()
 
-    /**
-     * Prepare the Input element.
-     *
-     * @since 1.0
-     * @return void
-     */
-    public function prepare( Element $element ) {
+	/**
+	 * Prepare the Input element.
+	 *
+	 * @since 1.0
+	 * @return void
+	 */
+	public function prepare( Element $element ) {
 
-        parent::prepare( $element );
+		parent::prepare( $element );
 
-        // Set the 'checked' attribute.
-        if ( $element->is_checked() )
-            $element->set_attr( 'checked', 'checked' );
+		// Set the 'checked' attribute.
+		if ( $element->is_checked() )
+			$element->set_attr( 'checked', 'checked' );
 
-        // Set the 'value' attribute.
-        if ( ! $element->has_attr( 'value' ) )
-            $element->set_attr( 'value', $element->get_checked_value() );
+		// Set the 'value' attribute.
+		if ( ! $element->has_attr( 'value' ) )
+			$element->set_attr( 'value', $element->get_checked_value() );
 
-    } // end prepare()
+	} // end prepare()
 
 } // end Class Checkbox

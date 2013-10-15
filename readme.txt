@@ -28,20 +28,20 @@ You can use this plugin in many ways depending on your needs, this examples only
 `
 // Create and output the search text input.
 Nmwdhj\create_element( 'input_search' )
-    ->set_atts( array(
-        'placeholder' => _x( 'Search this site...', 'placeholder' ),
-        'title' => _x( 'Search for:', 'label' ),
-        'class' => 'search-text',
-        'required' => true,
-      ) )
-    ->set_value_callback( 'get_search_query' )
-    ->set_name( 's' )
-    ->output();
+	->set_atts( array(
+		'placeholder' => _x( 'Search this site...', 'placeholder' ),
+		'title' => _x( 'Search for:', 'label' ),
+		'class' => 'search-text',
+		'required' => true,
+	  ) )
+	->set_value_callback( 'get_search_query' )
+	->set_name( 's' )
+	->output();
 
 // Create and output the search submit button.
 Nmwdhj\create_element( 'input_submit' )
-    ->set_value( __( 'Search' ) )
-    ->output();
+	->set_value( __( 'Search' ) )
+	->output();
 `
 
 * Simple Login Form:
@@ -49,19 +49,19 @@ Nmwdhj\create_element( 'input_submit' )
 `
 $username = Nmwdhj\create_element( 'input_text' );
 Nmwdhj\decorate_element( 'label', $username )
-    ->set_label( __( 'User Name:' ) )
-    ->set_name( 'user_name' )
-    ->output();
+	->set_label( __( 'User Name:' ) )
+	->set_name( 'user_name' )
+	->output();
 
 $userpass = Nmwdhj\create_element( 'input_password' );
 Nmwdhj\decorate_element( 'label', $userpass )
-    ->set_label( __( 'Password:' ) )
-    ->set_name( 'user_pass' )
-    ->output();
+	->set_label( __( 'Password:' ) )
+	->set_name( 'user_pass' )
+	->output();
 
 Nmwdhj\create_element( 'input_submit' )
-    ->set_value( __( 'Submit' ) )
-    ->output();
+	->set_value( __( 'Submit' ) )
+	->output();
 `
 
 == Installation ==

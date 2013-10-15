@@ -9,54 +9,54 @@ use Nmwdhj\Elements\Element;
  */
 abstract class View {
 
-    /*** Abstract Methods *****************************************************/
+	/*** Abstract Methods *****************************************************/
 
-    /**
-     * Check the element.
-     *
-     * @since 1.0
-     * @return boolean
-     */
-    public function check( Element $element ){
-        return true;
-    } // end check()
+	/**
+	 * Check the element.
+	 *
+	 * @since 1.0
+	 * @return boolean
+	 */
+	public function check( Element $element ){
+		return true;
+	} // end check()
 
-    /**
-     * Prepare the element.
-     *
-     * @since 1.0
-     * @return void
-     */
-    public function prepare( Element $element ){
-    } // end prepare()
+	/**
+	 * Prepare the element.
+	 *
+	 * @since 1.0
+	 * @return void
+	 */
+	public function prepare( Element $element ){
+	} // end prepare()
 
-    /**
-     * Render the element view, and return the output.
-     *
-     * @since 1.0
-     * @return string
-     */
-    abstract public function render( Element $element );
+	/**
+	 * Render the element view, and return the output.
+	 *
+	 * @since 1.0
+	 * @return string
+	 */
+	abstract public function render( Element $element );
 
 
-    /*** Magic Methods ********************************************************/
+	/*** Magic Methods ********************************************************/
 
-    /**
-     * Invoke helper as functor.
-     *
-     * @since 1.0
-     * @return string
-     */
-    public function __invoke( Element $element ){
+	/**
+	 * Invoke helper as functor.
+	 *
+	 * @since 1.0
+	 * @return string
+	 */
+	public function __invoke( Element $element ){
 
-        if ( $this->check( $element ) ) {
+		if ( $this->check( $element ) ) {
 
-            $this->prepare( $element );
+			$this->prepare( $element );
 
-            return $this->render( $element );
+			return $this->render( $element );
 
-        } // end if
+		} // end if
 
-    } // end __invoke()
+	} // end __invoke()
 
 } // end Class View
