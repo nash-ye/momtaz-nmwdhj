@@ -1,6 +1,6 @@
 === Nmwdhj ===
 Contributors: alex-ye
-Tags: forms, api, html, settings, options, forms, form
+Tags: api, html, settings, options, forms, form
 Requires at least: 3.1
 Tested up to: 3.7
 Stable tag: 1.2.1
