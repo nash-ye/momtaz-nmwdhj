@@ -1,9 +1,9 @@
 === Nmwdhj ===
 Contributors: alex-ye
-Tags: forms, api, html, settings, options
+Tags: forms, api, html, settings, options, forms, form
 Requires at least: 3.1
 Tested up to: 3.7
-Stable tag: 1.2
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,20 +64,19 @@ Nmwdhj\create_element( 'input_submit' )
 	->output();
 `
 
+= Contributing =
+Developers can contribute to the source code on the [Nmwdhj GitHub Repository](https://github.com/nash-ye/Momtaz-Nmwdhj).
+
+
 == Installation ==
 1. Upload and install the plugin
 2. Use the rich API to powerful your theme/plugin.
 
-== Frequently Asked Questions ==
-
-= What this plugin for? =
-Nmwdhj is an API for creating forms elements via code.
-
-= Is this plugin available on Github? =
-Yes, You can follow the project from here:
-https://github.com/nash-ye/Momtaz-Nmwdhj
-
 == Changelog ==
+
+= 1.2.1 =
+* Fix the error when you use `Nmwdhj/decorate_element()` function.
+* Add the ability to set the value-options directly by the constructor method.
 
 = 1.2 =
 * Remove the "Momtaz" prefix form the plugin title and classes names.
