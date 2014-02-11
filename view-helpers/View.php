@@ -19,7 +19,7 @@ abstract class View {
 	 */
 	public function check( Element $element ){
 		return true;
-	} // end check()
+	}
 
 	/**
 	 * Prepare the element.
@@ -27,8 +27,7 @@ abstract class View {
 	 * @since 1.0
 	 * @return void
 	 */
-	public function prepare( Element $element ){
-	} // end prepare()
+	public function prepare( Element $element ){}
 
 	/**
 	 * Render the element view, and return the output.
@@ -55,8 +54,8 @@ abstract class View {
 
 			return $this->render( $element );
 
-		} // end if
+		}
 
-	} // end __invoke()
+	}
 
-} // end Class View
+}

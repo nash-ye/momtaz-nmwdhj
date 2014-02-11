@@ -23,13 +23,14 @@ class Button extends View {
 
 			$value = strval( $element->get_value() );
 
-			if ( ! empty( $value ) )
+			if ( ! empty( $value ) ) {
 				$value = ' value="' . esc_attr( $value ) . '"';
+			}
 
-		} // end if
+		}
 
 		return '<button'. $element->get_atts_string() . $value .'>' . $element->get_content() . '</button>';
 
-	} // end render()
+	}
 
-} // end Class Button
+}

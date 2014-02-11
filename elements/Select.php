@@ -38,10 +38,11 @@ class Select extends Base {
 
 		parent::__construct( $key, $properties );
 
-		if ( is_array( $properties ) && isset( $properties['value_options'] ) )
+		if ( is_array( $properties ) && isset( $properties['value_options'] ) ) {
 			$this->set_value_options( $properties['value_options'] );
+		}
 
-	} // end __construct()
+	}
 
 
 	/*** Methods **************************************************************/
@@ -56,7 +57,7 @@ class Select extends Base {
 	 */
 	public function get_value_options() {
 		return $this->value_options;
-	} // end get_value_options()
+	}
 
 	/**
 	 * Ser the values and labels for the value options.
@@ -68,16 +69,17 @@ class Select extends Base {
 
 		if ( is_array( $options ) ) {
 
-			if ( $append )
+			if ( $append ) {
 				$options = array_merge( (array) $this->value_options, $options );
+			}
 
 			$this->value_options = $options;
 
-		} // end if
+		}
 
 		return $this;
 
-	} // end set_value_options()
+	}
 
 	/**
 	 * Remove all/specified value options.
@@ -89,18 +91,19 @@ class Select extends Base {
 
 		if ( is_array( $options ) && ! empty( $options ) ) {
 
-			foreach( $options as $option )
+			foreach( $options as $option ) {
 				$this->remove_value_option( $option );
+			}
 
 		} else {
 
 			$this->value_options = array();
 
-		} // end if
+		}
 
 		return $this;
 
-	} // end remove_value_options()
+	}
 
 	/**
 	 * Remove a specified value option.
@@ -111,6 +114,6 @@ class Select extends Base {
 	public function remove_value_option( $option ) {
 		unset( $this->value_options[$option] );
 		return $this;
-	} // end remove_value_option()
+	}
 
-} // end Class Select
+}

@@ -21,16 +21,18 @@ class Checkboxes extends View {
 		$type = $element->get_attr( 'type' );
 
 		// Check the 'type' attribute.
-		if ( strcasecmp( $type, 'checkbox' ) !== 0 )
+		if ( strcasecmp( $type, 'checkbox' ) !== 0 ) {
 			return false;
+		}
 
 		// Check the value options.
-		if ( ! $element->get_value_options() )
+		if ( ! $element->get_value_options() ) {
 			return false;
+		}
 
 		return true;
 
-	} // end check()
+	}
 
 	/**
 	 * Prepare the element.
@@ -45,12 +47,13 @@ class Checkboxes extends View {
 
 			$name = $element->get_attr( 'name' );
 
-			if ( substr( $name, -2 ) != '[]' )
+			if ( substr( $name, -2 ) != '[]' ) {
 				$element->set_attr( 'name', $name . '[]' );
+			}
 
-		} // end if
+		}
 
-	} // end prepare()
+	}
 
 	/**
 	 * Render the element view, and return the output.
@@ -60,7 +63,7 @@ class Checkboxes extends View {
 	 */
 	public function render( Element $element ) {
 		return $this->render_options( $element );
-	} // end render()
+	}
 
 	/**
 	 * Render an array of options.
@@ -69,7 +72,7 @@ class Checkboxes extends View {
 	 *
 	 * <code>
 	 * array(
-	 *	 'atts'	 => $atts,
+	 *	 'atts'		=> $atts,
 	 *	 'value'	=> $value,
 	 *	 'label'	=> $label,
 	 *	 'disabled' => $boolean,
@@ -101,10 +104,11 @@ class Checkboxes extends View {
 					'label' => $option,
 				);
 
-			} // end if
+			}
 
-			if ( ! isset( $option['atts'] ) )
+			if ( ! isset( $option['atts'] ) ) {
 				$option['atts'] = null;
+			}
 
 			// Set the option attributes.
 			$option['atts'] = \Nmwdhj\create_atts_obj( $option['atts'] );
@@ -113,19 +117,20 @@ class Checkboxes extends View {
 			// Set the 'checked' attribute.
 			if ( isset( $option['value'] ) && ! $option['atts']->has_attr( 'checked' ) ) {
 
-				if ( in_array( $option['value'], (array) $element->get_value(), true ) )
+				if ( in_array( $option['value'], (array) $element->get_value(), true ) ) {
 					$option['atts']->set_attr( 'checked', true );
+				}
 
-			} // end if
+			}
 
 			// Render the option.
 			$chunks[] = $this->render_option( $option, $element );
 
-		} // end foreach
+		}
 
 		return implode( "\n", $chunks );
 
-	} // end render_options()
+	}
 
 	/**
 	 * Render an individual option.
@@ -133,11 +138,11 @@ class Checkboxes extends View {
 	 * Should be of the form:
 	 * <code>
 	 * array(
-	 *	 'atts'	   => $atts,
-	 *	 'value'	  => $value,
-	 *	 'label'	  => $label,
-	 *	 'disabled'   => $boolean,
-	 *	 'checked'	=> $boolean,
+	 *	 'atts'			=> $atts,
+	 *	 'value'		=> $value,
+	 *	 'label'		=> $label,
+	 *	 'disabled'		=> $boolean,
+	 *	 'checked'		=> $boolean,
 	 * )
 	 * </code>
 	 *
@@ -162,16 +167,19 @@ class Checkboxes extends View {
 		$option['atts'] = \Nmwdhj\create_atts_obj( $option['atts'] );
 
 		// Set the value attribute.
-		if ( ! is_null( $option['value'] ) )
+		if ( ! is_null( $option['value'] ) ) {
 			$option['atts']->set_attr( 'value', $option['value'] );
+		}
 
 		// Set the checked attribute.
-		if ( ! empty( $option['checked'] ) )
+		if ( ! empty( $option['checked'] ) ) {
 			$option['atts']->set_attr( 'checked', true );
+		}
 
 		// Set the disabled attribute.
-		if ( ! empty( $option['disabled'] ) )
+		if ( ! empty( $option['disabled'] ) ) {
 			$option['atts']->set_attr( 'disabled', true );
+		}
 
 		// The checkbox input output.
 		$input = '<input'. strval( $option['atts'] ) .' />';
@@ -182,8 +190,9 @@ class Checkboxes extends View {
 		$label_atts = $element->get_option( 'option_label_atts' );
 		$label_atts = \Nmwdhj\create_atts_obj( $label_atts );
 
-		if ( $option['atts']->has_attr( 'id' ) )
+		if ( $option['atts']->has_attr( 'id' ) ) {
 			$label_atts->set_attr( 'for', $option['atts']->get_attr( 'id' ), false );
+		}
 
 
 		/** Output ************************************************************/
@@ -209,10 +218,10 @@ class Checkboxes extends View {
 				$output = '<label'. strval( $label_atts ) .'>' . $input . $option['label'] . '</label>';
 				break;
 
-		} // end switch
+		}
 
 		return $output;
 
-	} // end render_option()
+	}
 
-} // end Class Checkboxes
+}

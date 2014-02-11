@@ -37,12 +37,13 @@ final class Manager {
 
 			$views = self::get();
 
-			if ( isset( $views[ $key ] ) )
+			if ( isset( $views[ $key ] ) ) {
 				return $views[ $key ];
+			}
 
-		} // end if
+		}
 
-	} // end get_by_key()
+	}
 
 	/**
 	 * Retrieve a list of registered views.
@@ -52,7 +53,7 @@ final class Manager {
 	 */
 	public static function get( array $args = null, $operator = 'AND' ) {
 		return wp_list_filter( self::$views, $args, $operator );
-	} // end get()
+	}
 
 	// Register/Deregister
 
@@ -66,22 +67,24 @@ final class Manager {
 
 		$args['key'] = sanitize_key( $key );
 
-		if ( empty( $args['key'] ) )
+		if ( empty( $args['key'] ) ) {
 			return false;
+		}
 
 		$args = wp_parse_args( $args, array(
 			'class_name' => '',
 			'class_path' => '',
 		) );
 
-		if ( empty( $args['class_name'] ) )
+		if ( empty( $args['class_name'] ) ) {
 			return false;
+		}
 
 		self::$views[ $args['key'] ] = (object) $args;
 
 		return true;
 
-	} // end register()
+	}
 
 	/**
 	 * Register the default views.
@@ -126,7 +129,7 @@ final class Manager {
 			'class_path' => \Nmwdhj\get_path( 'view-helpers/Checkboxes.php' ),
 		) );
 
-	} // end register_defaults()
+	}
 
 	/**
 	 * Remove a registered view.
@@ -138,14 +141,15 @@ final class Manager {
 
 		$key = sanitize_key( $key );
 
-		if ( empty( $key ) )
+		if ( empty( $key ) ) {
 			return false;
+		}
 
 		unset( self::$views[ $key ] );
 
 		return true;
 
-	} // end deregister()
+	}
 
 	// Checks
 
@@ -157,18 +161,21 @@ final class Manager {
 	 */
 	public static function check_class( $class_name, $autoload = true ) {
 
-		if ( empty( $class_name ) )
+		if ( empty( $class_name ) ) {
 			return false;
+}
 
-		if ( ! class_exists( $class_name, (bool) $autoload ) )
+		if ( ! class_exists( $class_name, (bool) $autoload ) ) {
 			return false;
+		}
 
-		if ( ! is_subclass_of( $class_name, 'Nmwdhj\Views\View' ) )
+		if ( ! is_subclass_of( $class_name, 'Nmwdhj\Views\View' ) ) {
 			return false;
+		}
 
 		return true;
 
-	} // end check_class()
+	}
 
 	// Loaders
 
@@ -185,14 +192,15 @@ final class Manager {
 			$view = self::get( array( 'class_name' => $class_name ), 'OR' );
 			$view = reset( $view );
 
-			if ( ! empty( $view->class_path ) && file_exists( $view->class_path ) )
+			if ( ! empty( $view->class_path ) && file_exists( $view->class_path ) ) {
 				( $require_once ) ? require_once $view->class_path : require $view->class_path;
+			}
 
-		} // end if
+		}
 
-	} // end load_class()
+	}
 
-} // end Class Views
+}
 
 // Register the autoload function.
 spl_autoload_register( 'Nmwdhj\Views\Manager::load_class' );

@@ -7,7 +7,7 @@ use Nmwdhj\Elements\Element;
  *
  * @since 1.0
  */
-class Textarea extends View{
+class Textarea extends View {
 
 	/**
 	 * Render the element view, and return the output.
@@ -16,9 +16,7 @@ class Textarea extends View{
 	 * @return string
 	 */
 	public function render( Element $element ) {
-
 		return '<textarea' . $element->get_atts_string() . '>' . esc_textarea( $element->get_value() ) . '</textarea>';
+	}
 
-	} // end render()
-
-} // end Class Textarea
+}

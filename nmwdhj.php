@@ -5,7 +5,7 @@
  * Description: An API for creating forms elements via code.
  * Author: Nashwan Doaqan
  * Author URI: http://nashwan-d.com
- * Version: 1.2.1
+ * Version: 1.3-alpha
  *
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -13,6 +13,9 @@
  */
 
 namespace Nmwdhj;
+
+// Nmwdhj Version.
+const VERSION = '1.3-alpha';
 
 //*** Loaders *****************************************************************/
 
@@ -76,9 +79,9 @@ function class_loader( $class_name ) {
 			require_once get_path( 'view-helpers/decorators/Decorator.php' );
 			break;
 
-	} // end switch
+	}
 
-} // end class_loader()
+}
 
 // Register the autoload function.
 spl_autoload_register( 'Nmwdhj\class_loader' );
@@ -95,15 +98,17 @@ spl_autoload_register( 'Nmwdhj\class_loader' );
  */
 function create_element( $key, array $properties = null ) {
 
-	if ( ! ( $element = Elements\Manager::get_by_key( $key ) ) )
+	if ( ! ( $element = Elements\Manager::get_by_key( $key ) ) ) {
 		throw new Exception( 'invalid_element' );
+	}
 
-	if ( ! Elements\Manager::check_class( $element->class_name ) )
+	if ( ! Elements\Manager::check_class( $element->class_name ) ) {
 		throw new Exception( 'invalid_element_class' );
+	}
 
 	return new $element->class_name( $key, $properties );
 
-} // end create_element()
+}
 
 /**
  * Create many elements objects at once.
@@ -118,16 +123,17 @@ function create_elements( array $elements ) {
 
 	foreach( $elements as $key => $element ) {
 
-		if ( empty( $element['key'] ) )
+		if ( empty( $element['key'] ) ) {
 			continue;
+		}
 
 		$objects[ $key ] = create_element( $element['key'], $element );
 
-	} // end foreach
+	}
 
 	return $objects;
 
-} // end create_elements()
+}
 
 /**
  * Create an attributes object.
@@ -137,12 +143,13 @@ function create_elements( array $elements ) {
  */
 function create_atts_obj( $atts ) {
 
-	if ( $atts instanceof Attributes\Attributes )
+	if ( $atts instanceof Attributes\Attributes ) {
 		return $atts;
+	}
 
 	return new Attributes\Attributes( $atts );
 
-} // end create_atts_obj()
+}
 
 /**
  * Create an attribute object.
@@ -154,8 +161,9 @@ function create_attr_obj( $key, $value ) {
 
 	if ( $value instanceof Attributes\Attribute ) {
 
-		if ( strcasecmp( $value->get_key(), $key ) !== 0 )
+		if ( strcasecmp( $value->get_key(), $key ) !== 0 ) {
 			$obj = create_attr_obj( $key, $value->get_value() );
+		}
 
 	} else {
 
@@ -169,13 +177,13 @@ function create_attr_obj( $key, $value ) {
 				$obj = new Attributes\SimpleAttribute( $key, $value );
 				break;
 
-		} // end Switch
+		}
 
-	} // end if
+	}
 
 	return $obj;
 
-} // end create_attr_obj()
+}
 
 /**
  * Decorate an element.
@@ -186,16 +194,19 @@ function create_attr_obj( $key, $value ) {
  */
 function decorate_element( $key, Elements\Element &$element ) {
 
-	if ( ! ( $decorator = Decorators\Manager::get_by_key( $key ) ) )
+	if ( ! ( $decorator = Decorators\Manager::get_by_key( $key ) ) ) {
 		throw new Exception( 'invalid_decorator' );
+	}
 
-	if ( ! Decorators\Manager::check_class( $decorator->class_name ) )
+	if ( ! Decorators\Manager::check_class( $decorator->class_name ) ) {
 		throw new Exception( 'invalid_decorator_class' );
+	}
 
 	$element = new $decorator->class_name( $element );
+
 	return $element;
 
-} // end decorate_element()
+}
 
 // Paths
 
@@ -210,14 +221,15 @@ function get_path( $path = '' ) {
 
 	$base = dirname( __FILE__ );
 
-	if ( ! empty( $path ) )
+	if ( ! empty( $path ) ) {
 		$path = path_join( $base, $path );
-	else
+	} else {
 		$path = untrailingslashit( $base );
+	}
 
 	return $path;
 
-} // end get_path()
+}
 
 
 //*** Initialize **************************************************************/

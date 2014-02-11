@@ -18,12 +18,13 @@ class Input extends View {
 	public function check( Element $element ) {
 
 		// The 'type' attribute is required.
-		if ( ! $element->has_attr( 'type' ) )
+		if ( ! $element->has_attr( 'type' ) ) {
 			return false;
+		}
 
 		return true;
 
-	} // end check()
+	}
 
 	/**
 	 * Render the element view, and return the output.
@@ -51,14 +52,14 @@ class Input extends View {
 						$value = ' value="' . esc_attr( $value ) . '"';
 						break;
 
-				} // end switch
+				}
 
-			} // end if
+			}
 
-		} // end if
+		}
 
 		return '<input'. $element->get_atts_string() . $value .' />';
 
-	} // end render()
+	}
 
-} // end Class Input
+}

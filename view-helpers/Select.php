@@ -7,7 +7,7 @@ use Nmwdhj\Elements\Element;
  *
  * @since 1.0
  */
-class Select extends View{
+class Select extends View {
 
 	/**
 	 * Prepare the element.
@@ -22,12 +22,13 @@ class Select extends View{
 
 			$name = $element->get_attr( 'name' );
 
-			if ( ! empty( $name ) && substr( $name, -2 ) != '[]' )
+			if ( ! empty( $name ) && substr( $name, -2 ) != '[]' ) {
 				$element->set_attr( 'name', $name . '[]' );
+			}
 
-		} // end if
+		}
 
-	} // end prepare()
+	}
 
 	/**
 	 * Render the element view, and return the output.
@@ -48,7 +49,7 @@ class Select extends View{
 
 		return $output;
 
-	} // end render()
+	}
 
 	/**
 	 * Render an array of options.
@@ -88,24 +89,24 @@ class Select extends View{
 					'label' => $option,
 				);
 
-			} // end if
+			}
 
 			if ( isset( $option['options'] ) && is_array( $option['options'] ) ) {
 				$chunks[] = $this->render_optgroup( $option );
 				continue;
-			} // end if
+			}
 
 			if ( isset( $option['value'] ) && in_array( $option['value'], (array) $value ) ) {
 				$option['selected'] = true;
-			} // end if
+			}
 
 			$chunks[] = $this->render_option( $option );
 
-		} // end foreach
+		}
 
 		return implode( "\n", $chunks );
 
-	} // end render_options()
+	}
 
 	/**
 	 * Render an optgroup.
@@ -132,12 +133,13 @@ class Select extends View{
 
 		$optgroup['atts'] = \Nmwdhj\create_atts_obj( $optgroup['atts'] );
 
-		if ( ! empty( $optgroup['label'] ) )
+		if ( ! empty( $optgroup['label'] ) ) {
 			$optgroup['atts']->set_attr( 'label', $optgroup['label'] );
+		}
 
 		return '<optgroup'. strval( $optgroup['atts'] ) .'>'. $this->render_options( $optgroup['options'] ) .'</optgroup>';
 
-	} // end render_optgroup()
+	}
 
 	/**
 	 * Render an individual option.
@@ -172,12 +174,12 @@ class Select extends View{
 			$option['atts'][ $k ] = $option[ $k ];
 			unset( $option[ $k ] );
 
-		} // end foreach
+		}
 
 		$attributes = strval( \Nmwdhj\create_atts_obj( $option['atts'] ) );
 
 		return '<option'. $attributes .'>'. esc_html( $option['label'] ) .'</option>';
 
-	} // end render_option()
+	}
 
-} // end Class Select
+}

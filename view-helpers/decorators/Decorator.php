@@ -31,12 +31,13 @@ abstract class Decorator implements Element {
 	 */
 	public function __call( $method, $args ) {
 
-		if ( is_callable( array( $this->get_element(), $method ) ) )
+		if ( is_callable( array( $this->get_element(), $method ) ) ) {
 			return call_user_func_array( array( $this->get_element(), $method ), $args );
+		}
 
 		throw new Exception( 'Undefined method - ' . get_class( $this->get_element() ) . '->' . $method );
 
-	} // end __call()
+	}
 
 	/**
 	 * The default Decorator constructor.
@@ -45,7 +46,7 @@ abstract class Decorator implements Element {
 	 */
 	public function __construct( Element $element ) {
 		$this->set_element( $element );
-	} // end __construct()
+	}
 
 
 	/*** Methods **************************************************************/
@@ -59,7 +60,7 @@ abstract class Decorator implements Element {
 	protected function set_element( Element $element ){
 		$this->element = $element;
 		return $this;
-	} // end set_element()
+	}
 
 	/**
 	 * Get the original, undecorated element.
@@ -71,12 +72,13 @@ abstract class Decorator implements Element {
 
 		$element = $this->get_element();
 
-		while( $element instanceof Decorator )
+		while( $element instanceof Decorator ) {
 			$element = $element->get_element();
+		}
 
 		return $element;
 
-	} // end get_original_element()
+	}
 
 	/**
 	 * Get the element.
@@ -86,6 +88,6 @@ abstract class Decorator implements Element {
 	 */
 	public function get_element(){
 		return $this->element;
-	} // end get_element()
+	}
 
-} // end Class Decorator
+}

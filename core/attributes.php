@@ -34,7 +34,7 @@ class Attributes {
 		// Set the attributes.
 		$this->set_atts( $atts );
 
-	} // end __construct()
+	}
 
 
 	/*** Methods **************************************************************/
@@ -49,7 +49,7 @@ class Attributes {
 	 */
 	public function get_atts() {
 		return $this->attributes;
-	} // end get_atts()
+	}
 
 	/**
 	 * Get an attribute object.
@@ -61,10 +61,11 @@ class Attributes {
 
 		$key = strtolower( $key );
 
-		if ( isset( $this->attributes[ $key ] ) )
+		if ( isset( $this->attributes[ $key ] ) ) {
 			return $this->attributes[ $key ];
+		}
 
-	} // end get_attr_obj()
+	}
 
 	/**
 	 * Get an attribute value.
@@ -76,12 +77,13 @@ class Attributes {
 
 		$obj = $this->get_attr_obj( $key );
 
-		if ( ! $obj && is_scalar( $def ) )
+		if ( ! $obj && is_scalar( $def ) ) {
 			return (string) $def;
+		}
 
 		return $obj->get_value();
 
-	} // end get_attr()
+	}
 
 	// Checks
 
@@ -93,15 +95,17 @@ class Attributes {
 	 */
 	public function has_attr( $key ) {
 
-		if ( $key instanceof Attribute )
+		if ( $key instanceof Attribute ) {
 			$key = $key->get_key();
+		}
 
-		if ( ! $this->get_attr_obj( $key ) )
+		if ( ! $this->get_attr_obj( $key ) ) {
 			return false;
+		}
 
 		return true;
 
-	} // end has_attr()
+	}
 
 	// Setters
 
@@ -113,19 +117,21 @@ class Attributes {
 	 */
 	public function set_atts( $atts, $override = true ) {
 
-		if ( $atts instanceof Attributes )
+		if ( $atts instanceof Attributes ) {
 			$atts = $atts->get_atts();
+		}
 
 		if ( is_array( $atts ) ) {
 
-			foreach( $atts as $key => $value )
+			foreach( $atts as $key => $value ) {
 				$this->set_attr( $key, $value, $override );
+			}
 
-		} // end if
+		}
 
 		return $this;
 
-	} // end set_atts()
+	}
 
 	/**
 	 * Set an attribute value.
@@ -137,12 +143,13 @@ class Attributes {
 
 		$key = strtolower( $key );
 
-		if ( $override || ! $this->has_attr( $key ) )
+		if ( $override || ! $this->has_attr( $key ) ) {
 			$this->attributes[$key] = \Nmwdhj\create_attr_obj( $key, $value );
+		}
 
 		return $this;
 
-	} // end set_attr()
+	}
 
 	// Remove
 
@@ -154,19 +161,21 @@ class Attributes {
 	 */
 	public function remove_atts( $keys ) {
 
-		if ( $keys instanceof Attributes )
+		if ( $keys instanceof Attributes ) {
 			$keys = array_keys( $keys->get_atts() );
+		}
 
 		if ( is_array( $keys ) ) {
 
-			foreach( $keys as $key )
+			foreach( $keys as $key ) {
 				$this->remove_attr( $key );
+			}
 
-		} // end if
+		}
 
 		return $this;
 
-	} // end remove_atts()
+	}
 
 	/**
 	 * Remove an attribute.
@@ -178,12 +187,13 @@ class Attributes {
 
 		$key = strtolower( $key );
 
-		if ( is_array( $this->attributes ) )
+		if ( is_array( $this->attributes ) ) {
 			unset( $this->attributes[ $key ] );
+		}
 
 		return $this;
 
-	} // end remove_attr()
+	}
 
 	// Reset
 
@@ -196,7 +206,7 @@ class Attributes {
 	public function reset_atts() {
 		$this->attributes = array();
 		return $this;
-	} // end reset_atts()
+	}
 
 	// Converters
 
@@ -211,8 +221,9 @@ class Attributes {
 		$output = '';
 		$atts = $this->get_atts();
 
-		if ( count( $atts ) === 0 )
+		if ( count( $atts ) === 0 ) {
 			return $output;
+		}
 
 		$args = wp_parse_args( $args, array(
 			'before' => ' ',
@@ -222,18 +233,19 @@ class Attributes {
 		$atts = array_map( 'strval', $atts );
 		$output = trim( implode( ' ', $atts ) );
 
-		if ( empty( $output ) )
+		if ( empty( $output ) ) {
 			return $output;
+		}
 
 		return $args['before'] . $output . $args['after'];
 
-	} // end to_string()
+	}
 
 	public function __toString() {
 		return $this->to_string();
-	} // end __toString()
+	}
 
-} // end Attributes
+}
 
 
 /**
@@ -267,7 +279,7 @@ interface Attribute {
 	 */
 	public function __toString();
 
-} // end Interface Attribute
+}
 
 /**
  * The simple attribute class.
@@ -310,7 +322,7 @@ class SimpleAttribute implements Attribute {
 		// Set the attribute value.
 		$this->set_value( $value );
 
-	} // end __construct()
+	}
 
 
 	/*** Methods **************************************************************/
@@ -325,7 +337,7 @@ class SimpleAttribute implements Attribute {
 	 */
 	public function get_key() {
 		return $this->key;
-	} // end get_key()
+	}
 
 	/**
 	 * Get the attribute value.
@@ -335,7 +347,7 @@ class SimpleAttribute implements Attribute {
 	 */
 	public function get_value() {
 		return $this->value;
-	} // end get_value()
+	}
 
 	// Setters
 
@@ -348,7 +360,7 @@ class SimpleAttribute implements Attribute {
 	protected function set_key( $key ) {
 		$this->key = $key;
 		return $this;
-	} // end set_key()
+	}
 
 	/**
 	 * Set the attribute value.
@@ -359,7 +371,7 @@ class SimpleAttribute implements Attribute {
 	public function set_value( $value ) {
 		$this->value = $value;
 		return $this;
-	} // end set_value()
+	}
 
 	/**
 	 * Get the attribute output.
@@ -379,18 +391,19 @@ class SimpleAttribute implements Attribute {
 
 		if ( ! empty( $key ) && $value !== false ) {
 
-			if ( $value === true )
+			if ( $value === true ) {
 				$value = $key;
+			}
 
-			 $output = $key . '="' . esc_attr( $value ) . '"';
+			$output = $key . '="' . esc_attr( $value ) . '"';
 
-		} // end if
+		}
 
 		return $output;
 
-	} // end __toString()
+	}
 
-} // end Class SimpleAttribute
+}
 
 /**
  * The CSS classes attribute.
@@ -426,12 +439,11 @@ class ClassAttribute extends SimpleAttribute {
 
 				break;
 
-		} // end switch
+		}
 
-		// Return the classes list.
 		return $this->value;
 
-	} // end get_value()
+	}
 
 	// Checks
 
@@ -447,14 +459,15 @@ class ClassAttribute extends SimpleAttribute {
 
 		if ( $classes ) {
 
-			if ( in_array( $classes, $this->get_value( 'array' ) ) )
+			if ( in_array( $classes, $this->get_value( 'array' ) ) ) {
 				return true;
+			}
 
-		} // end if
+		}
 
 		return false;
 
-	} // end has_classes()
+	}
 
 	// Setters
 
@@ -473,11 +486,11 @@ class ClassAttribute extends SimpleAttribute {
 			$classes = array_merge( $this->get_value( 'array' ), $classes );
 			$this->set_value( array_unique( $classes ) );
 
-		} // end if
+		}
 
 		return $this;
 
-	} // end add_classes()
+	}
 
 	/**
 	 * Removes many classes at once.
@@ -494,11 +507,11 @@ class ClassAttribute extends SimpleAttribute {
 			$classes = array_diff( $this->get_value( 'array' ), $classes );
 			$this->set_value( $classes );
 
-		} // end if
+		}
 
 		return $this;
 
-	} // end remove_classes()
+	}
 
 	// Helpers
 
@@ -518,12 +531,13 @@ class ClassAttribute extends SimpleAttribute {
 
 		} elseif ( ! is_array( $value ) ) {
 			$value = array();
+		}
 
-		} // end if
+		$value = array_map( 'strtolower', $value );
 
-		return array_map( 'strtolower', $value );
+		return $value;
 
-	} // end explode_classes()
+	}
 
 	/**
 	 * Convert the classes list to a string.
@@ -541,11 +555,12 @@ class ClassAttribute extends SimpleAttribute {
 
 		} else {
 			$value = (string) $value;
+		}
 
-		} // end if
+		$value = strtolower( $value );
 
-		return strtolower( $value );
+		return $value;
 
-	} // end implode_classes()
+	}
 
-} // end Class ClassAttribute
+}

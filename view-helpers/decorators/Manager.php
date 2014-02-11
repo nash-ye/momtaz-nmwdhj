@@ -37,12 +37,13 @@ class Manager {
 
 			$decorators = self::get();
 
-			if ( isset( $decorators[ $key ] ) )
+			if ( isset( $decorators[ $key ] ) ) {
 				return $decorators[ $key ];
+			}
 
-		} // end if
+		}
 
-	} // end get_by_key()
+	}
 
 	/**
 	 * Retrieve a list of registered decorators.
@@ -52,7 +53,7 @@ class Manager {
 	 */
 	public static function get( array $args = null, $operator = 'AND' ) {
 		return wp_list_filter( self::$decorators, $args, $operator );
-	} // end get()
+	}
 
 	// Register/Deregister
 
@@ -66,22 +67,24 @@ class Manager {
 
 		$args['key'] = sanitize_key( $key );
 
-		if ( empty( $args['key'] ) )
+		if ( empty( $args['key'] ) ) {
 			return false;
+		}
 
 		$args = wp_parse_args( $args, array(
 			'class_name' => '',
 			'class_path' => '',
 		) );
 
-		if ( empty( $args['class_name'] ) )
+		if ( empty( $args['class_name'] ) ) {
 			return false;
+		}
 
 		self::$decorators[ $args['key'] ] = (object) $args;
 
 		return true;
 
-	} // end register()
+	}
 
 	/**
 	 * Register the Nmwdhj default decorators.
@@ -106,7 +109,7 @@ class Manager {
 			'class_path' => \Nmwdhj\get_path( 'view-helpers/decorators/Description.php' ),
 		) );
 
-	} // end register_defaults()
+	}
 
 	/**
 	 * Remove a registered decorator.
@@ -118,14 +121,15 @@ class Manager {
 
 		$key = sanitize_key( $key );
 
-		if ( empty( $key ) )
+		if ( empty( $key ) ) {
 			return false;
+		}
 
 		unset( self::$decorators[ $key ] );
 
 		return true;
 
-	} // end deregister()
+	}
 
 	// Checks
 
@@ -137,18 +141,21 @@ class Manager {
 	 */
 	public static function check_class( $class_name, $autoload = true ) {
 
-		if ( empty( $class_name ) )
+		if ( empty( $class_name ) ) {
 			return false;
+		}
 
-		if ( ! class_exists( $class_name, (bool) $autoload ) )
+		if ( ! class_exists( $class_name, (bool) $autoload ) ) {
 			return false;
+		}
 
-		if ( ! is_subclass_of( $class_name, 'Nmwdhj\Decorators\Decorator' ) )
+		if ( ! is_subclass_of( $class_name, 'Nmwdhj\Decorators\Decorator' ) ) {
 			return false;
+		}
 
 		return true;
 
-	} // end check_class()
+	}
 
 	// Loaders
 
@@ -165,14 +172,15 @@ class Manager {
 			$decorator = self::get( array( 'class_name' => $class_name ), 'OR' );
 			$decorator = reset( $decorator ); // Get the first result.
 
-			if ( ! empty( $decorator->class_path ) && file_exists( $decorator->class_path ) )
+			if ( ! empty( $decorator->class_path ) && file_exists( $decorator->class_path ) ) {
 				( $require_once ) ? require_once $decorator->class_path : require $decorator->class_path;
+			}
 
-		} // end if
+		}
 
-	} // end load_class()
+	}
 
-} // end Class Decorators
+}
 
 // Register the autoload function.
 spl_autoload_register( 'Nmwdhj\Decorators\Manager::load_class' );

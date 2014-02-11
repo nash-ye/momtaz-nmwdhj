@@ -18,7 +18,7 @@ class Description extends Decorator {
 	 */
 	public function output() {
 		echo $this->get_output();
-	} // end output()
+	}
 
 	/**
 	 * Get the element output.
@@ -40,15 +40,16 @@ class Description extends Decorator {
 		// Get the element output.
 		$output = $this->get_element()->get_output();
 
-		if ( empty( $text ) )
+		if ( empty( $text ) ) {
 			return $output;
+		}
 
 		$output .= '<'. $tag . strval( $atts ) .'>' . $text . '</'. $tag .'>';
 
 		// Return the output.
 		return $output;
 
-	} // end get_output()
+	}
 
 	// Description Tag.
 
@@ -61,7 +62,7 @@ class Description extends Decorator {
 	public function set_description_tag( $tag ) {
 		$this->set_option( 'description_tag', $tag );
 		return $this;
-	} // end set_description_tag()
+	}
 
 	/**
 	 * Get the description tag.
@@ -71,7 +72,7 @@ class Description extends Decorator {
 	 */
 	public function get_description_tag() {
 		return $this->get_option( 'description_tag', 'p' );
-	} // end get_description_tag()
+	}
 
 	// Description Attributes.
 
@@ -84,7 +85,7 @@ class Description extends Decorator {
 	public function set_description_atts( $atts ) {
 		$this->set_option( 'description_atts', $atts );
 		return $this;
-	} // end set_description_atts()
+	}
 
 	/**
 	 * Get the description attributes.
@@ -103,11 +104,11 @@ class Description extends Decorator {
 			$atts = new Attributes( $atts );
 			$this->set_wrapper_atts( $atts );
 
-		} // end if
+		}
 
 		return $atts;
 
-	} // end get_description_atts()
+	}
 
 	// Description Text.
 
@@ -120,7 +121,7 @@ class Description extends Decorator {
 	public function set_description( $text ) {
 		$this->set_option( 'description', $text );
 		return $this;
-	} // end set_description()
+	}
 
 	/**
 	 * Get the description text.
@@ -130,6 +131,6 @@ class Description extends Decorator {
 	 */
 	public function get_description() {
 		return $this->get_option( 'description' );
-	} // end get_description()
+	}
 
-} // end Class Description
+}

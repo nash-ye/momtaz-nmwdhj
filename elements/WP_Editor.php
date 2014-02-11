@@ -16,4 +16,4 @@ class WP_Editor extends Base {
 	 */
 	protected $key = 'wp_editor';
 
-} // end Class WP_Editor
+}

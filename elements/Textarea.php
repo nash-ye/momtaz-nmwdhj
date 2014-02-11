@@ -16,4 +16,4 @@ class Textarea extends Base {
 	 */
 	protected $key = 'textarea';
 
-} // end Class Textarea
+}

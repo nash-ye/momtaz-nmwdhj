@@ -100,13 +100,13 @@ class Input extends Base {
 					$this->set_attr( 'type', 'text' );
 					break;
 
-			} // end switch
+			}
 
-		} // end if
+		}
 
 		parent::__construct( $key, $properties );
 
-	} // end __construct()
+	}
 
 
 	/*** Methods **************************************************************/
@@ -123,15 +123,16 @@ class Input extends Base {
 
 			if ( strcasecmp( $this->get_key(), 'input' ) !== 0 ) {
 
-				if ( $this->has_attr( 'type' ) )
+				if ( $this->has_attr( 'type' ) ) {
 					return $this;
+				}
 
-			} // end if
+			}
 
-		} // end if
+		}
 
 		return parent::set_attr( $key, $value );
 
-	} // end set_attr()
+	}
 
-} // end Class Input
+}

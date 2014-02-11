@@ -95,13 +95,13 @@ abstract class Base implements Element {
 						$this->set_options( $value );
 						break;
 
-				} // end Switch
+				}
 
-			} // end foreach
+			}
 
-		} // end if
+		}
 
-	} // end __construct()
+	}
 
 
 	/*** Methods **************************************************************/
@@ -116,7 +116,7 @@ abstract class Base implements Element {
 	 */
 	public function get_key() {
 		return $this->key;
-	} // end get_key()
+	}
 
 	/**
 	 * Set the element key.
@@ -126,12 +126,13 @@ abstract class Base implements Element {
 	 */
 	protected function set_key( $key ) {
 
-		if ( ! empty( $key ) )
+		if ( ! empty( $key ) ) {
 			$this->key = $key;
+		}
 
 		return $this;
 
-	} // end set_key()
+	}
 
 	// Value
 
@@ -147,14 +148,15 @@ abstract class Base implements Element {
 
 			$callback = $this->get_value_callback();
 
-			if ( is_array( $callback ) && ! empty( $callback ) )
+			if ( is_array( $callback ) && ! empty( $callback ) ) {
 				$this->set_value( call_user_func_array( $callback['name'], $callback['args'] ) );
+			}
 
-		} // end if
+		}
 
 		return $this->value;
 
-	} // end get_value()
+	}
 
 	/**
 	 * Set the element value.
@@ -165,7 +167,7 @@ abstract class Base implements Element {
 	public function set_value( $value ) {
 		$this->value = $value;
 		return $this;
-	} // end set_value()
+	}
 
 	/**
 	 * Get the element value callback.
@@ -175,7 +177,7 @@ abstract class Base implements Element {
 	 */
 	public function get_value_callback() {
 		return $this->value_callback;
-	} // end get_value_callback()
+	}
 
 	/**
 	 * Set a value callback.
@@ -190,7 +192,7 @@ abstract class Base implements Element {
 
 		return $this;
 
-	} // end set_value_callback()
+	}
 
 	/**
 	 * Set a value callback with an array of parameters.
@@ -207,11 +209,11 @@ abstract class Base implements Element {
 				'args' => $param,
 			);
 
-		} // end if
+		}
 
 		return $this;
 
-	} // end set_value_callback_array()
+	}
 
 	// The Special Attributes
 
@@ -225,7 +227,7 @@ abstract class Base implements Element {
 		$this->set_name( $value );
 		$this->set_ID( $value );
 		return $this;
-	} // end set_NID()
+	}
 
 	/**
 	 * Get the element ID attribute.
@@ -235,7 +237,7 @@ abstract class Base implements Element {
 	 */
 	public function get_ID( $def = '' ) {
 		return $this->get_attr( 'id', $def );
-	} // end get_ID()
+	}
 
 	/**
 	 * Set the element ID attribute.
@@ -246,7 +248,7 @@ abstract class Base implements Element {
 	public function set_ID( $value ) {
 		$this->set_attr( 'id', $value );
 		return $this;
-	} // end set_ID()
+	}
 
 	/**
 	 * Get the element name attribute.
@@ -256,7 +258,7 @@ abstract class Base implements Element {
 	 */
 	public function get_name( $def = '' ) {
 		return $this->get_attr( 'name', $def );
-	} // end get_name()
+	}
 
 	/**
 	 * Set the element name attribute.
@@ -267,7 +269,7 @@ abstract class Base implements Element {
 	public function set_name( $value ) {
 		$this->set_attr( 'name', $value );
 		return $this;
-	} // end set_name()
+	}
 
 	// Output
 
@@ -283,20 +285,23 @@ abstract class Base implements Element {
 
 		if ( empty( $view ) ) {
 
-			if ( ( $element = Manager::get_by_key( $this->get_key() ) ) )
+			if ( ( $element = Manager::get_by_key( $this->get_key() ) ) ) {
 				$view = Views\Manager::get_by_key( $element->key );
+			}
 
-			if ( empty( $view ) )
+			if ( empty( $view ) ) {
 				throw new Exception( 'invalid_view' );
+			}
 
-		} // end if
+		}
 
-		if ( ! Views\Manager::check_class( $view->class_name ) )
+		if ( ! Views\Manager::check_class( $view->class_name ) ) {
 			throw new Exception( 'invalid_view_class' );
+		}
 
 		return call_user_func( new $view->class_name, $this );
 
-	} // end get_output()
+	}
 
 	/**
 	 * Display the element output.
@@ -305,7 +310,7 @@ abstract class Base implements Element {
 	 */
 	public function output() {
 		echo $this->get_output();
-	} // end output()
+	}
 
 	// Attributes
 
@@ -317,7 +322,7 @@ abstract class Base implements Element {
 	 */
 	public function get_atts() {
 		return $this->get_atts_obj()->get_atts();
-	} // end get_atts()
+	}
 
 	/**
 	 * Get an attribute value.
@@ -327,7 +332,7 @@ abstract class Base implements Element {
 	 */
 	public function get_attr( $key, $def = '' ) {
 		return $this->get_atts_obj()->get_attr( $key, $def );
-	} // end get_attr()
+	}
 
 	/**
 	 * Get an attribute object.
@@ -337,7 +342,7 @@ abstract class Base implements Element {
 	 */
 	public function get_attr_obj( $key ) {
 		return $this->get_atts_obj()->get_attr_obj( $key );
-	} // end get_attr_obj()
+	}
 
 	/**
 	 * Check for an attribute existence.
@@ -347,7 +352,7 @@ abstract class Base implements Element {
 	 */
 	public function has_attr( $key ) {
 		return $this->get_atts_obj()->has_attr( $key );
-	} // end has_attr()
+	}
 
 	/**
 	 * Set many attributes at once.
@@ -357,12 +362,13 @@ abstract class Base implements Element {
 	 */
 	public function set_atts( array $atts ) {
 
-		foreach( $atts as $key => $value )
+		foreach( $atts as $key => $value ) {
 			$this->set_attr( $key, $value );
+		}
 
 		return $this;
 
-	} // end set_atts()
+	}
 
 	/**
 	 * Set an attribute value.
@@ -373,7 +379,7 @@ abstract class Base implements Element {
 	public function set_attr( $key, $value ) {
 		$this->get_atts_obj()->set_attr( $key, $value );
 		return $this;
-	} // end set_attr()
+	}
 
 	/**
 	 * Remove many attributes at once.
@@ -383,12 +389,13 @@ abstract class Base implements Element {
 	 */
 	public function remove_atts( array $keys ) {
 
-		foreach( $keys as $key )
+		foreach( $keys as $key ) {
 			$this->remove_attr( $key );
+		}
 
 		return $this;
 
-	} // end remove_atts()
+	}
 
 	/**
 	 * Remove an attribute.
@@ -399,7 +406,7 @@ abstract class Base implements Element {
 	public function remove_attr( $key ) {
 		$this->get_atts_obj()->remove_attr( $key );
 		return $this;
-	} // end remove_attr()
+	}
 
 	/**
 	 * Convert the attributes list to string.
@@ -409,7 +416,7 @@ abstract class Base implements Element {
 	 */
 	public function get_atts_string( array $args = null ) {
 		return $this->get_atts_obj()->to_string( $args );
-	} // end get_atts_string()
+	}
 
 	/**
 	 * Get the attributes object.
@@ -419,12 +426,13 @@ abstract class Base implements Element {
 	 */
 	protected function get_atts_obj() {
 
-		if ( is_null( $this->attributes ) )
+		if ( is_null( $this->attributes ) ) {
 			$this->attributes = new Attributes();
+		}
 
 		return $this->attributes;
 
-	} // end get_atts_obj()
+	}
 
 	// Options
 
@@ -436,7 +444,7 @@ abstract class Base implements Element {
 	 */
 	public function get_options() {
 		return $this->options;
-	} // end get_options()
+	}
 
 	/**
 	 * Get a specified option.
@@ -450,14 +458,15 @@ abstract class Base implements Element {
 
 			$options = $this->get_options();
 
-			if ( isset( $options[$option] ) )
-				return $options[$option];
+			if ( isset( $options[ $option ] ) ) {
+				return $options[ $option ];
+			}
 
-		} // end if
+		}
 
 		return $def;
 
-	} // end get_option()
+	}
 
 	/**
 	 * Set the element options.
@@ -467,12 +476,13 @@ abstract class Base implements Element {
 	 */
 	public function set_options( $options ) {
 
-		if ( is_array( $options ) )
+		if ( is_array( $options ) ) {
 			$this->options = $options;
+		}
 
 		return $this;
 
-	} // end set_options()
+	}
 
 	/**
 	 * Set a specified option.
@@ -482,12 +492,13 @@ abstract class Base implements Element {
 	 */
 	public function set_option( $option, $value ) {
 
-		if ( ! empty( $option ) )
-			$this->options[$option] = $value;
+		if ( ! empty( $option ) ) {
+			$this->options[ $option ] = $value;
+		}
 
 		return $this;
 
-	} // end set_option()
+	}
 
 	/**
 	 * Remove all/specified options.
@@ -499,18 +510,19 @@ abstract class Base implements Element {
 
 		if ( is_array( $options ) && ! empty( $options ) ) {
 
-			foreach( $options as $option )
+			foreach( $options as $option ) {
 				$this->remove_option( $option );
+			}
 
 		} else {
 
 			$this->set_options( array() );
 
-		} // end if
+		}
 
 		return $this;
 
-	} // end remove_options()
+	}
 
 	/**
 	 * Remove a specified option.
@@ -520,11 +532,12 @@ abstract class Base implements Element {
 	 */
 	public function remove_option( $option ) {
 
-		if ( ! empty( $option ) )
+		if ( ! empty( $option ) ) {
 			unset( $this->options[$option] );
+		}
 
 		return $this;
 
-	} // end remove_option()
+	}
 
-} // end Class Base
+}

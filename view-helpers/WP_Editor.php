@@ -33,6 +33,6 @@ class WP_Editor extends View {
 
 		return $output;
 
-	} // end render()
+	}
 
-} // end Class WP_Editor
+}

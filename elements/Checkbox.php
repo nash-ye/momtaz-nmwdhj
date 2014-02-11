@@ -29,12 +29,13 @@ class Checkbox extends Input {
 	public function __construct( $key = '', array $properties = null ) {
 
 		// Set the type attribute.
-		if ( ! $this->has_attr( 'type' ) )
+		if ( ! $this->has_attr( 'type' ) ) {
 			$this->set_attr( 'type', 'checkbox' );
+		}
 
 		parent::__construct( $key, $properties );
 
-	} // end __construct()
+	}
 
 
 	/*** Methods **************************************************************/
@@ -49,7 +50,7 @@ class Checkbox extends Input {
 	 */
 	public function is_checked() {
 		return (bool) $this->get_value();
-	} // end is_checked()
+	}
 
 	/**
 	 * Checks or unchecks the checkbox.
@@ -59,7 +60,7 @@ class Checkbox extends Input {
 	 */
 	public function set_checked( $value ) {
 		return $this->set_value( (bool) $value );
-	} // end set_checked()
+	}
 
 	/**
 	 * Set the element value.
@@ -69,12 +70,13 @@ class Checkbox extends Input {
 	 */
 	public function set_value( $value ) {
 
-		if ( ! is_bool( $value ) )
+		if ( ! is_bool( $value ) ) {
 			$value = ( $value === $this->get_checked_value() );
+		}
 
 		return parent::set_value( $value );
 
-	} // end set_value()
+	}
 
 	// Checked Value
 
@@ -86,12 +88,13 @@ class Checkbox extends Input {
 	 */
 	public function get_checked_value( $def = '1' ) {
 
-		if ( ! is_scalar( $def ) )
+		if ( ! is_scalar( $def ) ) {
 			$def = '1';
+		}
 
 		return $this->get_option( 'checked_value', $def );
 
-	} // end get_checked_value()
+	}
 
 	/**
 	 * Set the value to use when checkbox is checked
@@ -101,12 +104,13 @@ class Checkbox extends Input {
 	 */
 	public function set_checked_value( $value ) {
 
-		if ( ! is_scalar( $value ) )
+		if ( ! is_scalar( $value ) ) {
 			return $this;
+		}
 
 		return $this->set_option( 'checked_value', $value );
 
-	} // end set_checked_value()
+	}
 
 	// Unchecked Value
 
@@ -118,12 +122,13 @@ class Checkbox extends Input {
 	 */
 	public function get_unchecked_value( $def = '0' ) {
 
-		if ( ! is_scalar( $def ) )
+		if ( ! is_scalar( $def ) ) {
 			$def = '0';
+		}
 
 		return $this->get_option( 'unchecked_value', $def );
 
-	} // end get_unchecked_value()
+	}
 
 	/**
 	 * Set the value to use when checkbox is unchecked.
@@ -133,11 +138,12 @@ class Checkbox extends Input {
 	 */
 	public function set_unchecked_value( $value ) {
 
-		if ( ! is_scalar( $value ) )
+		if ( ! is_scalar( $value ) ) {
 			return $this;
+		}
 
 		return $this->set_option( 'unchecked_value', $value );
 
-	} // end set_unchecked_value()
+	}
 
-} // end Class Checkbox
+}

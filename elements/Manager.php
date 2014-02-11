@@ -37,19 +37,21 @@ final class Manager {
 
 			$elements = self::get();
 
-			if ( isset( $elements[ $key ] ) )
+			if ( isset( $elements[ $key ] ) ) {
 				return $elements[ $key ];
+			}
 
 			foreach ( $elements as $element ) {
 
-				if ( in_array( $key, (array) $element->aliases ) )
+				if ( in_array( $key, (array) $element->aliases ) ) {
 					return $element;
+				}
 
-			} // end foreach
+			}
 
-		} // end if
+		}
 
-	} // end get_by_key()
+	}
 
 	/**
 	 * Retrieve a list of registered elements.
@@ -59,7 +61,7 @@ final class Manager {
 	 */
 	public static function get( array $args = null, $operator = 'AND' ) {
 		return wp_list_filter( self::$elements, $args, $operator );
-	} // end get()
+	}
 
 	// Register/Deregister
 
@@ -73,8 +75,9 @@ final class Manager {
 
 		$args['key'] = sanitize_key( $key );
 
-		if ( empty( $args['key'] ) )
+		if ( empty( $args['key'] ) ) {
 			return false;
+		}
 
 		$args = wp_parse_args( $args, array(
 			'aliases' => array(),
@@ -82,8 +85,9 @@ final class Manager {
 			'class_path' => '',
 		) );
 
-		if ( empty( $args['class_name'] ) )
+		if ( empty( $args['class_name'] ) ) {
 			return false;
+		}
 
 		$args['aliases'] = (array) $args['aliases'];
 		array_walk( $args['aliases'], 'sanitize_key' );
@@ -93,7 +97,7 @@ final class Manager {
 
 		return true;
 
-	} // end register()
+	}
 
 	/**
 	 * Register the default elements.
@@ -146,7 +150,7 @@ final class Manager {
 			),
 		) );
 
-	} // end register_defaults()
+	}
 
 	/**
 	 * Remove a registered element.
@@ -158,23 +162,25 @@ final class Manager {
 
 		$key = sanitize_key( $key );
 
-		if ( empty( $key ) )
+		if ( empty( $key ) ) {
 			return false;
+		}
 
 		if ( ! isset( self::$elements[ $key ] ) ) {
 
-			foreach ( self::$elements as &$element )
+			foreach ( self::$elements as &$element ) {
 				$element->aliases = array_diff( (array) $element->aliases, array( $key ) );
+			}
 
 		} else {
 
 			unset( self::$elements[ $key ] );
 
-		} // end if
+		}
 
 		return true;
 
-	} // end deregister()
+	}
 
 	// Checks
 
@@ -186,18 +192,21 @@ final class Manager {
 	 */
 	public static function check_class( $class_name, $autoload = true ) {
 
-		if ( empty( $class_name ) )
+		if ( empty( $class_name ) ) {
 			return false;
+		}
 
-		if ( ! class_exists( $class_name, (bool) $autoload ) )
+		if ( ! class_exists( $class_name, (bool) $autoload ) ) {
 			return false;
+		}
 
-		if ( ! is_subclass_of( $class_name, 'Nmwdhj\Elements\Element' ) )
+		if ( ! is_subclass_of( $class_name, 'Nmwdhj\Elements\Element' ) ) {
 			return false;
+		}
 
 		return true;
 
-	} // end check_class()
+	}
 
 	// Loaders
 
@@ -214,14 +223,15 @@ final class Manager {
 			$element = self::get( array( 'class_name' => $class_name ), 'OR' );
 			$element = reset( $element ); // Get the first result.
 
-			if ( ! empty( $element->class_path ) && file_exists( $element->class_path ) )
+			if ( ! empty( $element->class_path ) && file_exists( $element->class_path ) ) {
 				( $require_once ) ? require_once $element->class_path : require $element->class_path;
+			}
 
-		} // end if
+		}
 
-	} // end load_class()
+	}
 
-} // end Class Manager
+}
 
 // Register the autoload function.
 spl_autoload_register( 'Nmwdhj\Elements\Manager::load_class' );

@@ -50,13 +50,13 @@ class Button extends Base {
 					$this->set_attr( 'type', 'reset' );
 					break;
 
-			} // end switch
+			}
 
-		} // end if
+		}
 
 		parent::__construct( $key, $properties );
 
-	} // end __construct()
+	}
 
 
 	/*** Methods **************************************************************/
@@ -69,7 +69,7 @@ class Button extends Base {
 	 */
 	public function get_content() {
 		return $this->content;
-	} // end get_content()
+	}
 
 	/**
 	 * Set the button content.
@@ -80,7 +80,7 @@ class Button extends Base {
 	public function set_content( $content ) {
 		$this->content = strval( $content );
 		return $this;
-	} // end set_content()
+	}
 
 	/**
 	 * Set an attribute value.
@@ -94,15 +94,16 @@ class Button extends Base {
 
 			if ( strcasecmp( $this->get_key(), 'button' ) !== 0 ) {
 
-				if ( $this->has_attr( 'type' ) )
+				if ( $this->has_attr( 'type' ) ) {
 					return $this;
+				}
 
-			} // end if
+			}
 
-		} // end if
+		}
 
 		return parent::set_attr( $key, $value );
 
-	} // end set_attr()
+	}
 
-} // end Class Button
+}
