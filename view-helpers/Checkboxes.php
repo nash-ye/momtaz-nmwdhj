@@ -152,13 +152,13 @@ class Checkboxes extends View {
 	public function render_option( array $option, Element $element ) {
 
 		// The default option arguments.
-		$option = wp_parse_args( $option, array(
+		$option = array_merge( array(
 			'label' => '',
 			'atts' => null,
 			'value' => null,
 			'checked' => false,
 			'disabled' => false,
-		) );
+		), $option );
 
 
 		/** CheckBox Input ****************************************************/

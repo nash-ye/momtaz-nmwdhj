@@ -225,10 +225,10 @@ class Attributes {
 			return $output;
 		}
 
-		$args = wp_parse_args( $args, array(
+		$args = array_merge( array(
 			'before' => ' ',
 			'after' => '',
-		) );
+		), $args );
 
 		$atts = array_map( 'strval', $atts );
 		$output = trim( implode( ' ', $atts ) );

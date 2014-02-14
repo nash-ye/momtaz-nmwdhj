@@ -125,11 +125,11 @@ class Select extends View {
 	 */
 	public function render_optgroup( array $optgroup ) {
 
-		$optgroup = wp_parse_args( $optgroup, array(
+		$optgroup = array_merge( array(
 			'options' => array(),
 			'atts' => array(),
 			'label' => '',
-		) );
+		), $optgroup );
 
 		$optgroup['atts'] = \Nmwdhj\create_atts_obj( $optgroup['atts'] );
 
@@ -159,15 +159,13 @@ class Select extends View {
 	 */
 	public function render_option( array $option ) {
 
-		$defaults = array(
+		$option = array_merge( array(
 			'value' => '',
 			'label' => '',
 			'atts' => array(),
 			'disabled' => false,
 			'selected' => false,
-		);
-
-		$option = wp_parse_args( $option, $defaults );
+		), $option );
 
 		foreach( array( 'value', 'disabled', 'selected' ) as $k ) {
 

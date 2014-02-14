@@ -71,10 +71,10 @@ final class Manager {
 			return false;
 		}
 
-		$args = wp_parse_args( $args, array(
+		$args = array_merge( array(
 			'class_name' => '',
 			'class_path' => '',
-		) );
+		), $args );
 
 		if ( empty( $args['class_name'] ) ) {
 			return false;
