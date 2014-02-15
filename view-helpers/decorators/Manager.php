@@ -13,10 +13,11 @@ class Manager {
 	/**
 	 * Decorators list.
 	 *
-	 * @since 1.0
+	 * @access private
 	 * @var array
+	 * @since 1.0
 	 */
-	protected static $decorators = array();
+	private static $decorators = array();
 
 
 	/*** Methods ***************************************************************/
@@ -26,71 +27,66 @@ class Manager {
 	/**
 	 * Get a decorator by key.
 	 *
+	 * @return object|bool
 	 * @since 1.0
-	 * @return object
 	 */
 	public static function get_by_key( $key ) {
 
-		$key = sanitize_key( $key );
-
-		if ( ! empty( $key ) ) {
-
-			$decorators = self::get();
-
-			if ( isset( $decorators[ $key ] ) ) {
-				return $decorators[ $key ];
-			}
-
+		if ( self::is_exists( $key ) ) {
+			return self::$decorators[ $key ];
 		}
+
+		return false;
 
 	}
 
 	/**
 	 * Retrieve a list of registered decorators.
 	 *
-	 * @since 1.0
 	 * @return array
+	 * @since 1.0
 	 */
-	public static function get( array $args = null, $operator = 'AND' ) {
+	public static function get( array $args = NULL, $operator = 'AND' ) {
 		return wp_list_filter( self::$decorators, $args, $operator );
 	}
 
 	// Register/Deregister
 
 	/**
-	 * Register a decorator.
+	 * Register a new decorator.
 	 *
+	 * @return bool
 	 * @since 1.0
-	 * @return boolean
 	 */
 	public static function register( $key, array $args ) {
 
-		$args['key'] = sanitize_key( $key );
-
-		if ( empty( $args['key'] ) ) {
+		if ( self::is_exists( $key ) ) {
 			return false;
 		}
 
-		$args = array_merge( array(
+		$args = (object) array_merge( array(
 			'class_name' => '',
 			'class_path' => '',
 		), $args );
 
-		if ( empty( $args['class_name'] ) ) {
+		$args->key = $key; // Store the key.
+
+		if ( empty( $args->class_name ) ) {
 			return false;
 		}
 
-		self::$decorators[ $args['key'] ] = (object) $args;
+		// Register the decorator.
+		self::$decorators[ $key ] =  $args;
 
-		return true;
+		return $args;
 
 	}
 
 	/**
 	 * Register the Nmwdhj default decorators.
 	 *
-	 * @since 1.0
 	 * @return void
+	 * @since 1.0
 	 */
 	public static function register_defaults() {
 
@@ -114,14 +110,12 @@ class Manager {
 	/**
 	 * Remove a registered decorator.
 	 *
+	 * @return bool
 	 * @since 1.0
-	 * @return boolean
 	 */
 	public static function deregister( $key ) {
 
-		$key = sanitize_key( $key );
-
-		if ( empty( $key ) ) {
+		if ( ! self::is_exists( $key ) ) {
 			return false;
 		}
 
@@ -134,27 +128,13 @@ class Manager {
 	// Checks
 
 	/**
-	 * Check a decorator class.
+	 * Check a decorator existence.
 	 *
-	 * @since 1.0
-	 * @return boolean
+	 * @return bool
+	 * @since 1.3
 	 */
-	public static function check_class( $class_name, $autoload = true ) {
-
-		if ( empty( $class_name ) ) {
-			return false;
-		}
-
-		if ( ! class_exists( $class_name, (bool) $autoload ) ) {
-			return false;
-		}
-
-		if ( ! is_subclass_of( $class_name, 'Nmwdhj\Decorators\Decorator' ) ) {
-			return false;
-		}
-
-		return true;
-
+	public static function is_exists( $key ) {
+		return ( ! empty( $key ) && isset( self::$decorators[ $key ] ) );
 	}
 
 	// Loaders
@@ -162,15 +142,15 @@ class Manager {
 	/**
 	 * Load decorator class file.
 	 *
-	 * @since 1.0
 	 * @return void
+	 * @since 1.0
 	 */
 	public static function load_class( $class_name, $require_once = false ) {
 
 		if ( ! class_exists( $class_name, false ) ) {
 
 			$decorator = self::get( array( 'class_name' => $class_name ), 'OR' );
-			$decorator = reset( $decorator ); // Get the first result.
+			$decorator = reset( $decorator );
 
 			if ( ! empty( $decorator->class_path ) && file_exists( $decorator->class_path ) ) {
 				( $require_once ) ? require_once $decorator->class_path : require $decorator->class_path;

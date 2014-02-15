@@ -2,7 +2,7 @@
 namespace Nmwdhj\Elements;
 
 /**
- * The Nmwdhj elements manager class.
+ * The Nmwdhj Elements Manager class.
  *
  * @since 1.0
  */
@@ -13,37 +13,33 @@ final class Manager {
 	/**
 	 * Elements list.
 	 *
-	 * @since 1.0
+	 * @access private
 	 * @var array
+	 * @since 1.0
 	 */
-	protected static $elements = array();
+	private static $elements = array();
 
 
-	/*** Methods **************************************************************/
+	/** Public Methods ********************************************************/
 
 	// Getters
 
 	/**
 	 * Get an element by key.
 	 *
+	 * @return object|bool
 	 * @since 1.0
-	 * @return object
 	 */
 	public static function get_by_key( $key ) {
 
-		$key = sanitize_key( $key );
+		if ( self::is_exists( $key ) ) {
+			return self::$elements[ $key ];
 
-		if ( ! empty( $key ) ) {
+		} else {
 
-			$elements = self::get();
+			foreach ( self::$elements as $element ) {
 
-			if ( isset( $elements[ $key ] ) ) {
-				return $elements[ $key ];
-			}
-
-			foreach ( $elements as $element ) {
-
-				if ( in_array( $key, (array) $element->aliases ) ) {
+				if ( in_array( $key, (array) $element->aliases, true ) ) {
 					return $element;
 				}
 
@@ -51,99 +47,98 @@ final class Manager {
 
 		}
 
+		return false;
+
 	}
 
 	/**
 	 * Retrieve a list of registered elements.
 	 *
-	 * @since 1.0
 	 * @return array
+	 * @since 1.0
 	 */
-	public static function get( array $args = null, $operator = 'AND' ) {
+	public static function get( array $args = NULL, $operator = 'AND' ) {
 		return wp_list_filter( self::$elements, $args, $operator );
 	}
 
 	// Register/Deregister
 
 	/**
-	 * Register an element.
+	 * Registers a new element.
 	 *
+	 * @return object|bool
 	 * @since 1.0
-	 * @return boolean
 	 */
 	public static function register( $key, array $args ) {
 
-		$args['key'] = sanitize_key( $key );
-
-		if ( empty( $args['key'] ) ) {
+		if ( self::is_exists( $key ) ) {
 			return false;
 		}
 
-		$args = array_merge( array(
+		$args = (object) array_merge( array(
 			'aliases' => array(),
 			'class_name' => '',
 			'class_path' => '',
 		), $args );
 
-		if ( empty( $args['class_name'] ) ) {
+		$args->key = $key; // Store the key.
+
+		if ( empty( $args->class_name ) ) {
 			return false;
 		}
 
-		$args['aliases'] = (array) $args['aliases'];
-		array_walk( $args['aliases'], 'sanitize_key' );
-
 		// Register the element.
-		self::$elements[ $args['key'] ] = (object) $args;
+		self::$elements[ $key ] =  $args;
 
-		return true;
+		return $args;
 
 	}
 
 	/**
 	 * Register the default elements.
 	 *
-	 * @since 1.0
 	 * @return void
+	 * @since 1.0
 	 */
 	public static function register_defaults() {
 
 		self::register( 'button', array(
-			'class_name' => 'Nmwdhj\Elements\Button',
-			'class_path' => \Nmwdhj\get_path( 'elements/Button.php' ),
-			'aliases' => array( 'button_submit', 'button_reset' ),
+			'class_name'	=> 'Nmwdhj\Elements\Button',
+			'class_path'	=> \Nmwdhj\get_path( 'elements/Button.php' ),
+			'aliases'		=> array( 'button_submit', 'button_reset' ),
 		) );
 
 		self::register( 'select', array(
-			'class_name' => 'Nmwdhj\Elements\Select',
-			'class_path' => \Nmwdhj\get_path( 'elements/Select.php' ),
+			'class_name'	=> 'Nmwdhj\Elements\Select',
+			'class_path'	=> \Nmwdhj\get_path( 'elements/Select.php' ),
 		) );
 
 		self::register( 'textarea', array(
-			'class_name' => 'Nmwdhj\Elements\Textarea',
-			'class_path' => \Nmwdhj\get_path( 'elements/Textarea.php' ),
+			'class_name'	=> 'Nmwdhj\Elements\Textarea',
+			'class_path'	=> \Nmwdhj\get_path( 'elements/Textarea.php' ),
 		) );
 
 		self::register( 'wp_editor', array(
-			'class_name' => 'Nmwdhj\Elements\WP_Editor',
-			'class_path' => \Nmwdhj\get_path( 'elements/WP_Editor.php' ),
+			'class_name'	=> 'Nmwdhj\Elements\WP_Editor',
+			'class_path'	=> \Nmwdhj\get_path( 'elements/WP_Editor.php' ),
 		) );
 
 		self::register( 'checkbox', array(
-			'class_name' => 'Nmwdhj\Elements\Checkbox',
-			'class_path' => \Nmwdhj\get_path( 'elements/Checkbox.php' ),
-			'aliases' => array( 'input_checkbox' ),
+			'class_name'	=> 'Nmwdhj\Elements\Checkbox',
+			'class_path'	=> \Nmwdhj\get_path( 'elements/Checkbox.php' ),
+			'aliases'		=> array( 'input_checkbox' ),
 		) );
 
 		self::register( 'checkboxes', array(
-			'class_name' => 'Nmwdhj\Elements\Checkboxes',
-			'class_path' => \Nmwdhj\get_path( 'elements/Checkboxes.php' ),
-			'aliases' => array( 'multi_checkbox' ),
+			'class_name'	=> 'Nmwdhj\Elements\Checkboxes',
+			'class_path'	=> \Nmwdhj\get_path( 'elements/Checkboxes.php' ),
+			'aliases'		=> array( 'multi_checkbox' ),
 		) );
 
 		self::register( 'input', array(
-			'class_name' => 'Nmwdhj\Elements\Input',
-			'class_path' => \Nmwdhj\get_path( 'elements/Input.php' ),
-			'aliases' => array(
+			'class_name'	=> 'Nmwdhj\Elements\Input',
+			'class_path'	=> \Nmwdhj\get_path( 'elements/Input.php' ),
+			'aliases'		=> array(
 				'input_text', 'input_url', 'input_email', 'input_range', 'input_search', 'input_date', 'input_file',
 				'input_hidden', 'input_number', 'input_password', 'input_color', 'input_submit', 'input_week',
 				'input_time', 'input_radio', 'input_month', 'input_image',
@@ -155,29 +150,16 @@ final class Manager {
 	/**
 	 * Remove a registered element.
 	 *
+	 * @return bool
 	 * @since 1.0
-	 * @return boolean
 	 */
 	public static function deregister( $key ) {
 
-		$key = sanitize_key( $key );
-
-		if ( empty( $key ) ) {
+		if ( ! self::is_exists( $key ) ) {
 			return false;
 		}
 
-		if ( ! isset( self::$elements[ $key ] ) ) {
-
-			foreach ( self::$elements as &$element ) {
-				$element->aliases = array_diff( (array) $element->aliases, array( $key ) );
-			}
-
-		} else {
-
-			unset( self::$elements[ $key ] );
-
-		}
-
+		unset( self::$elements[ $key ] );
 		return true;
 
 	}
@@ -185,26 +167,33 @@ final class Manager {
 	// Checks
 
 	/**
-	 * Check an element class.
+	 * Check an element existence.
 	 *
-	 * @since 1.0
-	 * @return boolean
+	 * @return bool
+	 * @since 1.3
 	 */
-	public static function check_class( $class_name, $autoload = true ) {
+	public static function is_exists( $key, $check_aliases = false ) {
 
-		if ( empty( $class_name ) ) {
+		if ( empty( $key ) ) {
 			return false;
 		}
 
-		if ( ! class_exists( $class_name, (bool) $autoload ) ) {
-			return false;
+		if ( isset( self::$elements[ $key ] ) ) {
+			return true;
+
+		} elseif ( $check_aliases ) {
+
+			foreach ( self::$elements as $element ) {
+
+				if ( in_array( $key, (array) $element->aliases, true ) ) {
+					return true;
+				}
+
+			}
+
 		}
 
-		if ( ! is_subclass_of( $class_name, 'Nmwdhj\Elements\Element' ) ) {
-			return false;
-		}
-
-		return true;
+		return false;
 
 	}
 
@@ -213,15 +202,15 @@ final class Manager {
 	/**
 	 * Load element class file.
 	 *
-	 * @since 1.0
 	 * @return void
+	 * @since 1.0
 	 */
 	public static function load_class( $class_name, $require_once = false ) {
 
 		if ( ! class_exists( $class_name, false ) ) {
 
 			$element = self::get( array( 'class_name' => $class_name ), 'OR' );
-			$element = reset( $element ); // Get the first result.
+			$element = reset( $element );
 
 			if ( ! empty( $element->class_path ) && file_exists( $element->class_path ) ) {
 				( $require_once ) ? require_once $element->class_path : require $element->class_path;

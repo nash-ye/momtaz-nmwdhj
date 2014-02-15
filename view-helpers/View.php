@@ -15,7 +15,7 @@ abstract class View {
 	 * Check the element.
 	 *
 	 * @since 1.0
-	 * @return boolean
+	 * @return bool
 	 */
 	public function check( Element $element ){
 		return true;

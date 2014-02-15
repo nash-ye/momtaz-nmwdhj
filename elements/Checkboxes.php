@@ -26,7 +26,7 @@ class Checkboxes extends Input {
 	 *
 	 * @since 1.0
 	 */
-	public function __construct( $key = '', array $properties = null ) {
+	public function __construct( $key = '', array $properties = NULL ) {
 
 		// Set the type attribute.
 		if ( ! $this->has_attr( 'type' ) ) {

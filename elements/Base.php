@@ -295,10 +295,6 @@ abstract class Base implements Element {
 
 		}
 
-		if ( ! Views\Manager::check_class( $view->class_name ) ) {
-			throw new Exception( 'invalid_view_class' );
-		}
-
 		return call_user_func( new $view->class_name, $this );
 
 	}
@@ -348,7 +344,7 @@ abstract class Base implements Element {
 	 * Check for an attribute existence.
 	 *
 	 * @since 1.0
-	 * @return boolean
+	 * @return bool
 	 */
 	public function has_attr( $key ) {
 		return $this->get_atts_obj()->has_attr( $key );
@@ -414,7 +410,7 @@ abstract class Base implements Element {
 	 * @since 1.0
 	 * @return string
 	 */
-	public function get_atts_string( array $args = null ) {
+	public function get_atts_string( array $args = NULL ) {
 		return $this->get_atts_obj()->to_string( $args );
 	}
 

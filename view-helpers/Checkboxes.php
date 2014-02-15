@@ -13,7 +13,7 @@ class Checkboxes extends View {
 	 * Check the element.
 	 *
 	 * @since 1.0
-	 * @return boolean
+	 * @return bool
 	 */
 	public function check( Element $element ){
 
@@ -107,7 +107,7 @@ class Checkboxes extends View {
 			}
 
 			if ( ! isset( $option['atts'] ) ) {
-				$option['atts'] = null;
+				$option['atts'] = array();
 			}
 
 			// Set the option attributes.

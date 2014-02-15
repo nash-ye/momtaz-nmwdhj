@@ -96,14 +96,10 @@ spl_autoload_register( 'Nmwdhj\class_loader' );
  * @throws Nmwdhj\Exception
  * @since 1.2
  */
-function create_element( $key, array $properties = null ) {
+function create_element( $key, array $properties = NULL ) {
 
 	if ( ! ( $element = Elements\Manager::get_by_key( $key ) ) ) {
 		throw new Exception( 'invalid_element' );
-	}
-
-	if ( ! Elements\Manager::check_class( $element->class_name ) ) {
-		throw new Exception( 'invalid_element_class' );
 	}
 
 	return new $element->class_name( $key, $properties );
@@ -196,10 +192,6 @@ function decorate_element( $key, Elements\Element &$element ) {
 
 	if ( ! ( $decorator = Decorators\Manager::get_by_key( $key ) ) ) {
 		throw new Exception( 'invalid_decorator' );
-	}
-
-	if ( ! Decorators\Manager::check_class( $decorator->class_name ) ) {
-		throw new Exception( 'invalid_decorator_class' );
 	}
 
 	$element = new $decorator->class_name( $element );

@@ -26,7 +26,7 @@ class Checkbox extends Input {
 	 *
 	 * @since 1.0
 	 */
-	public function __construct( $key = '', array $properties = null ) {
+	public function __construct( $key = '', array $properties = NULL ) {
 
 		// Set the type attribute.
 		if ( ! $this->has_attr( 'type' ) ) {
@@ -46,7 +46,7 @@ class Checkbox extends Input {
 	 * Checks if this checkbox is checked.
 	 *
 	 * @since 1.0
-	 * @return boolean
+	 * @return bool
 	 */
 	public function is_checked() {
 		return (bool) $this->get_value();

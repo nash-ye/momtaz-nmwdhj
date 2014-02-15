@@ -91,7 +91,7 @@ class Attributes {
 	 * Check for an attribute existence.
 	 *
 	 * @since 1.0
-	 * @return boolean
+	 * @return bool
 	 */
 	public function has_attr( $key ) {
 
@@ -216,7 +216,7 @@ class Attributes {
 	 * @since 1.0
 	 * @return string
 	 */
-	public function to_string( array $args = null ) {
+	public function to_string( array $args = NULL ) {
 
 		$output = '';
 		$atts = $this->get_atts();
@@ -228,7 +228,7 @@ class Attributes {
 		$args = array_merge( array(
 			'before' => ' ',
 			'after' => '',
-		), $args );
+		), (array) $args );
 
 		$atts = array_map( 'strval', $atts );
 		$output = trim( implode( ' ', $atts ) );
@@ -451,7 +451,7 @@ class ClassAttribute extends SimpleAttribute {
 	 *
 	 *
 	 * @since 1.1
-	 * @return boolean
+	 * @return bool
 	 */
 	public function has_classes( $classes ) {
 
