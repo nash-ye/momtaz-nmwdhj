@@ -13,6 +13,7 @@
  */
 
 namespace Nmwdhj;
+use Nmwdhj\Exceptions\Exception;
 
 // Nmwdhj Version.
 const VERSION = '1.3-alpha';
@@ -27,58 +28,77 @@ const VERSION = '1.3-alpha';
  */
 function class_loader( $class_name ) {
 
-	switch( $class_name ) {
+	$nps = explode( '\\', $class_name, 3 );
 
-		/*** Nmwdhj Core ******************************************************/
+	if ( 'Nmwdhj' !== $nps[0] || count( $nps ) !== 3 ) {
+		return;
+	}
 
-		case 'Nmwdhj\Exception':
-			require_once get_path( 'core/exceptions.php' );
+	switch( $nps[1] ) {
+
+		case 'Views':
+
+			if ( in_array( $nps[2], array( 'View', 'Manager' ) ) ) {
+				$class_path = get_path( "view-helpers/{$nps[2]}.php" );
+
+			} else {
+
+				$list = Views\Manager::get( array( 'class_name' => $class_name ), 'OR' );
+
+				if ( $list ) {
+					$class_path = reset( $list )->class_path;
+				}
+
+			}
+
 			break;
 
-		case 'Nmwdhj\Attributes\Attribute':
-		case 'Nmwdhj\Attributes\Attributes':
-		case 'Nmwdhj\Attributes\ClassAttribute':
-		case 'Nmwdhj\Attributes\SimpleAttribute':
-			require_once get_path( 'core/attributes.php' );
+		case 'Elements':
+
+			if ( in_array( $nps[2], array( 'Base', 'Element', 'Manager' ) ) ) {
+				$class_path = get_path( "elements/{$nps[2]}.php" );
+
+			} else {
+
+				$list = Elements\Manager::get( array( 'class_name' => $class_name ), 'OR' );
+
+				if ( $list ) {
+					$class_path = reset( $list )->class_path;
+				}
+
+			}
+
 			break;
 
+		case 'Decorators':
 
-		/*** Nmwdhj Elements **************************************************/
+			if ( in_array( $nps[2], array( 'Decorator', 'Manager' ) ) ) {
+				$class_path = get_path( "view-helpers/decorators/{$nps[2]}.php" );
 
-		case 'Nmwdhj\Elements\Base':
-			require_once get_path( 'elements/Base.php' );
+			} else {
+
+				$list = Decorators\Manager::get( array( 'class_name' => $class_name ), 'OR' );
+
+				if ( $list ) {
+					$class_path = reset( $list )->class_path;
+				}
+
+			}
+
 			break;
 
-		case 'Nmwdhj\Elements\Manager':
-			require_once get_path( 'elements/Manager.php' );
+		case 'Attributes':
+			$class_path = get_path( 'core/attributes.php' );
 			break;
 
-		case 'Nmwdhj\Elements\Element':
-			require_once get_path( 'elements/Element.php' );
+		case 'Exceptions':
+			$class_path = get_path( 'core/exceptions.php' );
 			break;
 
+	}
 
-		/*** Nmwdhj Views *****************************************************/
-
-		case 'Nmwdhj\Views\View':
-			require_once get_path( 'view-helpers/View.php' );
-			break;
-
-		case 'Nmwdhj\Views\Manager':
-			require_once get_path( 'view-helpers/Manager.php' );
-			break;
-
-
-		/*** Nmwdhj Decorators ************************************************/
-
-		case 'Nmwdhj\Decorators\Manager':
-			require_once get_path( 'view-helpers/decorators/Manager.php' );
-			break;
-
-		case 'Nmwdhj\Decorators\Decorator':
-			require_once get_path( 'view-helpers/decorators/Decorator.php' );
-			break;
-
+	if ( ! empty( $class_path ) && file_exists( $class_path ) ) {
+		require $class_path;
 	}
 
 }
@@ -93,7 +113,7 @@ spl_autoload_register( 'Nmwdhj\class_loader' );
  * Create an element object.
  *
  * @return Nmwdhj\Elements\Element
- * @throws Nmwdhj\Exception
+ * @throws Nmwdhj\Exceptions\Exception
  * @since 1.2
  */
 function create_element( $key, array $properties = NULL ) {
@@ -110,7 +130,7 @@ function create_element( $key, array $properties = NULL ) {
  * Create many elements objects at once.
  *
  * @return Nmwdhj\Elements\Element[]
- * @throws Nmwdhj\Exception
+ * @throws Nmwdhj\Exceptions\Exception
  * @since 1.2
  */
 function create_elements( array $elements ) {
@@ -185,7 +205,7 @@ function create_attr_obj( $key, $value ) {
  * Decorate an element.
  *
  * @return Nmwdhj\Decorators\Decorator
- * @throws Nmwdhj\Exception
+ * @throws Nmwdhj\Exceptions\Exception
  * @since 1.2
  */
 function decorate_element( $key, Elements\Element &$element ) {

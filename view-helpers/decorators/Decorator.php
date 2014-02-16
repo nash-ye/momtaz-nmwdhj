@@ -1,7 +1,7 @@
 <?php
 namespace Nmwdhj\Decorators;
 use Nmwdhj\Elements\Element;
-use Nmwdhj\Exception;
+use Nmwdhj\Exceptions\Exception;
 
 /**
  * The Decorator abstract class.
@@ -26,7 +26,7 @@ abstract class Decorator implements Element {
 	/**
 	 * A magic method to redirect the methods calls to the element object.
 	 *
-	 * @throws Nmwdhj\Exception
+	 * @throws Nmwdhj\Exceptions\Exception
 	 * @since 1.0
 	 */
 	public function __call( $method, $args ) {

@@ -157,30 +157,4 @@ final class Manager {
 		return ( ! empty( $key ) && isset( self::$views[ $key ] ) );
 	}
 
-	// Loaders
-
-	/**
-	 * Load view class file.
-	 *
-	 * @return void
-	 * @since 1.0
-	 */
-	public static function load_class( $class_name, $require_once = false ) {
-
-		if ( ! class_exists( $class_name, false ) ) {
-
-			$view = self::get( array( 'class_name' => $class_name ), 'OR' );
-			$view = reset( $view );
-
-			if ( ! empty( $view->class_path ) && file_exists( $view->class_path ) ) {
-				( $require_once ) ? require_once $view->class_path : require $view->class_path;
-			}
-
-		}
-
-	}
-
 }
-
-// Register the autoload function.
-spl_autoload_register( 'Nmwdhj\Views\Manager::load_class' );

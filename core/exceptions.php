@@ -1,5 +1,5 @@
 <?php
-namespace Nmwdhj;
+namespace Nmwdhj\Exceptions;
 
 /**
  * The Nmwdhj exception class.

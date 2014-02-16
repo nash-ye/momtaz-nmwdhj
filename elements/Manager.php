@@ -197,30 +197,4 @@ final class Manager {
 
 	}
 
-	// Loaders
-
-	/**
-	 * Load element class file.
-	 *
-	 * @return void
-	 * @since 1.0
-	 */
-	public static function load_class( $class_name, $require_once = false ) {
-
-		if ( ! class_exists( $class_name, false ) ) {
-
-			$element = self::get( array( 'class_name' => $class_name ), 'OR' );
-			$element = reset( $element );
-
-			if ( ! empty( $element->class_path ) && file_exists( $element->class_path ) ) {
-				( $require_once ) ? require_once $element->class_path : require $element->class_path;
-			}
-
-		}
-
-	}
-
 }
-
-// Register the autoload function.
-spl_autoload_register( 'Nmwdhj\Elements\Manager::load_class' );

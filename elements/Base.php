@@ -1,7 +1,7 @@
 <?php
 namespace Nmwdhj\Elements;
 use Nmwdhj\Attributes\Attributes;
-use Nmwdhj\Exception;
+use Nmwdhj\Exceptions\Exception;
 use Nmwdhj\Views;
 
 /**

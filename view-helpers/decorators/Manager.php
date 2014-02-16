@@ -137,30 +137,4 @@ class Manager {
 		return ( ! empty( $key ) && isset( self::$decorators[ $key ] ) );
 	}
 
-	// Loaders
-
-	/**
-	 * Load decorator class file.
-	 *
-	 * @return void
-	 * @since 1.0
-	 */
-	public static function load_class( $class_name, $require_once = false ) {
-
-		if ( ! class_exists( $class_name, false ) ) {
-
-			$decorator = self::get( array( 'class_name' => $class_name ), 'OR' );
-			$decorator = reset( $decorator );
-
-			if ( ! empty( $decorator->class_path ) && file_exists( $decorator->class_path ) ) {
-				( $require_once ) ? require_once $decorator->class_path : require $decorator->class_path;
-			}
-
-		}
-
-	}
-
 }
-
-// Register the autoload function.
-spl_autoload_register( 'Nmwdhj\Decorators\Manager::load_class' );
