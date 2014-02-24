@@ -1,5 +1,6 @@
 <?php
 namespace Nmwdhj\Views;
+
 use Nmwdhj\Elements\Element;
 
 /**
@@ -10,44 +11,28 @@ use Nmwdhj\Elements\Element;
 class Select extends View {
 
 	/**
-	 * Prepare the element.
+	 * Render the Element View.
 	 *
-	 * @since 1.0
-	 * @return void
+	 * @return string
+	 * @since 1.3
 	 */
-	public function prepare( Element $element ){
+	public function render_element( Element $e ){
 
-		// Fix the name attribute.
-		if ( $element->has_attr( 'multiple' ) ) {
+		if ( $e->has_attr( 'multiple' ) ) {
 
-			$name = $element->get_attr( 'name' );
+			$name = $e->get_attr( 'name' );
 
-			if ( ! empty( $name ) && substr( $name, -2 ) != '[]' ) {
-				$element->set_attr( 'name', $name . '[]' );
+			if ( ! $name && substr( $name, -2 ) !== '[]' ) {
+				$e->set_attr( 'name', $name . '[]' );
 			}
 
 		}
 
-	}
+		$content = '<select' . $e->get_atts( 'string' ) . '>';
+		$content .= $this->render_options( $e->get_value_options(), $e->get_value() );
+		$content .= '</select>';
 
-	/**
-	 * Render the element view, and return the output.
-	 *
-	 * @since 1.0
-	 * @return string
-	 */
-	public function render( Element $element ) {
-
-		// Open tag.
-		$output = '<select' . $element->get_atts_string() . '>';
-
-		// Options list.
-		$output .= $this->render_options( $element->get_value_options(), $element->get_value() );
-
-		// Close tag
-		$output .= '</select>';
-
-		return $output;
+		return $content;
 
 	}
 
@@ -167,16 +152,13 @@ class Select extends View {
 			'selected' => false,
 		), $option );
 
-		foreach( array( 'value', 'disabled', 'selected' ) as $k ) {
+		$option['atts'] = \Nmwdhj\create_atts_obj( $option['atts'] )->set_atts( array(
+			'selected'	=> $option['selected'],
+			'disabled'	=> $option['disabled'],
+			'value'		=> $option['value'],
+		) );
 
-			$option['atts'][ $k ] = $option[ $k ];
-			unset( $option[ $k ] );
-
-		}
-
-		$attributes = strval( \Nmwdhj\create_atts_obj( $option['atts'] ) );
-
-		return '<option'. $attributes .'>'. esc_html( $option['label'] ) .'</option>';
+		return '<option' . strval( $option['atts'] ) . '>' . esc_html( $option['label'] ) . '</option>';
 
 	}
 

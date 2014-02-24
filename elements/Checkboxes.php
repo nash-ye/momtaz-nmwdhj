@@ -13,8 +13,8 @@ class Checkboxes extends Input {
 	/**
 	 * Default element key.
 	 *
-	 * @since 1.0
 	 * @var string
+	 * @since 1.0
 	 */
 	protected $key = 'checkboxes';
 
@@ -49,8 +49,8 @@ class Checkboxes extends Input {
 	/**
 	 * Get the values and labels for the value options.
 	 *
-	 * @since 1.0
 	 * @return array
+	 * @since 1.0
 	 */
 	public function get_value_options() {
 		return $this->value_options;
@@ -59,8 +59,8 @@ class Checkboxes extends Input {
 	/**
 	 * Ser the values and labels for the value options.
 	 *
-	 * @since 1.0
 	 * @return Nmwdhj\Elements\Checkboxes
+	 * @since 1.0
 	 */
 	public function set_value_options( $options, $append = false ) {
 
@@ -81,8 +81,8 @@ class Checkboxes extends Input {
 	/**
 	 * Remove all/specified value options.
 	 *
-	 * @since 1.0
 	 * @return Nmwdhj\Elements\Checkboxes
+	 * @since 1.0
 	 */
 	public function remove_value_options( $options = '' ) {
 
@@ -105,8 +105,8 @@ class Checkboxes extends Input {
 	/**
 	 * Remove a specified value option.
 	 *
-	 * @since 1.0
 	 * @return Nmwdhj\Elements\Checkboxes
+	 * @since 1.0
 	 */
 	public function remove_value_option( $option ) {
 		unset( $this->value_options[$option] );

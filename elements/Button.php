@@ -6,7 +6,7 @@ namespace Nmwdhj\Elements;
  *
  * @since 1.0
  */
-class Button extends Base {
+class Button extends Element {
 
 	/**
 	 * Button content.
@@ -19,8 +19,8 @@ class Button extends Base {
 	/**
 	 * Default element key.
 	 *
-	 * @since 1.0
 	 * @var string
+	 * @since 1.0
 	 */
 	protected $key = 'button';
 
@@ -34,9 +34,9 @@ class Button extends Base {
 	 */
 	public function __construct( $key = '', array $properties = NULL ) {
 
-		if ( ! $this->has_attr( 'type' ) ) {
+		if ( $key && ! $this->has_attr( 'type' ) ) {
 
-			switch( strtolower( $key ) ) {
+			switch( $key ) {
 
 				case 'button';
 					$this->set_attr( 'type', 'button' );
@@ -62,48 +62,24 @@ class Button extends Base {
 	/*** Methods **************************************************************/
 
 	/**
-	 * Get the button content.
-	 *
-	 * @since 1.0
-	 * @return string
-	 */
-	public function get_content() {
-		return $this->content;
-	}
-
-	/**
 	 * Set the button content.
 	 *
-	 * @since 1.0
 	 * @return Nmwdhj\Elements\Button
+	 * @since 1.0
 	 */
 	public function set_content( $content ) {
-		$this->content = strval( $content );
+		$this->content = $content;
 		return $this;
 	}
 
 	/**
-	 * Set an attribute value.
+	 * Get the button content.
 	 *
+	 * @return string
 	 * @since 1.0
-	 * @return Nmwdhj\Elements\Button
 	 */
-	public function set_attr( $key, $value ) {
-
-		if ( strcasecmp( $key, 'type' ) === 0 ) {
-
-			if ( strcasecmp( $this->get_key(), 'button' ) !== 0 ) {
-
-				if ( $this->has_attr( 'type' ) ) {
-					return $this;
-				}
-
-			}
-
-		}
-
-		return parent::set_attr( $key, $value );
-
+	public function get_content() {
+		return $this->content;
 	}
 
 }

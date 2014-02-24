@@ -1,5 +1,6 @@
 <?php
 namespace Nmwdhj\Views;
+
 use Nmwdhj\Elements\Element;
 
 /**
@@ -10,56 +11,13 @@ use Nmwdhj\Elements\Element;
 class Input extends View {
 
 	/**
-	 * Check the element.
+	 * Render the Element View.
 	 *
-	 * @since 1.0
-	 * @return bool
-	 */
-	public function check( Element $element ) {
-
-		// The 'type' attribute is required.
-		if ( ! $element->has_attr( 'type' ) ) {
-			return false;
-		}
-
-		return true;
-
-	}
-
-	/**
-	 * Render the element view, and return the output.
-	 *
-	 * @since 1.0
 	 * @return string
+	 * @since 1.3
 	 */
-	public function render( Element $element ) {
-
-		$value = '';
-
-		if ( ! $element->has_attr( 'value' ) ) {
-
-			$value = strval( $element->get_value() );
-
-			if ( ! empty( $value ) ) {
-
-				switch( strtolower( $element->get_attr( 'type' ) ) ) {
-
-					case 'url':
-						$value = ' value="' . esc_url( $value ) . '"';
-						break;
-
-					default:
-						$value = ' value="' . esc_attr( $value ) . '"';
-						break;
-
-				}
-
-			}
-
-		}
-
-		return '<input'. $element->get_atts_string() . $value .' />';
-
+	public function render_element( Element $e ){
+		return '<input' . $e->get_atts( 'string' ) . ' />';
 	}
 
 }

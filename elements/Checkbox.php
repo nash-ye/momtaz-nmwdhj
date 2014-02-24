@@ -6,15 +6,15 @@ namespace Nmwdhj\Elements;
  *
  * @since 1.0
  */
-class Checkbox extends Input {
+class Checkbox extends Element {
 
 	/*** Properties ***********************************************************/
 
 	/**
 	 * Default element key.
 	 *
-	 * @since 1.0
 	 * @var string
+	 * @since 1.0
 	 */
 	protected $key = 'checkbox';
 
@@ -45,8 +45,8 @@ class Checkbox extends Input {
 	/**
 	 * Checks if this checkbox is checked.
 	 *
-	 * @since 1.0
 	 * @return bool
+	 * @since 1.0
 	 */
 	public function is_checked() {
 		return (bool) $this->get_value();
@@ -55,8 +55,8 @@ class Checkbox extends Input {
 	/**
 	 * Checks or unchecks the checkbox.
 	 *
-	 * @since 1.0
 	 * @return Nmwdhj\Elements\Checkbox
+	 * @since 1.0
 	 */
 	public function set_checked( $value ) {
 		return $this->set_value( (bool) $value );
@@ -65,8 +65,8 @@ class Checkbox extends Input {
 	/**
 	 * Set the element value.
 	 *
-	 * @since 1.0
 	 * @return Nmwdhj\Elements\Checkbox
+	 * @since 1.0
 	 */
 	public function set_value( $value ) {
 
@@ -83,13 +83,13 @@ class Checkbox extends Input {
 	/**
 	 * Get the value to use when checkbox is checked
 	 *
-	 * @since 1.0
 	 * @return scalar
+	 * @since 1.0
 	 */
-	public function get_checked_value( $def = '1' ) {
+	public function get_checked_value( $def = 1 ) {
 
 		if ( ! is_scalar( $def ) ) {
-			$def = '1';
+			$def = 1;
 		}
 
 		return $this->get_option( 'checked_value', $def );
@@ -99,8 +99,8 @@ class Checkbox extends Input {
 	/**
 	 * Set the value to use when checkbox is checked
 	 *
-	 * @since 1.0
 	 * @return Nmwdhj\Elements\Checkbox
+	 * @since 1.0
 	 */
 	public function set_checked_value( $value ) {
 
@@ -117,13 +117,13 @@ class Checkbox extends Input {
 	/**
 	 * Get the value to use when checkbox is unchecked.
 	 *
-	 * @since 1.0
 	 * @return scalar
+	 * @since 1.0
 	 */
-	public function get_unchecked_value( $def = '0' ) {
+	public function get_unchecked_value( $def = 0 ) {
 
 		if ( ! is_scalar( $def ) ) {
-			$def = '0';
+			$def = 0;
 		}
 
 		return $this->get_option( 'unchecked_value', $def );
@@ -133,8 +133,8 @@ class Checkbox extends Input {
 	/**
 	 * Set the value to use when checkbox is unchecked.
 	 *
-	 * @since 1.0
 	 * @return Nmwdhj\Elements\Checkbox
+	 * @since 1.0
 	 */
 	public function set_unchecked_value( $value ) {
 

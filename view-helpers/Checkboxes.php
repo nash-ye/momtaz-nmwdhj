@@ -1,5 +1,6 @@
 <?php
 namespace Nmwdhj\Views;
+
 use Nmwdhj\Elements\Element;
 
 /**
@@ -10,92 +11,27 @@ use Nmwdhj\Elements\Element;
 class Checkboxes extends View {
 
 	/**
-	 * Check the element.
+	 * Render the Element View.
 	 *
-	 * @since 1.0
-	 * @return bool
+	 * @return string
+	 * @since 1.3
 	 */
-	public function check( Element $element ){
+	public function render_element( Element $e ){
 
-		// Get the 'type' attribute.
-		$type = $element->get_attr( 'type' );
-
-		// Check the 'type' attribute.
-		if ( strcasecmp( $type, 'checkbox' ) !== 0 ) {
-			return false;
-		}
-
-		// Check the value options.
-		if ( ! $element->get_value_options() ) {
-			return false;
-		}
-
-		return true;
-
-	}
-
-	/**
-	 * Prepare the element.
-	 *
-	 * @since 1.0
-	 * @return void
-	 */
-	public function prepare( Element $element ){
+		$content = '';
 
 		// Fix the name attribute.
-		if ( $element->has_attr( 'name' ) ) {
+		if ( $e->has_attr( 'name' ) ) {
 
-			$name = $element->get_attr( 'name' );
+			$name = $e->get_attr( 'name' );
 
 			if ( substr( $name, -2 ) != '[]' ) {
-				$element->set_attr( 'name', $name . '[]' );
+				$e->set_attr( 'name', $name . '[]' );
 			}
 
 		}
 
-	}
-
-	/**
-	 * Render the element view, and return the output.
-	 *
-	 * @since 1.0
-	 * @return string
-	 */
-	public function render( Element $element ) {
-		return $this->render_options( $element );
-	}
-
-	/**
-	 * Render an array of options.
-	 *
-	 * Individual options should be of the form:
-	 *
-	 * <code>
-	 * array(
-	 *	 'atts'		=> $atts,
-	 *	 'value'	=> $value,
-	 *	 'label'	=> $label,
-	 *	 'disabled' => $boolean,
-	 *	 'checked'  => $boolean,
-	 * )
-	 * </code>
-	 *
-	 * or:
-	 *
-	 * <code>
-	 * array(
-	 *	 $value	=> $label,
-	 * )
-	 * </code>
-	 *
-	 * @since 1.0
-	 * @return string
-	 */
-	public function render_options( Element $element ) {
-
-		$chunks = array();
-
-		foreach( $element->get_value_options() as $key => $option ) {
+		foreach( $e->get_value_options() as $key => $option ) {
 
 			if ( is_scalar( $option ) ) {
 
@@ -112,23 +48,23 @@ class Checkboxes extends View {
 
 			// Set the option attributes.
 			$option['atts'] = \Nmwdhj\create_atts_obj( $option['atts'] );
-			$option['atts']->set_atts( $element->get_atts(), false );
+			$option['atts']->set_atts( $e->get_atts(), false );
 
 			// Set the 'checked' attribute.
 			if ( isset( $option['value'] ) && ! $option['atts']->has_attr( 'checked' ) ) {
 
-				if ( in_array( $option['value'], (array) $element->get_value(), true ) ) {
+				if ( in_array( $option['value'], (array) $e->get_value(), true ) ) {
 					$option['atts']->set_attr( 'checked', true );
 				}
 
 			}
 
 			// Render the option.
-			$chunks[] = $this->render_option( $option, $element );
+			$content .= $this->render_option( $option ) . "\n";
 
 		}
 
-		return implode( "\n", $chunks );
+		return $content;
 
 	}
 
@@ -146,18 +82,20 @@ class Checkboxes extends View {
 	 * )
 	 * </code>
 	 *
-	 * @since 1.0
 	 * @return string
+	 * @since 1.0
 	 */
-	public function render_option( array $option, Element $element ) {
+	public function render_option( array $option ) {
 
 		// The default option arguments.
 		$option = array_merge( array(
-			'label' => '',
-			'atts' => null,
-			'value' => null,
-			'checked' => false,
+			'label_position' => 'surround_before',
+			'label_atts' => array(),
 			'disabled' => false,
+			'checked' => false,
+			'value' => null,
+			'atts' => null,
+			'label' => '',
 		), $option );
 
 
@@ -182,45 +120,28 @@ class Checkboxes extends View {
 		}
 
 		// The checkbox input output.
-		$input = '<input'. strval( $option['atts'] ) .' />';
+		$content = '<input'. strval( $option['atts'] ) .' />';
 
 
 		/** CheckBox Label ****************************************************/
 
-		$label_atts = $element->get_option( 'option_label_atts' );
-		$label_atts = \Nmwdhj\create_atts_obj( $label_atts );
+		if ( ! empty( $option['label'] ) ) {
 
-		if ( $option['atts']->has_attr( 'id' ) ) {
-			$label_atts->set_attr( 'for', $option['atts']->get_attr( 'id' ), false );
-		}
+			$label_atts = \Nmwdhj\create_atts_obj( $option['label_atts'] );
 
+			if ( $option['atts']->has_attr( 'id' ) ) {
+				$label_atts->set_attr( 'for', $option['atts']->get_attr( 'id' ), false );
+			}
 
-		/** Output ************************************************************/
-
-		switch( strtolower( $element->get_option( 'option_label_position' ) ) ) {
-
-			case 'after':
-				$output  = $input;
-				$output .= '<label'. strval( $label_atts ) .'>' . $option['label'] . '</label>';
-				break;
-
-			case 'before':
-				$output  = '<label'. strval( $label_atts ) .'>' . $option['label'] . '</label>';
-				$output .= $input;
-				break;
-
-			case 'surround_after':
-				$output = '<label'. strval( $label_atts ) .'>' . $option['label'] . $input . '</label>';
-				break;
-
-			default:
-			case 'surround_before':
-				$output = '<label'. strval( $label_atts ) .'>' . $input . $option['label'] . '</label>';
-				break;
+			$content = $this->render_label( array(
+				'position'	=> $option['label_position'],
+				'label'		=> $option['label'],
+				'atts'		=> $label_atts,
+			), $content );
 
 		}
 
-		return $output;
+		return $content;
 
 	}
 

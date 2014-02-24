@@ -6,13 +6,13 @@ namespace Nmwdhj\Elements;
  *
  * @since 1.0
  */
-class WP_Editor extends Base {
+class WP_Editor extends Element {
 
 	/**
 	 * Default element key.
 	 *
-	 * @since 1.0
 	 * @var string
+	 * @since 1.0
 	 */
 	protected $key = 'wp_editor';
 

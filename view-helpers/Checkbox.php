@@ -1,5 +1,6 @@
 <?php
 namespace Nmwdhj\Views;
+
 use Nmwdhj\Elements\Element;
 
 /**
@@ -10,48 +11,22 @@ use Nmwdhj\Elements\Element;
 class Checkbox extends Input {
 
 	/**
-	 * Check the element.
+	 * Render the Element View.
 	 *
-	 * @since 1.0
-	 * @return bool
+	 * @return string
+	 * @since 1.3
 	 */
-	public function check( Element $element ) {
+	public function render_element( Element $e ){
 
-		if ( ! parent::check( $element ) ) {
-			return false;
+		if ( $e->is_checked() ) {
+			$e->set_attr( 'checked', 'checked' );
 		}
 
-		// Get the 'type' attribute.
-		$type = $element->get_attr( 'type' );
-
-		// Check the 'type' attribute.
-		if ( strcasecmp( $type, 'checkbox' ) !== 0 ) {
-			return false;
+		if ( ! $e->has_attr( 'value' ) ) {
+			$e->set_attr( 'value', $e->get_checked_value() );
 		}
 
-		return true;
-
-	}
-
-	/**
-	 * Prepare the Input element.
-	 *
-	 * @since 1.0
-	 * @return void
-	 */
-	public function prepare( Element $element ) {
-
-		parent::prepare( $element );
-
-		// Set the 'checked' attribute.
-		if ( $element->is_checked() ) {
-			$element->set_attr( 'checked', 'checked' );
-		}
-
-		// Set the 'value' attribute.
-		if ( ! $element->has_attr( 'value' ) ) {
-			$element->set_attr( 'value', $element->get_checked_value() );
-		}
+		return parent::render_element( $e );
 
 	}
 

@@ -1,60 +1,140 @@
 <?php
 namespace Nmwdhj\Views;
+
 use Nmwdhj\Elements\Element;
 
 /**
- * The View abstract class.
+ * The Element View abstract class.
  *
- * @since 1.0
+ * @since 1.3
  */
 abstract class View {
 
-	/*** Abstract Methods *****************************************************/
-
 	/**
-	 * Check the element.
+	 * [Need Description]
 	 *
-	 * @since 1.0
-	 * @return bool
+	 * @return void
+	 * @since 1.3
 	 */
-	public function check( Element $element ){
-		return true;
+	public function __invoke( Element $e ) {
+
+		$content = $this->render_element( $e );
+
+		// Render the Element Label.
+		$content = $this->render_label( array(
+			'position'	=> $e->get_label_position(),
+			'atts'		=> $e->get_label_atts(),
+			'text'		=> $e->get_label(),
+		), $content );
+
+		return $content;
+
 	}
 
 	/**
-	 * Prepare the element.
+	 * [Need Description]
 	 *
-	 * @since 1.0
-	 * @return void
+	 * @return string
+	 * @since 1.3
 	 */
-	public function prepare( Element $element ){}
+	public abstract function render_element( Element $e );
 
 	/**
-	 * Render the element view, and return the output.
+	 * [Need Description]
 	 *
-	 * @since 1.0
 	 * @return string
+	 * @since 1.3
 	 */
-	abstract public function render( Element $element );
+	protected function render_label( array $args, $content ){
 
+		$args = array_merge( array(
+			'position' => 'after',
+			'atts' => array(),
+			'text'	=> '',
+		), $args );
 
-	/*** Magic Methods ********************************************************/
+		if ( empty( $args['text'] ) ) {
+			return $content;
+		}
 
-	/**
-	 * Invoke helper as functor.
-	 *
-	 * @since 1.0
-	 * @return string
-	 */
-	public function __invoke( Element $element ){
+		switch( strtolower( $args['position'] ) ) {
 
-		if ( $this->check( $element ) ) {
+			case 'after':
+				$content = $content . $this->render_tag( 'label', $args['atts'], $args['text'] );
+				break;
 
-			$this->prepare( $element );
+			case 'surround_after':
+				$content = $this->render_tag( 'label', $args['atts'], $args['text'] . $content );
+				break;
 
-			return $this->render( $element );
+			case 'surround_before':
+				$content = $this->render_tag( 'label', $args['atts'], $content . $args['text'] );
+				break;
+
+			default:
+			case 'before':
+				$content = $this->render_tag( 'label', $args['atts'], $args['text'] ) . $content;
+				break;
 
 		}
+
+		return $content;
+
+	}
+
+	/**
+	 * [Need Description]
+	 *
+	 * @return string
+	 * @since 1.3
+	 */
+	protected function render_hint( array $args, $content ){
+
+		$args = array_merge( array(
+			'atts' => array( 'class' => 'help' ),
+			'position' => 'after',
+			'tag' => 'p',
+			'text'=> '',
+		), $args );
+
+		if ( empty( $args['text'] ) ) {
+			return $content;
+		}
+
+		switch( strtolower( $args['position'] ) ) {
+
+			case 'before':
+				$content = $this->render_tag( $args['tag'], $args['atts'], $args['text'] ) . $content;
+				break;
+
+			default:
+			case 'after':
+				$content = $content . $this->render_tag( $args['tag'], $args['atts'], $args['text'] );
+				break;
+
+		}
+
+	}
+
+	/**
+	 * [Need Description]
+	 *
+	 * @return string
+	 * @since 1.3
+	 */
+	protected function render_tag( $tag, $atts, $content ){
+
+		if ( empty( $tag ) ) {
+			return $content;
+		}
+
+		$atts = \Nmwdhj\create_atts_obj( $atts );
+
+		$content .= '<'. $tag . strval( $atts ) .'>'
+						. $content .
+					'</'. $tag .'>';
+
+		return $content;
 
 	}
 

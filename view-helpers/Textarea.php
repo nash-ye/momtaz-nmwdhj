@@ -1,5 +1,6 @@
 <?php
 namespace Nmwdhj\Views;
+
 use Nmwdhj\Elements\Element;
 
 /**
@@ -10,13 +11,13 @@ use Nmwdhj\Elements\Element;
 class Textarea extends View {
 
 	/**
-	 * Render the element view, and return the output.
+	 * Render the Element View.
 	 *
-	 * @since 1.0
 	 * @return string
+	 * @since 1.3
 	 */
-	public function render( Element $element ) {
-		return '<textarea' . $element->get_atts_string() . '>' . esc_textarea( $element->get_value() ) . '</textarea>';
+	public function render_element( Element $e ){
+		return '<textarea' . $e->get_atts( 'string' ) . '>' . esc_textarea( $e->get_value() ) . '</textarea>';
 	}
 
 }

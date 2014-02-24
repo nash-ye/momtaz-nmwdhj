@@ -6,23 +6,23 @@ namespace Nmwdhj\Elements;
  *
  * @since 1.0
  */
-class Select extends Base {
+class Select extends Element {
 
 	/*** Properties ***********************************************************/
 
 	/**
 	 * Default element key.
 	 *
-	 * @since 1.0
 	 * @var string
+	 * @since 1.0
 	 */
 	protected $key = 'select';
 
 	/**
 	 * Default value options.
 	 *
-	 * @since 1.0
 	 * @var array
+	 * @since 1.0
 	 */
 	protected $value_options = array();
 
@@ -52,8 +52,8 @@ class Select extends Base {
 	/**
 	 * Get the values and labels for the value options.
 	 *
-	 * @since 1.0
 	 * @return array
+	 * @since 1.0
 	 */
 	public function get_value_options() {
 		return $this->value_options;
@@ -62,8 +62,8 @@ class Select extends Base {
 	/**
 	 * Ser the values and labels for the value options.
 	 *
-	 * @since 1.0
 	 * @return Nmwdhj\Elements\Select
+	 * @since 1.0
 	 */
 	public function set_value_options( $options, $append = false ) {
 
@@ -84,8 +84,8 @@ class Select extends Base {
 	/**
 	 * Remove all/specified value options.
 	 *
-	 * @since 1.0
 	 * @return Nmwdhj\Elements\Select
+	 * @since 1.0
 	 */
 	public function remove_value_options( $options = '' ) {
 
@@ -108,8 +108,8 @@ class Select extends Base {
 	/**
 	 * Remove a specified value option.
 	 *
-	 * @since 1.0
 	 * @return Nmwdhj\Elements\Select
+	 * @since 1.0
 	 */
 	public function remove_value_option( $option ) {
 		unset( $this->value_options[$option] );

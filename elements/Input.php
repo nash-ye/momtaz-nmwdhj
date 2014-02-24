@@ -6,15 +6,15 @@ namespace Nmwdhj\Elements;
  *
  * @since 1.0
  */
-class Input extends Base {
+class Input extends Element {
 
 	/*** Properties ***********************************************************/
 
 	/**
 	 * Default element key.
 	 *
-	 * @since 1.0
 	 * @var string
+	 * @since 1.0
 	 */
 	protected $key = 'input';
 
@@ -28,9 +28,11 @@ class Input extends Base {
 	 */
 	public function __construct( $key = '', array $properties = NULL ) {
 
-		if ( ! $this->has_attr( 'type' ) ) {
+		parent::__construct( $key, $properties );
 
-			switch( strtolower( $key ) ) {
+		if ( ! $key && ! $this->has_attr( 'type' ) ) {
+
+			switch( $key ) {
 
 				case 'input_url';
 					$this->set_attr( 'type', 'url' );
@@ -104,35 +106,38 @@ class Input extends Base {
 
 		}
 
-		parent::__construct( $key, $properties );
-
 	}
 
 
 	/*** Methods **************************************************************/
 
+	// Value
+
 	/**
-	 * Set an attribute value.
+	 * Get the element value.
 	 *
+	 * @return mixed
 	 * @since 1.0
-	 * @return Nmwdhj\Elements\Input
 	 */
-	public function set_attr( $key, $value ) {
+	public function get_value() {
 
-		if ( strcasecmp( $key, 'type' ) === 0 ) {
-
-			if ( strcasecmp( $this->get_key(), 'input' ) !== 0 ) {
-
-				if ( $this->has_attr( 'type' ) ) {
-					return $this;
-				}
-
-			}
-
+		if ( ! $this->has_attr( 'value' ) ) {
+			$this->set_value( $this->call_value_callback() );
 		}
 
-		return parent::set_attr( $key, $value );
+		return $this->get_attr( 'value' );
 
+	}
+
+	/**
+	 * Set the element value.
+	 *
+	 * @return Nmwdhj\Elements\Input
+	 * @since 1.3
+	 */
+	public function set_value( $value ) {
+		$this->set_attr( 'value', $value );
+		return $this;
 	}
 
 }

@@ -6,13 +6,13 @@ namespace Nmwdhj\Elements;
  *
  * @since 1.0
  */
-class Textarea extends Base {
+class Textarea extends Element {
 
 	/**
 	 * Default element key.
 	 *
-	 * @since 1.0
 	 * @var string
+	 * @since 1.0
 	 */
 	protected $key = 'textarea';
 

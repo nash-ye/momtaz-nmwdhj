@@ -1,5 +1,6 @@
 <?php
 namespace Nmwdhj\Views;
+
 use Nmwdhj\Elements\Element;
 
 /**
@@ -10,27 +11,13 @@ use Nmwdhj\Elements\Element;
 class Button extends View {
 
 	/**
-	 * Render the element view, and return the output.
+	 * Render the Element View.
 	 *
-	 * @since 1.0
 	 * @return string
+	 * @since 1.3
 	 */
-	public function render( Element $element ) {
-
-		$value = '';
-
-		if ( ! $element->has_attr( 'value' ) ) {
-
-			$value = strval( $element->get_value() );
-
-			if ( ! empty( $value ) ) {
-				$value = ' value="' . esc_attr( $value ) . '"';
-			}
-
-		}
-
-		return '<button'. $element->get_atts_string() . $value .'>' . $element->get_content() . '</button>';
-
+	public function render_element( Element $e ){
+		return '<button' . $e->get_atts( 'string' ) . '>' . $e->get_content() . '</button>';
 	}
 
 }

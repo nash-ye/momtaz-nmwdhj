@@ -1,5 +1,6 @@
 <?php
 namespace Nmwdhj\Views;
+
 use Nmwdhj\Elements\Element;
 
 /**
@@ -10,28 +11,27 @@ use Nmwdhj\Elements\Element;
 class WP_Editor extends View {
 
 	/**
-	 * Render the element view, and return the output.
+	 * Render the Element View.
 	 *
-	 * @since 1.0
 	 * @return string
+	 * @since 1.3
 	 */
-	public function render( Element $element ) {
+	public function render_element( Element $e ){
 
 		ob_start();
 
-			// Editor settings.
-			$settings = wp_parse_args( $element->get_option( 'settings' ), array(
-				'textarea_name' => $element->get_name(),
-			) );
+			// Merge the editor settings with the defaults.
+			$settings = array_merge( array(
+				'textarea_name' => $e->get_name(),
+			), (array) $e->get_option( 'settings' ) );
 
-			// Render the WP editor.
-			wp_editor( $element->get_value(), $element->get_ID(), $settings );
+			wp_editor( $e->get_value(), $e->get_ID(), $settings );
 
-			$output = ob_get_contents();
+			$content = ob_get_contents();
 
 		ob_end_clean();
 
-		return $output;
+		return $content;
 
 	}
 
