@@ -30,9 +30,9 @@ class Input extends Element {
 
 		parent::__construct( $key, $properties );
 
-		if ( ! $key && ! $this->has_attr( 'type' ) ) {
+		if ( $this->get_key() && ! $this->has_attr( 'type' ) ) {
 
-			switch( $key ) {
+			switch( $this->get_key() ) {
 
 				case 'input_url';
 					$this->set_attr( 'type', 'url' );
