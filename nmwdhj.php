@@ -5,7 +5,7 @@
  * Description: An API for creating forms elements via code.
  * Author: Nashwan Doaqan
  * Author URI: http://nashwan-d.com
- * Version: 1.3-alpha-1
+ * Version: 1.3-alpha-2
  *
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -15,7 +15,7 @@
 namespace Nmwdhj;
 
 // Nmwdhj Version.
-const VERSION = '1.3-alpha-1';
+const VERSION = '1.3-alpha-2';
 
 //*** Loaders *****************************************************************/
 
@@ -219,54 +219,3 @@ function get_path( $path = '' ) {
 Manager::register_defaults();
 
 do_action( 'nmwdhj_init' );
-
-//*** Tests *******************************************************************/
-
-// Input Text:
-$input_text = new \Nmwdhj\Elements\Input( 'input_text' );
-$input_text->set_value( 'Nashwan Doaqan' )
-			->set_label( 'Your Name' )
-			->set_NID( 'name' )
-			->output();
-
-// Input URL:
-$input_url = new \Nmwdhj\Elements\Input( 'input_url' );
-$input_url	->set_value( 'http://google.com' )
-			->set_label( 'Website' )
-			->set_NID( 'url' )
-			->output();
-
-// Input URL:
-$input_url = new \Nmwdhj\Elements\Input( 'input_url' );
-$input_url	->set_value( 'http://google.com' )
-			->set_label( 'Website' )
-			->set_NID( 'url' )
-			->output();
-
-// Textarea:
-$textarea = new \Nmwdhj\Elements\Textarea();
-$textarea	->set_value( 'bla bla bla' )
-			->set_label( 'Bio' )
-			->set_NID( 'bio' )
-			->output();
-
-// Checkbox:
-$checkbox = new \Nmwdhj\Elements\Checkbox();
-$checkbox	->set_unchecked_value( 'unactive' )
-			->set_checked_value( 'active' )
-			->set_value( 'active' )
-			->set_label( 'Mode?' )
-			->set_NID( 'mode' )
-			->output();
-
-// Checkboxes:
-$checkboxes = new \Nmwdhj\Elements\Checkboxes();
-$checkboxes ->set_value_options( array(
-				'1' => 'One',
-				'2' => 'Two',
-				'3' => 'Three',
-			) )
-			->set_label( 'Mode?' )
-			->set_value( 2 )
-			->output();
-
