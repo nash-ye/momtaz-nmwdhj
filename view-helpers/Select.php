@@ -18,11 +18,11 @@ class Select extends View {
 	 */
 	public function render_element( Element $e ){
 
-		if ( $e->has_attr( 'multiple' ) ) {
+		if ( $e->has_attr( 'name' ) && $e->has_attr( 'multiple' ) ) {
 
 			$name = $e->get_attr( 'name' );
 
-			if ( ! $name && substr( $name, -2 ) !== '[]' ) {
+			if ( substr( $name, -2 ) !== '[]' ) {
 				$e->set_attr( 'name', $name . '[]' );
 			}
 
@@ -54,16 +54,17 @@ class Select extends View {
 	 *
 	 * <code>
 	 * array(
-	 *	 $value	=> $label,
+	 *	 $value		=> $label,
 	 * )
 	 * </code>
 	 *
-	 * @since 1.0
 	 * @return string
+	 * @since 1.0
 	 */
 	public function render_options( array $options, $value ) {
 
-		$chunks = array();
+		$content = '';
+		$value = (array) $value;
 
 		foreach( $options as $key => $option ) {
 
@@ -77,19 +78,19 @@ class Select extends View {
 			}
 
 			if ( isset( $option['options'] ) && is_array( $option['options'] ) ) {
-				$chunks[] = $this->render_optgroup( $option );
+				$content .= $this->render_optgroup( $option ) . "\n";
 				continue;
 			}
 
-			if ( isset( $option['value'] ) && in_array( $option['value'], (array) $value ) ) {
-				$option['selected'] = true;
+			if ( isset( $option['value'] ) && ! isset( $option['selected'] ) ) {
+				$option['selected'] = in_array( $option['value'], $value, true );
 			}
 
-			$chunks[] = $this->render_option( $option );
+			$content .= $this->render_option( $option ) . "\n";
 
 		}
 
-		return implode( "\n", $chunks );
+		return $content;
 
 	}
 
@@ -100,13 +101,13 @@ class Select extends View {
 	 * <code>
 	 * array(
 	 *	 'label'	=> 'label',
-	 *	 'atts'	 => $array,
-	 *	 'options'  => $array,
+	 *	 'atts'		=> $array,
+	 *	 'options'	=> $array,
 	 * )
 	 * </code>
 	 *
-	 * @since 1.0
 	 * @return string
+	 * @since 1.0
 	 */
 	public function render_optgroup( array $optgroup ) {
 
@@ -122,7 +123,7 @@ class Select extends View {
 			$optgroup['atts']->set_attr( 'label', $optgroup['label'] );
 		}
 
-		return '<optgroup'. strval( $optgroup['atts'] ) .'>'. $this->render_options( $optgroup['options'] ) .'</optgroup>';
+		return '<optgroup' . strval( $optgroup['atts'] ) . '>' . $this->render_options( $optgroup['options'] ) . '</optgroup>';
 
 	}
 
@@ -139,8 +140,8 @@ class Select extends View {
 	 * )
 	 * </code>
 	 *
-	 * @since 1.0
 	 * @return string
+	 * @since 1.0
 	 */
 	public function render_option( array $option ) {
 
@@ -153,8 +154,8 @@ class Select extends View {
 		), $option );
 
 		$option['atts'] = \Nmwdhj\create_atts_obj( $option['atts'] )->set_atts( array(
-			'selected'	=> $option['selected'],
-			'disabled'	=> $option['disabled'],
+			'selected'	=> (bool) $option['selected'],
+			'disabled'	=> (bool) $option['disabled'],
 			'value'		=> $option['value'],
 		) );
 

@@ -11,8 +11,8 @@ class Button extends Element {
 	/**
 	 * Button content.
 	 *
-	 * @since 1.0
 	 * @var string
+	 * @since 1.0
 	 */
 	protected $content;
 

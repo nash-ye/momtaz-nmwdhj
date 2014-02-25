@@ -37,14 +37,6 @@ abstract class Element {
 	protected $atts;
 
 	/**
-	 * Element view.
-	 *
-	 * @var Nmwdhj/Views/View
-	 * @since 1.3
-	 */
-	protected $view;
-
-	/**
 	 * Element value callback.
 	 *
 	 * @var array
@@ -72,7 +64,7 @@ abstract class Element {
 
 		$this->set_key( $key );
 
-		if ( ! is_null( $properties ) ) {
+		if ( is_array( $properties ) ) {
 
 			foreach ( $properties as $property => $value ) {
 
@@ -605,27 +597,6 @@ abstract class Element {
 
 		return $atts;
 
-	}
-
-	/**
-	 * Set a single label attribute.
-	 *
-	 * @return Nmwdhj\Elements\Element
-	 * @since 1.3
-	 */
-	public function set_label_attr( $key, $value, $override = true ) {
-		$this->get_label_atts()->set_attr( $key, $value, $override );
-		return $this;
-	}
-
-	/**
-	 * Get a single label attribute.
-	 *
-	 * @return string
-	 * @since 1.3
-	 */
-	public function get_label_attr( $key, $def = '' ) {
-		return $this->get_label_atts()->get_attr( $key, $def );
 	}
 
 	// Label Text:

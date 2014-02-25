@@ -17,7 +17,7 @@ namespace Nmwdhj;
 // Nmwdhj Version.
 const VERSION = '1.3-alpha-2';
 
-//*** Loaders *****************************************************************/
+/**** Loaders *****************************************************************/
 
 /**
  * A helper function to load the Nmwdhj classes.
@@ -29,61 +29,57 @@ function class_loader( $class_name ) {
 
 	$nps = explode( '\\', $class_name, 3 );
 
-	if ( 'Nmwdhj' !== $nps[0] ) {
+	if ( 'Nmwdhj' !== $nps[0] || count( $nps ) === 1 ) {
 		return;
 	}
 
-	if ( count( $nps ) <= 3 ) {
+	switch( $nps[1] ) {
 
-		switch( $nps[1] ) {
+		case 'Views':
 
-			case 'Views':
+			if ( 'View' === $nps[2] ) {
+				$class_path = get_path( 'view-helpers/View.php' );
 
-				if ( 'View' === $nps[2] ) {
-					$class_path = get_path( "view-helpers/View.php" );
+			} else {
 
-				} else {
+				$list = Manager::get( array( 'view_class' => $class_name ), 'OR' );
 
-					$list = Manager::get( array( 'view_class' => $class_name ), 'OR' );
-
-					if ( $list ) {
-						$class_path = reset( $list )->view_path;
-					}
-
+				if ( $list ) {
+					$class_path = reset( $list )->view_path;
 				}
 
-				break;
+			}
 
-			case 'Elements':
+			break;
 
-				if ( 'Element' === $nps[2] ) {
-					$class_path = get_path( "elements/Element.php" );
+		case 'Elements':
 
-				} else {
+			if ( 'Element' === $nps[2] ) {
+				$class_path = get_path( 'elements/Element.php' );
 
-					$list = Manager::get( array( 'element_class' => $class_name ), 'OR' );
+			} else {
 
-					if ( $list ) {
-						$class_path = reset( $list )->element_path;
-					}
+				$list = Manager::get( array( 'element_class' => $class_name ), 'OR' );
 
+				if ( $list ) {
+					$class_path = reset( $list )->element_path;
 				}
 
-				break;
+			}
 
-			case 'Attributes':
-				$class_path = get_path( 'core/Attributes.php' );
-				break;
+			break;
 
-			case 'Exceptions':
-				$class_path = get_path( 'core/Exceptions.php' );
-				break;
+		case 'Attributes':
+			$class_path = get_path( 'core/Attributes.php' );
+			break;
 
-			case 'Manager':
-				$class_path = get_path( 'core/Manager.php' );
-				break;
+		case 'Exceptions':
+			$class_path = get_path( 'core/Exceptions.php' );
+			break;
 
-		}
+		case 'Manager':
+			$class_path = get_path( 'core/Manager.php' );
+			break;
 
 	}
 
@@ -97,13 +93,13 @@ function class_loader( $class_name ) {
 spl_autoload_register( 'Nmwdhj\class_loader' );
 
 
-//*** Functions ***************************************************************/
+/**** Functions ***************************************************************/
 
 /**
  * Create an element object.
  *
- * @return Nmwdhj\Elements\Element
  * @throws Nmwdhj\Exceptions\Exception
+ * @return Nmwdhj\Elements\Element
  * @since 1.2
  */
 function create_element( $key, array $properties = NULL ) {
@@ -153,7 +149,8 @@ function create_atts_obj( $atts ) {
 		return $atts;
 	}
 
-	return new Attributes\Attributes( $atts );
+	$atts = new Attributes\Attributes( $atts );
+	return $atts;
 
 }
 
@@ -213,7 +210,7 @@ function get_path( $path = '' ) {
 }
 
 
-//*** Initialize **************************************************************/
+/**** Initialize **************************************************************/
 
 // Register the default settings.
 Manager::register_defaults();

@@ -25,7 +25,7 @@ class Checkboxes extends View {
 
 			$name = $e->get_attr( 'name' );
 
-			if ( substr( $name, -2 ) != '[]' ) {
+			if ( substr( $name, -2 ) !== '[]' ) {
 				$e->set_attr( 'name', $name . '[]' );
 			}
 
@@ -42,25 +42,8 @@ class Checkboxes extends View {
 
 			}
 
-			if ( ! isset( $option['atts'] ) ) {
-				$option['atts'] = array();
-			}
-
-			// Set the option attributes.
-			$option['atts'] = \Nmwdhj\create_atts_obj( $option['atts'] );
-			$option['atts']->set_atts( $e->get_atts(), false );
-
-			// Set the 'checked' attribute.
-			if ( isset( $option['value'] ) && ! $option['atts']->has_attr( 'checked' ) ) {
-
-				if ( in_array( $option['value'], (array) $e->get_value(), true ) ) {
-					$option['atts']->set_attr( 'checked', true );
-				}
-
-			}
-
 			// Render the option.
-			$content .= $this->render_option( $option ) . "\n";
+			$content .= $this->render_option( $option, $e ) . "\n";
 
 		}
 
@@ -85,56 +68,54 @@ class Checkboxes extends View {
 	 * @return string
 	 * @since 1.0
 	 */
-	public function render_option( array $option ) {
+	public function render_option( array $option, Element $e ) {
 
 		// The default option arguments.
 		$option = array_merge( array(
-			'label_position' => 'surround_before',
-			'label_atts' => array(),
 			'disabled' => false,
 			'checked' => false,
-			'value' => null,
-			'atts' => null,
+			'value' => NULL,
+			'atts' => NULL,
 			'label' => '',
 		), $option );
 
 
 		/** CheckBox Input ****************************************************/
 
+		// Set the 'checked' attribute.
+		if ( empty( $option['selected'] ) && ! empty( $option['value'] ) ) {
+
+			if ( in_array( $option['value'], (array) $e->get_value(), true ) ) {
+				$option['selected'] = true;
+			}
+
+		}
+
 		// Get the Attributes object.
-		$option['atts'] = \Nmwdhj\create_atts_obj( $option['atts'] );
-
-		// Set the value attribute.
-		if ( ! is_null( $option['value'] ) ) {
-			$option['atts']->set_attr( 'value', $option['value'] );
-		}
-
-		// Set the checked attribute.
-		if ( ! empty( $option['checked'] ) ) {
-			$option['atts']->set_attr( 'checked', true );
-		}
-
-		// Set the disabled attribute.
-		if ( ! empty( $option['disabled'] ) ) {
-			$option['atts']->set_attr( 'disabled', true );
-		}
+		$option['atts'] = \Nmwdhj\create_atts_obj( $option['atts'] )
+				->set_atts( array(
+					'selected'	=> (bool) $option['selected'],
+					'disabled'	=> (bool) $option['disabled'],
+					'value'		=> $option['value'],
+				) )
+				->set_atts( $e->get_atts(), false );
 
 		// The checkbox input output.
-		$content = '<input'. strval( $option['atts'] ) .' />';
+		$content = '<input' . strval( $option['atts'] ) . ' />';
 
 
 		/** CheckBox Label ****************************************************/
 
 		if ( ! empty( $option['label'] ) ) {
 
-			$label_atts = \Nmwdhj\create_atts_obj( $option['label_atts'] );
+			$label_atts = $e->get_label_atts();
 
-			if ( $option['atts']->has_attr( 'id' ) ) {
-				$label_atts->set_attr( 'for', $option['atts']->get_attr( 'id' ), false );
+			if ( ! $label_atts->has_attr( 'for' ) && $option['atts']->has_attr( 'id' ) ) {
+				$label_atts->set_attr( 'for', $option['atts']->get_attr( 'id' ) );
 			}
 
 			$content = $this->render_label( array(
-				'position'	=> $option['label_position'],
+				'position'	=> $e->get_label_position(),
 				'label'		=> $option['label'],
 				'atts'		=> $label_atts,
 			), $content );

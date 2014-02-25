@@ -11,9 +11,9 @@ use Nmwdhj\Elements\Element;
 abstract class View {
 
 	/**
-	 * [Need Description]
+	 * Render the View.
 	 *
-	 * @return void
+	 * @return string
 	 * @since 1.3
 	 */
 	public function __invoke( Element $e ) {
@@ -32,7 +32,7 @@ abstract class View {
 	}
 
 	/**
-	 * [Need Description]
+	 * Render the Element View.
 	 *
 	 * @return string
 	 * @since 1.3
@@ -40,7 +40,7 @@ abstract class View {
 	public abstract function render_element( Element $e );
 
 	/**
-	 * [Need Description]
+	 * A helper method to render a custom <label> tag.
 	 *
 	 * @return string
 	 * @since 1.3
@@ -50,7 +50,7 @@ abstract class View {
 		$args = array_merge( array(
 			'position' => 'after',
 			'atts' => array(),
-			'text'	=> '',
+			'text' => '',
 		), $args );
 
 		if ( empty( $args['text'] ) ) {
@@ -83,7 +83,7 @@ abstract class View {
 	}
 
 	/**
-	 * [Need Description]
+	 * A helper method to render a description tag.
 	 *
 	 * @return string
 	 * @since 1.3
@@ -117,7 +117,7 @@ abstract class View {
 	}
 
 	/**
-	 * [Need Description]
+	 * A helper method to render a custom HTML tag.
 	 *
 	 * @return string
 	 * @since 1.3
@@ -130,9 +130,9 @@ abstract class View {
 
 		$atts = \Nmwdhj\create_atts_obj( $atts );
 
-		$content .= '<'. $tag . strval( $atts ) .'>'
+		$content = '<' . $tag . strval( $atts ) . '>'
 						. $content .
-					'</'. $tag .'>';
+					'</' . $tag . '>';
 
 		return $content;
 

@@ -1,6 +1,8 @@
 <?php
 namespace Nmwdhj\Attributes;
 
+use Nmwdhj\Elements\Element;
+
 /**
  * The attributes class.
  *
@@ -13,10 +15,10 @@ class Attributes {
 	/**
 	 * Attributes list.
 	 *
-	 * @since 1.0
 	 * @var Nmwdhj\Attributes\Attribute[]
+	 * @since 1.0
 	 */
-	protected $attributes;
+	protected $atts = array();
 
 
 	/*** Magic Methods ********************************************************/
@@ -27,9 +29,6 @@ class Attributes {
 	 * @since 1.0
 	 */
 	public function __construct( $atts = NULL ) {
-
-		// Reset the attributes.
-		$this->reset_atts();
 
 		// Set the attributes.
 		$this->set_atts( $atts );
@@ -44,25 +43,25 @@ class Attributes {
 	/**
 	 * Get all the attributes array.
 	 *
-	 * @since 1.0
 	 * @return Nmwdhj\Attributes\Attribute[]
+	 * @since 1.0
 	 */
 	public function get_atts() {
-		return $this->attributes;
+		return $this->atts;
 	}
 
 	/**
 	 * Get an attribute object.
 	 *
+	 * @return Nmwdhj\Attributes\Attribute|NULL
 	 * @since 1.1
-	 * @return Nmwdhj\Attributes\Attribute
 	 */
 	public function get_attr_obj( $key ) {
 
 		$key = strtolower( $key );
 
-		if ( isset( $this->attributes[ $key ] ) ) {
-			return $this->attributes[ $key ];
+		if ( isset( $this->atts[ $key ] ) ) {
+			return $this->atts[ $key ];
 		}
 
 	}
@@ -70,8 +69,8 @@ class Attributes {
 	/**
 	 * Get an attribute value.
 	 *
-	 * @since 1.0
 	 * @return string
+	 * @since 1.0
 	 */
 	public function get_attr( $key, $def = '' ) {
 
@@ -90,8 +89,8 @@ class Attributes {
 	/**
 	 * Check for an attribute existence.
 	 *
-	 * @since 1.0
 	 * @return bool
+	 * @since 1.0
 	 */
 	public function has_attr( $key ) {
 
@@ -112,8 +111,8 @@ class Attributes {
 	/**
 	 * Set many attributes at once.
 	 *
-	 * @since 1.0
 	 * @return Nmwdhj\Attributes\Attributes
+	 * @since 1.0
 	 */
 	public function set_atts( $atts, $override = true ) {
 
@@ -136,15 +135,15 @@ class Attributes {
 	/**
 	 * Set an attribute value.
 	 *
-	 * @since 1.0
 	 * @return Nmwdhj\Attributes\Attributes
+	 * @since 1.0
 	 */
 	public function set_attr( $key, $value, $override = true ) {
 
 		$key = strtolower( $key );
 
 		if ( $override || ! $this->has_attr( $key ) ) {
-			$this->attributes[ $key ] = \Nmwdhj\create_attr_obj( $key, $value );
+			$this->atts[ $key ] = \Nmwdhj\create_attr_obj( $key, $value );
 		}
 
 		return $this;
@@ -156,8 +155,8 @@ class Attributes {
 	/**
 	 * Remove many attributes at once.
 	 *
-	 * @since 1.0
 	 * @return Nmwdhj\Attributes\Attributes
+	 * @since 1.0
 	 */
 	public function remove_atts( $keys ) {
 
@@ -180,32 +179,16 @@ class Attributes {
 	/**
 	 * Remove an attribute.
 	 *
-	 * @since 1.0
 	 * @return Nmwdhj\Attributes\Attributes
+	 * @since 1.0
 	 */
 	public function remove_attr( $key ) {
 
 		$key = strtolower( $key );
-
-		if ( is_array( $this->attributes ) ) {
-			unset( $this->attributes[ $key ] );
-		}
+		unset( $this->atts[ $key ] );
 
 		return $this;
 
-	}
-
-	// Reset
-
-	/**
-	 * Reset the attributes array.
-	 *
-	 * @since 1.0
-	 * @return Nmwdhj\Attributes\Attributes
-	 */
-	public function reset_atts() {
-		$this->attributes = array();
-		return $this;
 	}
 
 	// Converters
@@ -213,8 +196,8 @@ class Attributes {
 	/**
 	 * Convert the attributes array to string.
 	 *
-	 * @since 1.0
 	 * @return string
+	 * @since 1.0
 	 */
 	public function to_string( array $args = NULL ) {
 
@@ -241,6 +224,12 @@ class Attributes {
 
 	}
 
+	/**
+	 * Convert the attributes array to string.
+	 *
+	 * @return string
+	 * @since 1.0
+	 */
 	public function __toString() {
 		return $this->to_string();
 	}
@@ -258,24 +247,24 @@ interface Attribute {
 	/**
 	 * Get the attribute key.
 	 *
-	 * @since 1.1
 	 * @return string
+	 * @since 1.1
 	 */
 	public function get_key();
 
 	/**
 	 * Get the attribute value.
 	 *
-	 * @since 1.1
 	 * @return string
+	 * @since 1.1
 	 */
 	public function get_value();
 
 	/**
 	 * Get the attribute output.
 	 *
-	 * @since 1.1
 	 * @return string
+	 * @since 1.1
 	 */
 	public function __toString();
 
@@ -293,16 +282,16 @@ class SimpleAttribute implements Attribute {
 	/**
 	 * The attribute key.
 	 *
-	 * @since 1.1
 	 * @var string
+	 * @since 1.1
 	 */
 	protected $key;
 
 	/**
 	 * The attribute value.
 	 *
-	 * @since 1.1
 	 * @var mixed
+	 * @since 1.1
 	 */
 	protected $value;
 
@@ -332,8 +321,8 @@ class SimpleAttribute implements Attribute {
 	/**
 	 * Get the attribute key.
 	 *
-	 * @since 1.1
 	 * @return string
+	 * @since 1.1
 	 */
 	public function get_key() {
 		return $this->key;
@@ -342,8 +331,8 @@ class SimpleAttribute implements Attribute {
 	/**
 	 * Get the attribute value.
 	 *
-	 * @since 1.1
 	 * @return string
+	 * @since 1.1
 	 */
 	public function get_value() {
 		return $this->value;
@@ -354,8 +343,8 @@ class SimpleAttribute implements Attribute {
 	/**
 	 * Set the attribute key.
 	 *
-	 * @since 1.1
 	 * @return Nmwdhj\Attributes\SimpleAttribute
+	 * @since 1.1
 	 */
 	protected function set_key( $key ) {
 		$this->key = $key;
@@ -365,10 +354,10 @@ class SimpleAttribute implements Attribute {
 	/**
 	 * Set the attribute value.
 	 *
-	 * @since 1.1
 	 * @return Nmwdhj\Attributes\SimpleAttribute
+	 * @since 1.1
 	 */
-	public function set_value( $value ) {
+	protected function set_value( $value ) {
 		$this->value = $value;
 		return $this;
 	}
@@ -376,8 +365,8 @@ class SimpleAttribute implements Attribute {
 	/**
 	 * Get the attribute output.
 	 *
-	 * @since 1.1
 	 * @return string
+	 * @since 1.1
 	 */
 	public function __toString(){
 
@@ -417,10 +406,10 @@ class ClassAttribute extends SimpleAttribute {
 	/**
 	 * Get the classes list.
 	 *
-	 * @since 1.1
 	 * @return string|array
+	 * @since 1.1
 	 */
-	public function get_value( $type = 'string' ) {
+	protected function get_value( $type = 'string' ) {
 
 		switch( strtolower( $type ) ) {
 
@@ -448,10 +437,10 @@ class ClassAttribute extends SimpleAttribute {
 	// Checks
 
 	/**
+	 * [Need Description]
 	 *
-	 *
-	 * @since 1.1
 	 * @return bool
+	 * @since 1.1
 	 */
 	public function has_classes( $classes ) {
 
@@ -474,8 +463,8 @@ class ClassAttribute extends SimpleAttribute {
 	/**
 	 * Adds many classes at once.
 	 *
-	 * @since 1.1
 	 * @return Nmwdhj\Attributes\ClassAttribute
+	 * @since 1.1
 	 */
 	public function add_classes( $classes ) {
 
@@ -495,8 +484,8 @@ class ClassAttribute extends SimpleAttribute {
 	/**
 	 * Removes many classes at once.
 	 *
-	 * @since 1.1
 	 * @return Nmwdhj\Attributes\ClassAttribute
+	 * @since 1.1
 	 */
 	public function remove_classes( $classes ) {
 
@@ -518,8 +507,8 @@ class ClassAttribute extends SimpleAttribute {
 	/**
 	 * Convert the classes list to an array.
 	 *
-	 * @since 1.1
 	 * @return array
+	 * @since 1.1
 	 */
 	protected function explode_classes( $value ) {
 
@@ -542,8 +531,8 @@ class ClassAttribute extends SimpleAttribute {
 	/**
 	 * Convert the classes list to a string.
 	 *
-	 * @since 1.1
 	 * @return string
+	 * @since 1.1
 	 */
 	protected function implode_classes( $value ) {
 

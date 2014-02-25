@@ -32,7 +32,7 @@ class Input extends Element {
 
 		if ( $this->get_key() && ! $this->has_attr( 'type' ) ) {
 
-			switch( $this->get_key() ) {
+			switch( strtolower( $this->get_key() ) ) {
 
 				case 'input_url';
 					$this->set_attr( 'type', 'url' );

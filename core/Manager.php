@@ -78,7 +78,7 @@ final class Manager {
 		$args = (object) array_merge( array(
 			'element_class'	=> '',
 			'element_path'	=> '',
-			'view_class'		=> '',
+			'view_class'	=> '',
 			'view_path'		=> '',
 			'aliases'		=> array(),
 		), $args );
