@@ -78,7 +78,9 @@ function class_loader( $class_name ) {
 			break;
 
 		case 'Manager':
-			$class_path = get_path( 'core/Manager.php' );
+		case 'EventManager':
+		case 'PriorityArray':
+			$class_path = get_path( 'core/Essentials.php' );
 			break;
 
 	}

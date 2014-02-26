@@ -1,7 +1,7 @@
 <?php
 namespace Nmwdhj\Attributes;
 
-use Nmwdhj\Elements\Element;
+use Nmwdhj\EventManager;
 
 /**
  * The attributes class.
@@ -11,6 +11,14 @@ use Nmwdhj\Elements\Element;
 class Attributes {
 
 	/*** Properties ***********************************************************/
+
+	/**
+	 * Attributes Event Manager.
+	 *
+	 * @var Nmwdhj\EventManager
+	 * @since 1.3
+	 */
+	protected $dispatcher;
 
 	/**
 	 * Attributes list.
@@ -29,6 +37,8 @@ class Attributes {
 	 * @since 1.0
 	 */
 	public function __construct( $atts = NULL ) {
+
+		$this->event_manager = new EventManager();
 
 		// Set the attributes.
 		$this->set_atts( $atts );
@@ -128,6 +138,8 @@ class Attributes {
 
 		}
 
+		$this->get_dispatcher()->trigger( 'set_atts', $atts, $override );
+
 		return $this;
 
 	}
@@ -145,6 +157,8 @@ class Attributes {
 		if ( $override || ! $this->has_attr( $key ) ) {
 			$this->atts[ $key ] = \Nmwdhj\create_attr_obj( $key, $value );
 		}
+
+		$this->get_dispatcher()->trigger( 'set_attr', $key, $value, $override );
 
 		return $this;
 
@@ -172,6 +186,8 @@ class Attributes {
 
 		}
 
+		$this->get_dispatcher()->trigger( 'remove_atts', $keys );
+
 		return $this;
 
 	}
@@ -187,7 +203,38 @@ class Attributes {
 		$key = strtolower( $key );
 		unset( $this->atts[ $key ] );
 
+		$this->get_dispatcher()->trigger( 'remove_attr', $key );
+
 		return $this;
+
+	}
+
+	// Event Manager
+
+	/**
+	 * Set the object Dispatcher (EventManager).
+	 *
+	 * @return Nmwdhj\Attributes\Attributes
+	 * @since 1.3
+	 */
+	public function set_dispatcher( EventManager $dispatcher ) {
+		$this->dispatcher = $dispatcher;
+		return $this;
+	}
+
+	/**
+	 * Set the object Dispatcher (EventManager).
+	 *
+	 * @return Nmwdhj\EventManager
+	 * @since 1.3
+	 */
+	public function get_dispatcher() {
+
+		if ( is_null( $this->dispatcher ) ) {
+			$this->dispatcher = new EventManager();
+		}
+
+		return $this->dispatcher;
 
 	}
 
@@ -409,7 +456,7 @@ class ClassAttribute extends SimpleAttribute {
 	 * @return string|array
 	 * @since 1.1
 	 */
-	protected function get_value( $type = 'string' ) {
+	public function get_value( $type = 'string' ) {
 
 		switch( strtolower( $type ) ) {
 

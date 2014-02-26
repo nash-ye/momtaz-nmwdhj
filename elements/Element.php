@@ -320,19 +320,24 @@ abstract class Element {
 	 */
 	public function get_atts( $type = 'array' ) {
 
-		if ( 'string' === $type ) {
+		switch( $type ) {
 
-			$args = NULL;
+			case 'obj':
+				return $this->get_atts_obj();
 
-			if ( func_num_args() > 1 ) {
-				$args = (array) func_get_arg( 1 );
-			}
+			default:
+			case 'array':
+				return $this->get_atts_obj()->get_atts();
 
-			return $this->get_atts_obj()->to_string( $args );
+			case 'string':
 
-		} else {
+				$args = NULL;
 
-			return $this->get_atts_obj()->get_atts();
+				if ( func_num_args() > 1 ) {
+					$args = (array) func_get_arg( 1 );
+				}
+
+				return $this->get_atts_obj()->to_string( $args );
 
 		}
 
@@ -428,7 +433,7 @@ abstract class Element {
 	 * @return Nmwdhj\Attributes\Attributes
 	 * @since 1.0
 	 */
-	protected function get_atts_obj() {
+	public function get_atts_obj() {
 
 		if ( is_null( $this->atts ) ) {
 			$this->atts = new Attributes();
