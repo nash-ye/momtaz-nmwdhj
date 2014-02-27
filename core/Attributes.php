@@ -230,7 +230,7 @@ class Attributes {
 	// Event Manager
 
 	/**
-	 * Set the object Dispatcher (EventManager).
+	 * Set the Dispatcher (EventManager).
 	 *
 	 * @return Nmwdhj\Attributes\Attributes
 	 * @since 1.3
@@ -241,7 +241,7 @@ class Attributes {
 	}
 
 	/**
-	 * Set the object Dispatcher (EventManager).
+	 * Get the Dispatcher (EventManager).
 	 *
 	 * @return Nmwdhj\EventManager
 	 * @since 1.3

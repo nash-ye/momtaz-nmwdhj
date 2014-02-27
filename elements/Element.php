@@ -1,6 +1,7 @@
 <?php
 namespace Nmwdhj\Elements;
 
+use Nmwdhj\EventManager;
 use Nmwdhj\Attributes\Attributes;
 
 /**
@@ -35,6 +36,14 @@ abstract class Element {
 	 * @since 1.3
 	 */
 	protected $atts;
+
+	/**
+	 * Element Event Manager.
+	 *
+	 * @var Nmwdhj\EventManager
+	 * @since 1.3
+	 */
+	protected $dispatcher;
 
 	/**
 	 * Element value callback.
@@ -356,16 +365,6 @@ abstract class Element {
 	}
 
 	/**
-	 * Get an attribute object.
-	 *
-	 * @return string
-	 * @since 1.0
-	 */
-	public function get_attr_obj( $key ) {
-		return $this->get_atts_obj()->get_attr_obj( $key );
-	}
-
-	/**
 	 * Check for an attribute existence.
 	 *
 	 * @return bool
@@ -381,14 +380,9 @@ abstract class Element {
 	 * @return Nmwdhj\Elements\Element
 	 * @since 1.0
 	 */
-	public function set_atts( array $atts ) {
-
-		foreach( $atts as $key => $value ) {
-			$this->set_attr( $key, $value );
-		}
-
+	public function set_atts( $atts, $override = true ) {
+		$this->get_atts_obj()->set_atts( $atts, $override );
 		return $this;
-
 	}
 
 	/**
@@ -408,14 +402,9 @@ abstract class Element {
 	 * @return Nmwdhj\Elements\Element
 	 * @since 1.0
 	 */
-	public function remove_atts( array $keys ) {
-
-		foreach( $keys as $key ) {
-			$this->remove_attr( $key );
-		}
-
+	public function remove_atts( $keys ) {
+		$this->get_atts_obj()->remove_atts( $keys );
 		return $this;
-
 	}
 
 	/**
@@ -489,6 +478,7 @@ abstract class Element {
 			$this->options = $options;
 		}
 
+		$this->get_dispatcher()->trigger( 'set_options', $options, $append );
 		return $this;
 
 	}
@@ -502,6 +492,7 @@ abstract class Element {
 	public function set_option( $option, $value ) {
 
 		$this->options[ $option ] = $value;
+		$this->get_dispatcher()->trigger( 'set_option', $option, $value );
 		return $this;
 
 	}
@@ -526,6 +517,7 @@ abstract class Element {
 
 		}
 
+		$this->get_dispatcher()->trigger( 'remove_options', $options );
 		return $this;
 
 	}
@@ -539,7 +531,37 @@ abstract class Element {
 	public function remove_option( $option ) {
 
 		unset( $this->options[ $option ] );
+		$this->get_dispatcher()->trigger( 'remove_option', $option );
 		return $this;
+
+	}
+
+	// Event Manager
+
+	/**
+	 * Set the Dispatcher (EventManager).
+	 *
+	 * @return Nmwdhj\Elements\Element
+	 * @since 1.3
+	 */
+	public function set_dispatcher( EventManager $dispatcher ) {
+		$this->dispatcher = $dispatcher;
+		return $this;
+	}
+
+	/**
+	 * Get the Dispatcher (EventManager).
+	 *
+	 * @return Nmwdhj\EventManager
+	 * @since 1.3
+	 */
+	public function get_dispatcher() {
+
+		if ( is_null( $this->dispatcher ) ) {
+			$this->dispatcher = new EventManager();
+		}
+
+		return $this->dispatcher;
 
 	}
 
