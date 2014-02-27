@@ -28,7 +28,7 @@ class Button extends Element {
 	/*** Magic Methods ********************************************************/
 
 	/**
-	 * The Input element constructor.
+	 * The Button element constructor.
 	 *
 	 * @since 1.0
 	 */

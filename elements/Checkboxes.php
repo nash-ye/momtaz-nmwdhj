@@ -62,18 +62,13 @@ class Checkboxes extends Input {
 	 * @return Nmwdhj\Elements\Checkboxes
 	 * @since 1.0
 	 */
-	public function set_value_options( $options, $append = false ) {
+	public function set_value_options( array $options, $append = false ) {
 
-		if ( is_array( $options ) ) {
-
-			if ( $append ) {
-				$options = array_merge( (array) $this->value_options, $options );
-			}
-
-			$this->value_options = $options;
-
+		if ( $append ) {
+			$options = array_merge( (array) $this->value_options, $options );
 		}
 
+		$this->value_options = $options;
 		return $this;
 
 	}
@@ -84,17 +79,17 @@ class Checkboxes extends Input {
 	 * @return Nmwdhj\Elements\Checkboxes
 	 * @since 1.0
 	 */
-	public function remove_value_options( $options = '' ) {
+	public function remove_value_options( $options = NULL ) {
 
-		if ( is_array( $options ) && ! empty( $options ) ) {
+		if ( is_null( $options ) ) {
 
-			foreach( $options as $option ) {
-				$this->remove_value_option( $option );
-			}
+			$this->set_value_options( array() );
 
 		} else {
 
-			$this->value_options = array();
+			foreach( (array) $options as $option ) {
+				$this->remove_value_option( $option );
+			}
 
 		}
 
@@ -109,7 +104,7 @@ class Checkboxes extends Input {
 	 * @since 1.0
 	 */
 	public function remove_value_option( $option ) {
-		unset( $this->value_options[$option] );
+		unset( $this->value_options[ $option ] );
 		return $this;
 	}
 
