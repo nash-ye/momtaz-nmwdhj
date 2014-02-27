@@ -29,7 +29,7 @@ abstract class Element {
 	protected $value;
 
 	/**
-	 * Element attributes object.
+	 * Element attributes.
 	 *
 	 * @var Nmwdhj\Attributes\Attributes
 	 * @since 1.3
@@ -68,7 +68,7 @@ abstract class Element {
 
 			foreach ( $properties as $property => $value ) {
 
-				switch( strtolower( $property ) ) {
+				switch( $property = strtolower( $property ) ) {
 
 					case 'id':
 						$this->set_ID( $value );
@@ -90,12 +90,14 @@ abstract class Element {
 						$this->set_value( $value );
 						break;
 
-					case 'label':
-						$this->set_label( $value );
-						break;
-
 					case 'options':
 						$this->set_options( $value );
+						break;
+
+					case 'hint':
+					case 'label':
+					case 'wrapper':
+						$this->set_option( $property, $value );
 						break;
 
 				}
@@ -213,13 +215,13 @@ abstract class Element {
 	 * @return Nmwdhj\Elements\Element
 	 * @since 1.1
 	 */
-	public function set_value_callback_array( $callback, array $param ) {
+	public function set_value_callback_array( $callback, array $args ) {
 
 		if ( is_callable( $callback ) ) {
 
 			$this->value_callback = array(
 				'name' => $callback,
-				'args' => $param,
+				'args' => $args,
 			);
 
 		}
@@ -461,19 +463,15 @@ abstract class Element {
 	 * @return mixed
 	 * @since 1.0
 	 */
-	public function get_option( $option, $def = '' ) {
+	public function get_option( $option, $default = NULL ) {
 
-		if ( ! empty( $option ) ) {
+		$options = $this->get_options();
 
-			$options = $this->get_options();
-
-			if ( isset( $options[ $option ] ) ) {
-				return $options[ $option ];
-			}
-
+		if ( isset( $options[ $option ] ) ) {
+			return $options[ $option ];
+		} else {
+			return $default;
 		}
-
-		return $def;
 
 	}
 
@@ -483,9 +481,11 @@ abstract class Element {
 	 * @return Nmwdhj\Elements\Element
 	 * @since 1.0
 	 */
-	public function set_options( $options ) {
+	public function set_options( array $options, $append = false ) {
 
-		if ( is_array( $options ) ) {
+		if ( $append ) {
+			$this->options = array_merge( $this->options, $options );
+		} else {
 			$this->options = $options;
 		}
 
@@ -501,10 +501,7 @@ abstract class Element {
 	 */
 	public function set_option( $option, $value ) {
 
-		if ( ! empty( $option ) ) {
-			$this->options[ $option ] = $value;
-		}
-
+		$this->options[ $option ] = $value;
 		return $this;
 
 	}
@@ -517,7 +514,7 @@ abstract class Element {
 	 */
 	public function remove_options( $options = '' ) {
 
-		if ( is_array( $options ) && ! empty( $options ) ) {
+		if ( is_array( $options ) ) {
 
 			foreach( $options as $option ) {
 				$this->remove_option( $option );
@@ -541,90 +538,9 @@ abstract class Element {
 	 */
 	public function remove_option( $option ) {
 
-		if ( ! empty( $option ) ) {
-			unset( $this->options[$option] );
-		}
-
+		unset( $this->options[ $option ] );
 		return $this;
 
-	}
-
-	// Label Position:
-
-	/**
-	 * Set the label position.
-	 *
-	 * @return Nmwdhj\Elements\Element
-	 * @since 1.3
-	 */
-	public function set_label_position( $position ) {
-		$this->set_option( 'label_position', $position );
-		return $this;
-	}
-
-	/**
-	 * Get the label position.
-	 *
-	 * @return string
-	 * @since 1.3
-	 */
-	public function get_label_position() {
-		return $this->get_option( 'label_position' );
-	}
-
-	// Label Attributes:
-
-	/**
-	 * Set the label attributes.
-	 *
-	 * @return Nmwdhj\Elements\Element
-	 * @since 1.3
-	 */
-	public function set_label_atts( $atts ) {
-		$this->set_option( 'label_atts', $atts );
-		return $this;
-	}
-
-	/**
-	 * Get the label attributes.
-	 *
-	 * @return Nmwdhj\Attributes\Attributes
-	 * @since 1.3
-	 */
-	public function get_label_atts() {
-
-		$atts = $this->get_option( 'label_atts' );
-
-		if ( ! $atts instanceof Attributes ) {
-			$atts = new Attributes( $atts );
-			$this->set_label_atts( $atts );
-		}
-
-		return $atts;
-
-	}
-
-	// Label Text:
-
-	/**
-	 * Set the label text.
-	 *
-	 * @return Nmwdhj\Elements\Element
-	 * @since 1.3
-	 */
-	public function set_label( $text ) {
-		$this->set_option( 'label', $text );
-		return $this;
-	}
-
-	/**
-	 * Get the label text.
-	 *
-	 * @return string
-	 * @since 1.3
-	 */
-	public function get_label() {
-		return $this->get_option( 'label' );
 	}
 
 }

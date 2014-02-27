@@ -38,8 +38,6 @@ class Attributes {
 	 */
 	public function __construct( $atts = NULL ) {
 
-		$this->event_manager = new EventManager();
-
 		// Set the attributes.
 		$this->set_atts( $atts );
 
@@ -87,7 +85,7 @@ class Attributes {
 		$obj = $this->get_attr_obj( $key );
 
 		if ( ! $obj && is_scalar( $def ) ) {
-			return (string) $def;
+			return $def;
 		}
 
 		return $obj->get_value();
@@ -104,12 +102,26 @@ class Attributes {
 	 */
 	public function has_attr( $key ) {
 
-		if ( $key instanceof Attribute ) {
-			$key = $key->get_key();
-		}
+		if ( is_array( $key ) ) {
 
-		if ( ! $this->get_attr_obj( $key ) ) {
-			return false;
+			foreach( $key as $value ) {
+
+				if ( ! $this->has_attr( $value ) ) {
+					return false;
+				}
+
+			}
+
+		} else {
+
+			if ( $key instanceof Attribute ) {
+				$key = $key->get_key();
+			}
+
+			if ( ! $this->get_attr_obj( $key ) ) {
+				return false;
+			}
+
 		}
 
 		return true;
@@ -136,9 +148,11 @@ class Attributes {
 				$this->set_attr( $key, $value, $override );
 			}
 
-		}
+			$this->get_dispatcher()->trigger( 'set_atts',
+				$atts, $override
+			);
 
-		$this->get_dispatcher()->trigger( 'set_atts', $atts, $override );
+		}
 
 		return $this;
 
@@ -155,10 +169,14 @@ class Attributes {
 		$key = strtolower( $key );
 
 		if ( $override || ! $this->has_attr( $key ) ) {
-			$this->atts[ $key ] = \Nmwdhj\create_attr_obj( $key, $value );
-		}
 
-		$this->get_dispatcher()->trigger( 'set_attr', $key, $value, $override );
+			$this->atts[ $key ] = \Nmwdhj\create_attr_obj( $key, $value );
+
+			$this->get_dispatcher()->trigger( 'set_attr',
+				$key, $value, $override
+			);
+
+		}
 
 		return $this;
 
@@ -184,9 +202,9 @@ class Attributes {
 				$this->remove_attr( $key );
 			}
 
-		}
+			$this->get_dispatcher()->trigger( 'remove_atts', $keys );
 
-		$this->get_dispatcher()->trigger( 'remove_atts', $keys );
+		}
 
 		return $this;
 

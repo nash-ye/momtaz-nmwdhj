@@ -306,8 +306,8 @@ class EventManager {
 	 */
 	public function attach( $event, $listener, $priority = 10 ) {
 
-		if ( ! is_callable( $listener ) ) {
-			throw new Exception( 'The event listener is not a valid callback.' );
+		if ( NULL === $listener ) {
+			throw new Exception( 'The provided listener isn\'t a valid callback.' );
 		}
 
 		if ( is_array( $event ) ) {
@@ -336,8 +336,8 @@ class EventManager {
 	 */
 	public function detach( $event, $listener ) {
 
-		if ( ! is_callable( $listener ) ) {
-			throw new Exception( 'The event listener is not a valid callback.' );
+		if ( NULL === $listener ) {
+			throw new Exception( 'The provided listener isn\'t a valid callback.' );
 		}
 
 		if ( is_array( $event ) ) {
@@ -424,7 +424,7 @@ class PriorityArray implements \IteratorAggregate, \ArrayAccess, \Serializable, 
 	 * @var bool
 	 * @since 1.3
 	 */
-	private $is_sorted = false;
+	private $is_sorted = true;
 
 
 	/*** Methods **************************************************************/

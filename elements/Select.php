@@ -112,7 +112,7 @@ class Select extends Element {
 	 * @since 1.0
 	 */
 	public function remove_value_option( $option ) {
-		unset( $this->value_options[$option] );
+		unset( $this->value_options[ $option ] );
 		return $this;
 	}
 

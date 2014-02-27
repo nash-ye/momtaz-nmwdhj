@@ -20,17 +20,6 @@ class Checkboxes extends View {
 
 		$content = '';
 
-		// Fix the name attribute.
-		if ( $e->has_attr( 'name' ) ) {
-
-			$name = $e->get_attr( 'name' );
-
-			if ( substr( $name, -2 ) !== '[]' ) {
-				$e->set_attr( 'name', $name . '[]' );
-			}
-
-		}
-
 		foreach( $e->get_value_options() as $key => $option ) {
 
 			if ( is_scalar( $option ) ) {
@@ -91,6 +80,7 @@ class Checkboxes extends View {
 
 		}
 
+
 		// Get the Attributes object.
 		$option['atts'] = \Nmwdhj\create_atts_obj( $option['atts'] )
 				->set_atts( array(
@@ -100,6 +90,18 @@ class Checkboxes extends View {
 				) )
 				->set_atts( $e->get_atts(), false );
 
+		// Fix the 'name' attribute.
+		if ( $option['atts']->has_attr( 'name' ) ) {
+
+			$name = $option['atts']->get_attr( 'name' );
+
+			if ( substr( $name, -2 ) !== '[]' ) {
+				$option['atts']->set_attr( 'name', $name . '[]' );
+			}
+
+		}
+
+
 		// The checkbox input output.
 		$content = '<input' . strval( $option['atts'] ) . ' />';
 
@@ -108,14 +110,14 @@ class Checkboxes extends View {
 
 		if ( ! empty( $option['label'] ) ) {
 
-			$label_atts = $e->get_label_atts();
+			$label_atts = \Nmwdhj\create_atts_obj( $e->get_option( 'label_atts' ) );
 
 			if ( ! $label_atts->has_attr( 'for' ) && $option['atts']->has_attr( 'id' ) ) {
 				$label_atts->set_attr( 'for', $option['atts']->get_attr( 'id' ) );
 			}
 
 			$content = $this->render_label( array(
-				'position'	=> $e->get_label_position(),
+				'position'	=> $e->get_option( 'label_position' ),
 				'label'		=> $option['label'],
 				'atts'		=> $label_atts,
 			), $content );

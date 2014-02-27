@@ -18,17 +18,19 @@ class Select extends View {
 	 */
 	public function render_element( Element $e ){
 
-		if ( $e->has_attr( 'name' ) && $e->has_attr( 'multiple' ) ) {
+		$atts = clone $e->get_atts_obj();
 
-			$name = $e->get_attr( 'name' );
+		if ( $atts->has_attr( array( 'multiple', 'name' ) ) ) {
+
+			$name = $atts->get_attr( 'name' );
 
 			if ( substr( $name, -2 ) !== '[]' ) {
-				$e->set_attr( 'name', $name . '[]' );
+				$atts->set_attr( 'name', $name . '[]' );
 			}
 
 		}
 
-		$content = '<select' . $e->get_atts( 'string' ) . '>';
+		$content = '<select' . strval( $atts ) . '>';
 		$content .= $this->render_options( $e->get_value_options(), $e->get_value() );
 		$content .= '</select>';
 

@@ -20,12 +20,43 @@ abstract class View {
 
 		$content = $this->render_element( $e );
 
-		// Render the Element Label.
-		$content = $this->render_label( array(
-			'position'	=> $e->get_label_position(),
-			'atts'		=> $e->get_label_atts(),
-			'text'		=> $e->get_label(),
-		), $content );
+		if ( $e->get_option( 'hint' ) ) {
+
+			// Render the Element hint.
+			$content = $this->render_hint( array(
+				'position'	=> $e->get_option( 'hint_position', 'after' ),
+				'atts'		=> $e->get_option( 'hint_atts', array(
+					'class' => 'nmwdhj-hint',
+				) ),
+				'tag'		=> $e->get_option( 'hint_tag', 'p' ),
+				'text'		=> $e->get_option( 'hint' ),
+			), $content );
+
+		}
+
+		if ( $e->get_option( 'label' ) ) {
+
+			// Render the Element Label.
+			$content = $this->render_label( array(
+				'position'	=> $e->get_option( 'label_position', 'before' ),
+				'atts'		=> $e->get_option( 'label_atts', array(
+					'for' => $e->get_ID( False ),
+				) ),
+				'text'		=> $e->get_option( 'label' ),
+			), $content );
+
+		}
+
+		if ( $e->get_option( 'wrapper' ) ) {
+
+			// Render the Element wrapper.
+			$content = $this->render_tag(
+				$e->get_option( 'wrapper', 'div' ),
+				$e->get_option( 'wrapper_atts' ),
+				$content
+			);
+
+		}
 
 		return $content;
 
@@ -91,8 +122,8 @@ abstract class View {
 	protected function render_hint( array $args, $content ){
 
 		$args = array_merge( array(
-			'atts' => array( 'class' => 'help' ),
 			'position' => 'after',
+			'atts' => array(),
 			'tag' => 'p',
 			'text'=> '',
 		), $args );
@@ -113,6 +144,8 @@ abstract class View {
 				break;
 
 		}
+
+		return $content;
 
 	}
 

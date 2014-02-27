@@ -47,21 +47,19 @@ Nmwdhj\create_element( 'input_submit' )
 * Simple Login Form:
 
 `
-$username = Nmwdhj\create_element( 'input_text' );
-Nmwdhj\decorate_element( 'label', $username )
-	->set_label( __( 'User Name:' ) )
-	->set_name( 'user_name' )
-	->output();
+Nmwdhj\create_element( 'input_text', array(
+    'label' => __( 'User Name' ),
+    'name' => 'user_name',
+) )->output();
 
-$userpass = Nmwdhj\create_element( 'input_password' );
-Nmwdhj\decorate_element( 'label', $userpass )
-	->set_label( __( 'Password:' ) )
-	->set_name( 'user_pass' )
-	->output();
+Nmwdhj\create_element( 'input_password', array(
+    'label' => __( 'Password' ),
+    'name' => 'user_pass',
+) )->output();
 
-Nmwdhj\create_element( 'input_submit' )
-	->set_value( __( 'Submit' ) )
-	->output();
+Nmwdhj\create_element( 'input_submit', array(
+    'value' => __( 'Submit' ),
+) )->output();
 `
 
 = Contributing =
