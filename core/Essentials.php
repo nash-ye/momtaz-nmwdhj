@@ -1,8 +1,6 @@
 <?php
 namespace Nmwdhj;
 
-use Nmwdhj\Exceptions\Exception;
-
 /**
  * The Nmwdhj Elements Manager class.
  *
@@ -496,3 +494,12 @@ class PriorityArray implements \IteratorAggregate, \ArrayAccess, \Serializable, 
 	}
 
 }
+
+/*** Exceptions Classes *******************************************************/
+
+/**
+ * The Nmwdhj exception class.
+ *
+ * @since 1.2
+ */
+class Exception extends \Exception {}

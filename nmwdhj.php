@@ -35,39 +35,27 @@ function class_loader( $class_name ) {
 
 	switch( $nps[1] ) {
 
-		case 'Views':
-			$class_path = get_path( "view-helpers/{$nps[2]}.php" );
-			break;
-
-		case 'Elements':
-
-			if ( 'Element' === $nps[2] ) {
-				$class_path = get_path( 'elements/Element.php' );
-
-			} else {
-
-				$list = Manager::get( array( 'class_name' => $class_name ), 'OR' );
-
-				if ( $list ) {
-					$class_path = reset( $list )->class_path;
-				}
-
-			}
-
+		case 'Manager':
+		case 'Exception':
+		case 'EventManager':
+		case 'PriorityArray':
+			$class_path = get_path( 'core/Essentials.php' );
 			break;
 
 		case 'Attributes':
 			$class_path = get_path( 'core/Attributes.php' );
 			break;
 
-		case 'Exceptions':
-			$class_path = get_path( 'core/Exceptions.php' );
+		case 'Elements':
+			if ( ! empty( $nps[2] ) ) {
+				$class_path = get_path( "elements/{$nps[2]}.php" );
+			}
 			break;
 
-		case 'Manager':
-		case 'EventManager':
-		case 'PriorityArray':
-			$class_path = get_path( 'core/Essentials.php' );
+		case 'Views':
+			if ( ! empty( $nps[2] ) ) {
+				$class_path = get_path( "elements/views/{$nps[2]}.php" );
+			}
 			break;
 
 	}
@@ -87,14 +75,14 @@ spl_autoload_register( 'Nmwdhj\class_loader' );
 /**
  * Create an element object.
  *
- * @throws Nmwdhj\Exceptions\Exception
  * @return Nmwdhj\Elements\Element
+ * @throws Nmwdhj\Exception
  * @since 1.2
  */
 function create_element( $key, array $properties = NULL ) {
 
 	if ( ! ( $element = Manager::get_by_key( $key ) ) ) {
-		throw new Exceptions\Exception( 'invalid_element' );
+		throw new Exception( 'invalid_element' );
 	}
 
 	return new $element->class_name( $key, $properties );
@@ -105,7 +93,7 @@ function create_element( $key, array $properties = NULL ) {
  * Create many elements objects at once.
  *
  * @return Nmwdhj\Elements\Element[]
- * @throws Nmwdhj\Exceptions\Exception
+ * @throws Nmwdhj\Exception
  * @since 1.2
  */
 function create_elements( array $elements ) {
