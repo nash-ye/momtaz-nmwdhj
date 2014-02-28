@@ -303,15 +303,7 @@ abstract class Element {
 	 * @return string
 	 * @since 1.0
 	 */
-	public function get_output() {
-
-		$element = \Nmwdhj\Manager::get_by_key( $this->get_key() );
-
-		if ( $element && class_exists( $element->view_class ) ) {
-			return call_user_func( new $element->view_class, $this );
-		}
-
-	}
+	abstract public function get_output();
 
 	/**
 	 * Display the element output.

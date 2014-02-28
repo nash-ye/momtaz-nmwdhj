@@ -62,6 +62,17 @@ class Button extends Element {
 	/*** Methods **************************************************************/
 
 	/**
+	 * Get the element output.
+	 *
+	 * @return string
+	 * @since 1.3
+	 */
+	public function get_output() {
+		$view = new \Nmwdhj\Views\Button();
+		return $view( $this );
+	}
+
+	/**
 	 * Set the button content.
 	 *
 	 * @return Nmwdhj\Elements\Button

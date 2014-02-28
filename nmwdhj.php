@@ -36,20 +36,7 @@ function class_loader( $class_name ) {
 	switch( $nps[1] ) {
 
 		case 'Views':
-
-			if ( 'View' === $nps[2] ) {
-				$class_path = get_path( 'view-helpers/View.php' );
-
-			} else {
-
-				$list = Manager::get( array( 'view_class' => $class_name ), 'OR' );
-
-				if ( $list ) {
-					$class_path = reset( $list )->view_path;
-				}
-
-			}
-
+			$class_path = get_path( "view-helpers/{$nps[2]}.php" );
 			break;
 
 		case 'Elements':
@@ -59,10 +46,10 @@ function class_loader( $class_name ) {
 
 			} else {
 
-				$list = Manager::get( array( 'element_class' => $class_name ), 'OR' );
+				$list = Manager::get( array( 'class_name' => $class_name ), 'OR' );
 
 				if ( $list ) {
-					$class_path = reset( $list )->element_path;
+					$class_path = reset( $list )->class_path;
 				}
 
 			}
@@ -110,7 +97,7 @@ function create_element( $key, array $properties = NULL ) {
 		throw new Exceptions\Exception( 'invalid_element' );
 	}
 
-	return new $element->element_class( $key, $properties );
+	return new $element->class_name( $key, $properties );
 
 }
 

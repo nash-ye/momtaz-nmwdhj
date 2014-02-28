@@ -111,4 +111,15 @@ class Select extends Element {
 		return $this;
 	}
 
+	/**
+	 * Get the element output.
+	 *
+	 * @return string
+	 * @since 1.3
+	 */
+	public function get_output() {
+		$view = new \Nmwdhj\Views\Select();
+		return $view( $this );
+	}
+
 }

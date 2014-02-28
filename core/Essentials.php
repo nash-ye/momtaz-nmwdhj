@@ -78,16 +78,14 @@ final class Manager {
 		}
 
 		$args = (object) array_merge( array(
-			'element_class'	=> '',
-			'element_path'	=> '',
-			'view_class'	=> '',
-			'view_path'		=> '',
+			'class_name'	=> '',
+			'class_path'	=> '',
 			'aliases'		=> array(),
 		), $args );
 
 		$args->key = $key; // Store the key.
 
-		if ( ! $args->element_class ) {
+		if ( ! $args->class_name ) {
 			return false;
 		}
 
@@ -107,84 +105,41 @@ final class Manager {
 	public static function register_defaults() {
 
 		self::register( 'button', array(
-			// The Element
-			'element_class'		=> 'Nmwdhj\Elements\Button',
-			'element_path'		=> \Nmwdhj\get_path( 'elements/Button.php' ),
-
-			// The View
-			'view_class'		=> 'Nmwdhj\Views\Button',
-			'view_path'			=> \Nmwdhj\get_path( 'view-helpers/Button.php' ),
-
-			// Other...
+			'class_name'		=> 'Nmwdhj\Elements\Button',
+			'class_path'		=> \Nmwdhj\get_path( 'elements/Button.php' ),
 			'aliases'			=> array( 'button_submit', 'button_reset' ),
 		) );
 
 		self::register( 'select', array(
-			// The Element
-			'element_class'		=> 'Nmwdhj\Elements\Select',
-			'element_path'		=> \Nmwdhj\get_path( 'elements/Select.php' ),
-
-			// The View
-			'view_class'		=> 'Nmwdhj\Views\Select',
-			'view_path'			=> \Nmwdhj\get_path( 'view-helpers/Select.php' ),
+			'class_name'		=> 'Nmwdhj\Elements\Select',
+			'class_path'		=> \Nmwdhj\get_path( 'elements/Select.php' ),
 		) );
 
 		self::register( 'textarea', array(
-			// The Element
-			'element_class'		=> 'Nmwdhj\Elements\Textarea',
-			'element_path'		=> \Nmwdhj\get_path( 'elements/Textarea.php' ),
-
-			// The View
-			'view_class'		=> 'Nmwdhj\Views\Textarea',
-			'view_path'			=> \Nmwdhj\get_path( 'view-helpers/Textarea.php' ),
+			'class_name'		=> 'Nmwdhj\Elements\Textarea',
+			'class_path'		=> \Nmwdhj\get_path( 'elements/Textarea.php' ),
 		) );
 
 		self::register( 'wp_editor', array(
-			// The Element
-			'element_class'		=> 'Nmwdhj\Elements\WP_Editor',
-			'element_path'		=> \Nmwdhj\get_path( 'elements/WP_Editor.php' ),
-
-			// The View
-			'view_class'		=> 'Nmwdhj\Views\WP_Editor',
-			'view_path'			=> \Nmwdhj\get_path( 'view-helpers/WP_Editor.php' ),
+			'class_name'		=> 'Nmwdhj\Elements\WP_Editor',
+			'class_path'		=> \Nmwdhj\get_path( 'elements/WP_Editor.php' ),
 		) );
 
 		self::register( 'checkbox', array(
-			// The Element
-			'element_class'		=> 'Nmwdhj\Elements\Checkbox',
-			'element_path'		=> \Nmwdhj\get_path( 'elements/Checkbox.php' ),
-
-			// The View
-			'view_class'		=> 'Nmwdhj\Views\Checkbox',
-			'view_path'			=> \Nmwdhj\get_path( 'view-helpers/Checkbox.php' ),
-
-			// Other...
+			'class_name'		=> 'Nmwdhj\Elements\Checkbox',
+			'class_path'		=> \Nmwdhj\get_path( 'elements/Checkbox.php' ),
 			'aliases'			=> array( 'input_checkbox' ),
 		) );
 
 		self::register( 'checkboxes', array(
-			// The Element
-			'element_class'		=> 'Nmwdhj\Elements\Checkboxes',
-			'element_path'		=> \Nmwdhj\get_path( 'elements/Checkboxes.php' ),
-
-			// The View
-			'view_class'		=> 'Nmwdhj\Views\Checkboxes',
-			'view_path'			=> \Nmwdhj\get_path( 'view-helpers/Checkboxes.php' ),
-
-			// Other...
+			'class_name'		=> 'Nmwdhj\Elements\Checkboxes',
+			'class_path'		=> \Nmwdhj\get_path( 'elements/Checkboxes.php' ),
 			'aliases'			=> array( 'multi_checkbox' ),
 		) );
 
 		self::register( 'input', array(
-			// The Element
-			'element_class'		=> 'Nmwdhj\Elements\Input',
-			'element_path'		=> \Nmwdhj\get_path( 'elements/Input.php' ),
-
-			// The View
-			'view_class'		=> 'Nmwdhj\Views\Input',
-			'view_path'			=> \Nmwdhj\get_path( 'view-helpers/Input.php' ),
-
-			// Other...
+			'class_name'		=> 'Nmwdhj\Elements\Input',
+			'class_path'		=> \Nmwdhj\get_path( 'elements/Input.php' ),
 			'aliases'			=> array(
 				'input_text', 'input_url', 'input_email', 'input_range', 'input_search', 'input_date', 'input_file',
 				'input_hidden', 'input_number', 'input_password', 'input_color', 'input_submit', 'input_week',

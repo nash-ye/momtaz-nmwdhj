@@ -146,4 +146,15 @@ class Checkbox extends Element {
 
 	}
 
+	/**
+	 * Get the element output.
+	 *
+	 * @return string
+	 * @since 1.3
+	 */
+	public function get_output() {
+		$view = new \Nmwdhj\Views\Checkbox();
+		return $view( $this );
+	}
+
 }

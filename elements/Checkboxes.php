@@ -108,4 +108,15 @@ class Checkboxes extends Input {
 		return $this;
 	}
 
+	/**
+	 * Get the element output.
+	 *
+	 * @return string
+	 * @since 1.3
+	 */
+	public function get_output() {
+		$view = new \Nmwdhj\Views\Checkboxes();
+		return $view( $this );
+	}
+
 }
