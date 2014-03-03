@@ -8,6 +8,8 @@ namespace Nmwdhj\Elements;
  */
 class Button extends Element {
 
+	/*** Properties ***********************************************************/
+
 	/**
 	 * Button content.
 	 *
@@ -16,31 +18,43 @@ class Button extends Element {
 	 */
 	protected $content;
 
-	/**
-	 * Default element key.
-	 *
-	 * @var string
-	 * @since 1.0
-	 */
-	protected $key = 'button';
-
 
 	/*** Magic Methods ********************************************************/
 
 	/**
 	 * The Button element constructor.
 	 *
-	 * @since 1.0
+	 * @since 1.3
 	 */
-	public function __construct( $key = '', array $properties = NULL ) {
+	public function __construct( $config = NULL ) {
 
-		if ( $key && ! $this->has_attr( 'type' ) ) {
+		parent::__construct( $config );
 
-			switch( $key ) {
+		// Set the default attributes.
+		$this->set_atts( array(
+			'type' => 'button',
+		), false );
 
-				case 'button';
-					$this->set_attr( 'type', 'button' );
-					break;
+	}
+
+
+	/*** Methods **************************************************************/
+
+	/**
+	 * Configure the element
+	 *
+	 * @return Nmwdhj\Elements\Button
+	 * @since 1.3
+	 */
+	public function configure( $args ) {
+
+		if ( is_string( $args ) ) {
+			$args = array( 'type' => $args );
+		}
+
+		if ( ! empty( $args['type'] ) ) {
+
+			switch( $args['type'] ) {
 
 				case 'button_submit';
 					$this->set_attr( 'type', 'submit' );
@@ -54,22 +68,8 @@ class Button extends Element {
 
 		}
 
-		parent::__construct( $key, $properties );
+		parent::configure( $args );
 
-	}
-
-
-	/*** Methods **************************************************************/
-
-	/**
-	 * Get the element output.
-	 *
-	 * @return string
-	 * @since 1.3
-	 */
-	public function get_output() {
-		$view = new \Nmwdhj\Views\Button();
-		return $view( $this );
 	}
 
 	/**
@@ -91,6 +91,17 @@ class Button extends Element {
 	 */
 	public function get_content() {
 		return $this->content;
+	}
+
+	/**
+	 * Get the element output.
+	 *
+	 * @return string
+	 * @since 1.3
+	 */
+	public function get_output() {
+		$view = new \Nmwdhj\Views\Button();
+		return $view( $this );
 	}
 
 }

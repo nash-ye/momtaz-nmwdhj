@@ -8,31 +8,23 @@ namespace Nmwdhj\Elements;
  */
 class Input extends Element {
 
-	/*** Properties ***********************************************************/
+	// Configurations
 
 	/**
-	 * Default element key.
+	 * Configure the element
 	 *
-	 * @var string
-	 * @since 1.0
+	 * @return Nmwdhj\Elements\Input
+	 * @since 1.3
 	 */
-	protected $key = 'input';
+	public function configure( $args ) {
 
+		if ( is_string( $args ) ) {
+			$args = array( 'type' => $args );
+		}
 
-	/*** Magic Methods ********************************************************/
+		if ( ! empty( $args['type'] ) ) {
 
-	/**
-	 * The Input element constructor.
-	 *
-	 * @since 1.0
-	 */
-	public function __construct( $key = '', array $properties = NULL ) {
-
-		parent::__construct( $key, $properties );
-
-		if ( $this->get_key() && ! $this->has_attr( 'type' ) ) {
-
-			switch( strtolower( $this->get_key() ) ) {
+			switch( $args['type'] ) {
 
 				case 'input_url';
 					$this->set_attr( 'type', 'url' );
@@ -106,10 +98,9 @@ class Input extends Element {
 
 		}
 
+		parent::configure( $args );
+
 	}
-
-
-	/*** Methods **************************************************************/
 
 	// Value
 
@@ -122,7 +113,13 @@ class Input extends Element {
 	public function get_value() {
 
 		if ( ! $this->has_attr( 'value' ) ) {
-			$this->set_value( $this->call_value_callback() );
+
+			$callback = $this->get_option( 'value_cb', array() );
+
+			if ( is_array( $callback ) && ! empty( $callback ) ) {
+				$this->set_value( call_user_func_array( $callback['name'], $callback['args'] ) );
+			}
+
 		}
 
 		return $this->get_attr( 'value' );

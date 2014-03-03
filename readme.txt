@@ -2,8 +2,8 @@
 Contributors: alex-ye
 Tags: api, html, settings, options, forms, form
 Requires at least: 3.1
-Tested up to: 3.7
-Stable tag: 1.2.1
+Tested up to: 3.8.1
+Stable tag: 1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,43 +23,60 @@ You can use this plugin to create individual form elements in the meta boxes, fr
 = Basic Examples =
 You can use this plugin in many ways depending on your needs, this examples only for learning purposes:
 
-* Simple Search Form:
+* Simple WordPress Search Form:
 
 `
-// Create and output the search text input.
-Nmwdhj\create_element( 'input_search' )
-	->set_atts( array(
-		'placeholder' => _x( 'Search this site...', 'placeholder' ),
-		'title' => _x( 'Search for:', 'label' ),
-		'class' => 'search-text',
-		'required' => true,
-	  ) )
-	->set_value_callback( 'get_search_query' )
-	->set_name( 's' )
-	->output();
-
-// Create and output the search submit button.
-Nmwdhj\create_element( 'input_submit' )
-	->set_value( __( 'Search' ) )
-	->output();
+Nmwdhj\create_element( array(
+    'type'  => 'form',
+    'atts'  => array(
+        'method'    => 'GET',
+        'role'      => 'search',
+        'action'    => home_url( '/' ),
+    ),
+    'elements'  => array(
+        'search' => array(
+            'name'  => 's',
+            'type'  => 'input_search',
+            'value' => get_search_query(),
+            'atts'  => array(
+                'placeholder'   => _x( 'Search this site...', 'placeholder' ),
+                'class'         => 'search-text',
+                'required'      => true,
+            ),
+        ),
+        'submit' => array(
+            'type'  => 'input_submit',
+            'value' => __( 'Search' ),
+        ),
+    ),
+) )->output();
 `
 
 * Simple Login Form:
 
 `
-Nmwdhj\create_element( 'input_text', array(
+Nmwdhj\create_element( array(
+    'type'  => 'form',
+    'atts'  => array(
+        'method' => 'POST',
+    ),
+) )
+->add( array(
+    'name'  => 'user_name',
+    'type'  => 'input_text',
     'label' => __( 'User Name' ),
-    'name' => 'user_name',
-) )->output();
-
-Nmwdhj\create_element( 'input_password', array(
+) )
+->add( array(
+    'name'  => 'user_pass',
+    'type'  => 'input_password',
     'label' => __( 'Password' ),
-    'name' => 'user_pass',
-) )->output();
-
-Nmwdhj\create_element( 'input_submit', array(
+) )
+->add( array(
+    'name'  => 'user_submit',
+    'type'  => 'input_submit',
     'value' => __( 'Submit' ),
-) )->output();
+) )
+->output();
 `
 
 = Contributing =
@@ -71,6 +88,16 @@ Developers can contribute to the source code on the [Nmwdhj GitHub Repository](h
 2. Use the rich API to powerful your theme/plugin.
 
 == Changelog ==
+
+= 1.3 =
+* Better directory structure.
+* Code formatting improvements and optimizations.
+* Introduce the PriorityArray and EventManager classes.
+* Recode the Elements Views and remove the Decorators classes.
+...etc
+
+= Breaking Changes =
+* Nmwdhj 1.3 is NOT completely compatible with any pervious version, so please don't update unless you know what you are doing!
 
 = 1.2.1 =
 * Fix the error when you use `Nmwdhj/decorate_element()` function.

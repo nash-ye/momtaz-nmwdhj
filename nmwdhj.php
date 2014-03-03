@@ -5,7 +5,7 @@
  * Description: An API for creating forms elements via code.
  * Author: Nashwan Doaqan
  * Author URI: http://nashwan-d.com
- * Version: 1.3-alpha-3
+ * Version: 1.3-beta-1
  *
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -15,7 +15,7 @@
 namespace Nmwdhj;
 
 // Nmwdhj Version.
-const VERSION = '1.3-alpha-3';
+const VERSION = '1.3-beta-1';
 
 /**** Loaders *****************************************************************/
 
@@ -79,13 +79,23 @@ spl_autoload_register( 'Nmwdhj\class_loader' );
  * @throws Nmwdhj\Exception
  * @since 1.2
  */
-function create_element( $key, array $properties = NULL ) {
+function create_element( $args ) {
 
-	if ( ! ( $element = Manager::get_by_key( $key ) ) ) {
-		throw new Exception( 'invalid_element' );
+	if ( is_string( $args ) ) {
+		$args = array( 'type' => $args );
 	}
 
-	return new $element->class_name( $key, $properties );
+	if ( empty( $args['type'] ) ) {
+		throw new Exception( 'Invalid element type' );
+	}
+
+	$element = Manager::get_element( $args['type'] );
+
+	if ( empty( $element ) ) {
+		throw new Exception( 'Invalid element type' );
+	}
+
+	return new $element->name( $args );
 
 }
 
@@ -100,14 +110,8 @@ function create_elements( array $elements ) {
 
 	$objects = array();
 
-	foreach( $elements as $key => $element ) {
-
-		if ( empty( $element['key'] ) ) {
-			continue;
-		}
-
-		$objects[ $key ] = create_element( $element['key'], $element );
-
+	foreach( $elements as $key => $value ) {
+		$objects[ $key ] = create_element( $value );
 	}
 
 	return $objects;

@@ -8,19 +8,6 @@ namespace Nmwdhj\Elements;
  */
 class WP_Editor extends Element {
 
-	/*** Properties ***********************************************************/
-
-	/**
-	 * Default element key.
-	 *
-	 * @var string
-	 * @since 1.0
-	 */
-	protected $key = 'wp_editor';
-
-
-	/*** Methods **************************************************************/
-
 	/**
 	 * Get the element output.
 	 *

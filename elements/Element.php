@@ -14,14 +14,6 @@ abstract class Element {
 	/*** Properties ***********************************************************/
 
 	/**
-	 * Element key.
-	 *
-	 * @var string
-	 * @since 1.0
-	 */
-	protected $key;
-
-	/**
 	 * Element value.
 	 *
 	 * @var mixed
@@ -46,14 +38,6 @@ abstract class Element {
 	protected $dispatcher;
 
 	/**
-	 * Element value callback.
-	 *
-	 * @var array
-	 * @since 1.0
-	 */
-	protected $value_callback;
-
-	/**
 	 * Element options.
 	 *
 	 * @var array
@@ -69,15 +53,28 @@ abstract class Element {
 	 *
 	 * @since 1.0
 	 */
-	public function __construct( $key = '', array $properties = NULL ) {
+	public function __construct( $config = NULL ) {
+		$this->configure( $config );
+	}
 
-		$this->set_key( $key );
 
-		if ( is_array( $properties ) ) {
+	/*** Methods **************************************************************/
 
-			foreach ( $properties as $property => $value ) {
+	// Configurations
 
-				switch( $property = strtolower( $property ) ) {
+	/**
+	 * Configure the element
+	 *
+	 * @return Nmwdhj\Elements\Element
+	 * @since 1.3
+	 */
+	public function configure( $config ) {
+
+		if ( is_array( $config ) ) {
+
+			foreach ( $config as $key => $value ) {
+
+				switch( $key = strtolower( $key ) ) {
 
 					case 'id':
 						$this->set_ID( $value );
@@ -106,7 +103,7 @@ abstract class Element {
 					case 'hint':
 					case 'label':
 					case 'wrapper':
-						$this->set_option( $property, $value );
+						$this->set_option( $key, $value );
 						break;
 
 				}
@@ -117,41 +114,10 @@ abstract class Element {
 
 	}
 
-
-	/*** Methods **************************************************************/
-
-	// Key
-
-	/**
-	 * Get the element key.
-	 *
-	 * @return string
-	 * @since 1.0
-	 */
-	public function get_key() {
-		return $this->key;
-	}
-
-	/**
-	 * Set the element key.
-	 *
-	 * @return Nmwdhj\Elements\Element
-	 * @since 1.0
-	 */
-	protected function set_key( $key ) {
-
-		if ( ! empty( $key ) ) {
-			$this->key = $key;
-		}
-
-		return $this;
-
-	}
-
 	// Value
 
 	/**
-	 * Get the element value.
+	 * Get the element value
 	 *
 	 * @return mixed
 	 * @since 1.0
@@ -159,7 +125,13 @@ abstract class Element {
 	public function get_value() {
 
 		if ( is_null( $this->value ) ) {
-			$this->set_value( $this->call_value_callback() );
+
+			$callback = $this->get_option( 'value_cb', array() );
+
+			if ( is_array( $callback ) && ! empty( $callback ) ) {
+				$this->set_value( call_user_func_array( $callback['name'], $callback['args'] ) );
+			}
+
 		}
 
 		return $this->value;
@@ -174,33 +146,8 @@ abstract class Element {
 	 */
 	public function set_value( $value ) {
 		$this->value = $value;
+		$this->get_dispatcher()->trigger( 'set_value', $value );
 		return $this;
-	}
-
-	/**
-	 * Get the element value callback.
-	 *
-	 * @return array
-	 * @since 1.0
-	 */
-	public function get_value_callback() {
-		return $this->value_callback;
-	}
-
-	/**
-	 * Call the element value callback.
-	 *
-	 * @return mixed
-	 * @since 1.3
-	 */
-	public function call_value_callback() {
-
-		$callback = $this->get_value_callback();
-
-		if ( is_array( $callback ) && ! empty( $callback ) ) {
-			return call_user_func_array( $callback['name'], $callback['args'] );
-		}
-
 	}
 
 	/**
@@ -210,12 +157,8 @@ abstract class Element {
 	 * @since 1.0
 	 */
 	public function set_value_callback( $callback ) {
-
-		$params = array_slice( func_get_args(), 1 );
-		$this->set_value_callback_array( $callback, $params );
-
+		$this->set_value_callback_array( $callback, array_slice( func_get_args(), 1 ) );
 		return $this;
-
 	}
 
 	/**
@@ -225,21 +168,12 @@ abstract class Element {
 	 * @since 1.1
 	 */
 	public function set_value_callback_array( $callback, array $args ) {
-
-		if ( is_callable( $callback ) ) {
-
-			$this->value_callback = array(
-				'name' => $callback,
-				'args' => $args,
-			);
-
-		}
-
+		$this->set_option( 'value_cb', array( 'name' => $callback, 'args' => $args ) );
+		$this->get_dispatcher()->trigger( 'set_value_callback', $callback, $args );
 		return $this;
-
 	}
 
-	// The Special Attributes
+	// Special Attributes
 
 	/**
 	 * Set the element 'id' and 'name' attributes.
@@ -293,25 +227,6 @@ abstract class Element {
 	public function set_name( $value ) {
 		$this->set_attr( 'name', $value );
 		return $this;
-	}
-
-	// Output
-
-	/**
-	 * Get the element output.
-	 *
-	 * @return string
-	 * @since 1.0
-	 */
-	abstract public function get_output();
-
-	/**
-	 * Display the element output.
-	 *
-	 * @since 1.0
-	 */
-	public function output() {
-		echo $this->get_output();
 	}
 
 	// Attributes
@@ -555,6 +470,25 @@ abstract class Element {
 
 		return $this->dispatcher;
 
+	}
+
+	// Output
+
+	/**
+	 * Get the element output.
+	 *
+	 * @return string
+	 * @since 1.0
+	 */
+	abstract public function get_output();
+
+	/**
+	 * Display the element output.
+	 *
+	 * @since 1.0
+	 */
+	public function output() {
+		echo $this->get_output();
 	}
 
 }

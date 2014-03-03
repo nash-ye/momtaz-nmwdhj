@@ -8,17 +8,6 @@ namespace Nmwdhj\Elements;
  */
 class Checkbox extends Element {
 
-	/*** Properties ***********************************************************/
-
-	/**
-	 * Default element key.
-	 *
-	 * @var string
-	 * @since 1.0
-	 */
-	protected $key = 'checkbox';
-
-
 	/*** Magic Methods ********************************************************/
 
 	/**
@@ -26,14 +15,14 @@ class Checkbox extends Element {
 	 *
 	 * @since 1.0
 	 */
-	public function __construct( $key = '', array $properties = NULL ) {
+	public function __construct( $config = NULL ) {
 
-		// Set the type attribute.
-		if ( ! $this->has_attr( 'type' ) ) {
-			$this->set_attr( 'type', 'checkbox' );
-		}
+		parent::__construct( $config );
 
-		parent::__construct( $key, $properties );
+		// Set the default attributes.
+		$this->set_atts( array(
+			'type' => 'checkbox',
+		), false );
 
 	}
 

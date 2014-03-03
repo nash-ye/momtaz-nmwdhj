@@ -22,28 +22,37 @@ abstract class View {
 
 		if ( $e->get_option( 'hint' ) ) {
 
-			// Render the Element hint.
-			$content = $this->render_hint( array(
+			$hint_args = array(
 				'position'	=> $e->get_option( 'hint_position', 'after' ),
-				'atts'		=> $e->get_option( 'hint_atts', array(
-					'class' => 'nmwdhj-hint',
-				) ),
 				'tag'		=> $e->get_option( 'hint_tag', 'p' ),
+				'atts'		=> $e->get_option( 'hint_atts' ),
 				'text'		=> $e->get_option( 'hint' ),
-			), $content );
+			);
+
+			$hint_args['atts'] = \Nmwdhj\create_atts_obj( $hint_args['atts'] );
+			$hint_args['atts']->set_attr( 'class', 'nmwdhj-hint', false );
+
+			// Render the Element hint.
+			$content = $this->render_hint( $hint_args, $content );
 
 		}
 
 		if ( $e->get_option( 'label' ) ) {
 
-			// Render the Element Label.
-			$content = $this->render_label( array(
+			$label_args = array(
 				'position'	=> $e->get_option( 'label_position', 'before' ),
-				'atts'		=> $e->get_option( 'label_atts', array(
-					'for' => $e->get_ID( False ),
-				) ),
+				'atts'		=> $e->get_option( 'label_atts' ),
 				'text'		=> $e->get_option( 'label' ),
-			), $content );
+			);
+
+			$label_args['atts'] = \Nmwdhj\create_atts_obj( $label_args['atts'] );
+
+			if ( $e->has_attr( 'id' ) && ! $label_args['atts']->has_attr( 'for' ) ) {
+				$label_args['atts']->set_attr( 'for', $e->get_attr( 'id' ) );
+			}
+
+			// Render the Element Label.
+			$content = $this->render_label( $label_args, $content );
 
 		}
 

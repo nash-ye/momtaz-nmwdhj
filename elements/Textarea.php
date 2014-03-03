@@ -8,19 +8,6 @@ namespace Nmwdhj\Elements;
  */
 class Textarea extends Element {
 
-	/*** Properties ***********************************************************/
-
-	/**
-	 * Default element key.
-	 *
-	 * @var string
-	 * @since 1.0
-	 */
-	protected $key = 'textarea';
-
-
-	/*** Methods **************************************************************/
-
 	/**
 	 * Get the element output.
 	 *

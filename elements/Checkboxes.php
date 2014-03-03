@@ -8,17 +8,6 @@ namespace Nmwdhj\Elements;
  */
 class Checkboxes extends Input {
 
-	/*** Properties ***********************************************************/
-
-	/**
-	 * Default element key.
-	 *
-	 * @var string
-	 * @since 1.0
-	 */
-	protected $key = 'checkboxes';
-
-
 	/*** Magic Methods ********************************************************/
 
 	/**
@@ -26,23 +15,39 @@ class Checkboxes extends Input {
 	 *
 	 * @since 1.0
 	 */
-	public function __construct( $key = '', array $properties = NULL ) {
+	public function __construct( $config ) {
 
-		// Set the type attribute.
-		if ( ! $this->has_attr( 'type' ) ) {
-			$this->set_attr( 'type', 'checkbox' );
-		}
+		parent::__construct( $config );
 
-		parent::__construct( $key, $properties );
-
-		if ( is_array( $properties ) && isset( $properties['value_options'] ) ) {
-			$this->set_value_options( $properties['value_options'] );
-		}
+		// Set the default attributes.
+		$this->set_atts( array(
+			'type' => 'checkbox',
+		), false );
 
 	}
 
 
 	/*** Methods **************************************************************/
+
+	/**
+	 * Configure the element
+	 *
+	 * @return Nmwdhj\Elements\Checkboxes
+	 * @since 1.3
+	 */
+	public function configure( $args ) {
+
+		if ( is_array( $args ) ) {
+
+			if ( isset( $args['value_options'] ) ) {
+				$this->set_value_options( $args['value_options'] );
+			}
+
+		}
+
+		parent::configure( $args );
+
+	}
 
 	// Value Options
 

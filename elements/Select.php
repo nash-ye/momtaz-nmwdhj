@@ -11,14 +11,6 @@ class Select extends Element {
 	/*** Properties ***********************************************************/
 
 	/**
-	 * Default element key.
-	 *
-	 * @var string
-	 * @since 1.0
-	 */
-	protected $key = 'select';
-
-	/**
 	 * Default value options.
 	 *
 	 * @var array
@@ -27,25 +19,29 @@ class Select extends Element {
 	protected $value_options = array();
 
 
-	/*** Magic Methods ********************************************************/
+	/*** Methods **************************************************************/
+
+	// Configurations
 
 	/**
-	 * The Select element constructor.
+	 * Configure the element
 	 *
-	 * @since 1.0
+	 * @return Nmwdhj\Elements\Select
+	 * @since 1.3
 	 */
-	public function __construct( $key = '', array $properties = NULL ) {
+	public function configure( $args ) {
 
-		parent::__construct( $key, $properties );
+		if ( is_array( $args ) ) {
 
-		if ( is_array( $properties ) && isset( $properties['value_options'] ) ) {
-			$this->set_value_options( $properties['value_options'] );
+			if ( isset( $args['value_options'] ) ) {
+				$this->set_value_options( $args['value_options'] );
+			}
+
 		}
 
+		parent::configure( $args );
+
 	}
-
-
-	/*** Methods **************************************************************/
 
 	// Value Options
 
