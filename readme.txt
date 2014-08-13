@@ -3,7 +3,7 @@ Contributors: alex-ye
 Tags: api, html, settings, options, forms, form
 Requires at least: 3.1
 Tested up to: 3.8.1
-Stable tag: 1.3
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,9 @@ Developers can contribute to the source code on the [Nmwdhj GitHub Repository](h
 2. Use the rich API to powerful your theme/plugin.
 
 == Changelog ==
+
+= 1.3.1 =
+- Fix some serious bugs in FieldSet,Checkboxes elements and Select view.
 
 = 1.3 =
 * Better directory structure.
