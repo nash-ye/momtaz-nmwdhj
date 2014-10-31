@@ -74,7 +74,7 @@ class Checkboxes extends View {
 		// Set the 'checked' attribute.
 		if ( empty( $option['selected'] ) && ! empty( $option['value'] ) ) {
 
-			if ( in_array( $option['value'], (array) $e->get_value(), true ) ) {
+			if ( in_array( $option['value'], (array) $e->get_value() ) ) {
 				$option['selected'] = true;
 			}
 

@@ -85,7 +85,7 @@ class Select extends View {
 			}
 
 			if ( isset( $option['value'] ) && ! isset( $option['selected'] ) ) {
-				$option['selected'] = in_array( $option['value'], $value, true );
+				$option['selected'] = in_array( $option['value'], $value );
 			}
 
 			$content .= $this->render_option( $option ) . "\n";

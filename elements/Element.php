@@ -100,6 +100,10 @@ abstract class Element {
 						$this->set_options( $value );
 						break;
 
+					case '+options':
+						$this->set_options( $value, TRUE );
+						break;
+
 					case 'hint':
 					case 'label':
 					case 'wrapper':
