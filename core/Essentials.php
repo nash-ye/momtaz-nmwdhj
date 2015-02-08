@@ -17,7 +17,7 @@ final class Manager {
 	 *
 	 * @access private
 	 * @var array
-	 * @since 1.4
+	 * @since 1.3.3
 	 */
 	private static $types = array();
 
@@ -39,7 +39,7 @@ final class Manager {
 	 * Retrieve a list of the elements types
 	 *
 	 * @return array
-	 * @since 1.4
+	 * @since 1.3.3
 	 */
 	public static function get_types() {
 		return self::$types;
@@ -49,7 +49,7 @@ final class Manager {
 	 * Retrieve a list of the elements objects
 	 *
 	 * @return array
-	 * @since 1.4
+	 * @since 1.3.3
 	 */
 	public static function get_elements() {
 		return self::$elements;
@@ -59,7 +59,7 @@ final class Manager {
 	 * Get an element object by the element key
 	 *
 	 * @return object|NULL
-	 * @since 1.4
+	 * @since 1.3.3
 	 */
 	public static function get_element( $key ) {
 
@@ -73,7 +73,7 @@ final class Manager {
 	 * Get an element type by class or alias name
 	 *
 	 * @return object|NULL
-	 * @since 1.4
+	 * @since 1.3.3
 	 */
 	public static function get_type( $key, $check_aliases = FALSE ) {
 
@@ -98,7 +98,7 @@ final class Manager {
 	 * Add a new element
 	 *
 	 * @return Nmwdhj\Elements\Element|bool
-	 * @since 1.4
+	 * @since 1.3.3
 	 */
 	public static function add_element( $key, $element ) {
 
@@ -114,7 +114,7 @@ final class Manager {
 	 * Replaces an element
 	 *
 	 * @return Nmwdhj\Elements\Element|bool
-	 * @since 1.4
+	 * @since 1.3.3
 	 */
 	public static function set_element( $key, $element ) {
 
@@ -132,7 +132,7 @@ final class Manager {
 	 * Register a new element type
 	 *
 	 * @return object|bool
-	 * @since 1.4
+	 * @since 1.3.3
 	 */
 	public static function register_type( $class_name, array $args ) {
 
@@ -156,7 +156,7 @@ final class Manager {
 	 * Unregister an element type
 	 *
 	 * @return bool
-	 * @since 1.4
+	 * @since 1.3.3
 	 */
 	public static function unregister_type( $class_name ) {
 
@@ -173,7 +173,7 @@ final class Manager {
 	 * Remove an element
 	 *
 	 * @return bool
-	 * @since 1.4
+	 * @since 1.3.3
 	 */
 	public static function remove_element( $key ) {
 
