@@ -62,10 +62,10 @@ class Checkboxes extends View {
 		// The default option arguments.
 		$option = array_merge( array(
 			'disabled' => false,
-			'checked' => false,
-			'value' => NULL,
-			'atts' => NULL,
-			'label' => '',
+			'checked'  => false,
+			'value'    => NULL,
+			'atts'     => NULL,
+			'label'    => '',
 		), $option );
 
 
@@ -84,9 +84,9 @@ class Checkboxes extends View {
 		// Get the Attributes object.
 		$option['atts'] = \Nmwdhj\create_atts_obj( $option['atts'] )
 				->set_atts( array(
-					'selected'	=> (bool) $option['selected'],
-					'disabled'	=> (bool) $option['disabled'],
-					'value'		=> $option['value'],
+					'selected'  => (bool) $option['selected'],
+					'disabled'  => (bool) $option['disabled'],
+					'value'     => $option['value'],
 				) )
 				->set_atts( $e->get_atts(), false );
 
@@ -117,9 +117,9 @@ class Checkboxes extends View {
 			}
 
 			$content = $this->render_label( array(
-				'position'	=> $e->get_option( 'label_position' ),
-				'label'		=> $option['label'],
-				'atts'		=> $label_atts,
+				'position'  => $e->get_option( 'label_position' ),
+				'label'     => $option['label'],
+				'atts'      => $label_atts,
 			), $content );
 
 		}

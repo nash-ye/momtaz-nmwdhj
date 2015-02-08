@@ -115,8 +115,8 @@ class Select extends View {
 
 		$optgroup = array_merge( array(
 			'options' => array(),
-			'atts' => array(),
-			'label' => '',
+			'atts'    => array(),
+			'label'   => '',
 		), $optgroup );
 
 		$optgroup['atts'] = \Nmwdhj\create_atts_obj( $optgroup['atts'] );
@@ -148,9 +148,9 @@ class Select extends View {
 	public function render_option( array $option ) {
 
 		$option = array_merge( array(
-			'value' => '',
-			'label' => '',
-			'atts' => array(),
+			'value'    => '',
+			'label'    => '',
+			'atts'     => array(),
 			'disabled' => false,
 			'selected' => false,
 		), $option );
