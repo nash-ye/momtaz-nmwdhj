@@ -3,7 +3,7 @@ Contributors: alex-ye
 Tags: api, html, settings, options, forms, form
 Requires at least: 3.1
 Tested up to: 4.0
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,9 @@ Developers can contribute to the source code on the [Nmwdhj GitHub Repository](h
 2. Use the rich API to powerful your theme/plugin.
 
 == Changelog ==
+
+= 1.3.4 =
+- Sort the priority array elements correctly.
 
 = 1.3.3 =
 - Additional methods in the Nmwdhj\Manager class, to store the elements objects.
